@@ -20,3 +20,4 @@ export function withAuth<P extends object>(Component: React.ComponentType<P>) {
 
   return WithAuthComponent;
 }
+//file này sẽ tạo ra một HOC (Higher Order Component) có chức năng kiểm tra xem người dùng đã đăng nhập chưa. Nếu chưa, sẽ chuyển hướng người dùng đến trang đăng nhập. Nếu đã đăng nhập, sẽ render component con bên trong.
