@@ -20,18 +20,30 @@ import {
   FiMail,
   FiHeart,
 } from "react-icons/fi";
+import categoryService from "@/services/categoryService";
+import { Category } from "@/services/categoryService";
+import { useCart } from "@/contexts/CartContext";
+import MiniCart from "./MiniCart";
 
+// Thay đổi cách lấy cart count
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { getCartCount } = useCart(); // Chỉ lấy getCartCount
+
+  // Tạo state isCartOpen ở cấp component
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const router = useRouter();
   const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Lấy cart count từ context
+  const cartCount = getCartCount();
 
   useEffect(() => {
     // Add scroll listener for navbar styling
@@ -45,10 +57,17 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Fetch cart count (example)
-    if (user) {
-      setCartCount(2); // Example count - replace with actual cart fetch
-    }
+    // Fetch categories
+    const fetchCategories = async () => {
+      try {
+        const rootCategories = await categoryService.getRootCategories();
+        setCategories(rootCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -79,6 +98,10 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Cart open state changed:", isCartOpen);
+  }, [isCartOpen]);
+
   const handleLogout = () => {
     logout();
     toast.success("Đăng xuất thành công!");
@@ -97,12 +120,6 @@ export default function Navbar() {
 
   const navLinkClasses =
     "px-3 py-2 hover:text-amber-500 transition-colors font-medium";
-
-  const categories = [
-    { id: 1, name: "Yến thô", slug: "yen-tho" },
-    { id: 2, name: "Yến tinh chế", slug: "yen-tinh-che" },
-    { id: 3, name: "Yến chưng sẵn", slug: "yen-chung-san" },
-  ];
 
   // Nếu user là admin, không hiển thị navbar này
   if (user?.role === "admin") {
@@ -123,14 +140,14 @@ export default function Navbar() {
               <div
                 className={`w-10 h-10 rounded-full ${
                   isScrolled ? "bg-amber-100" : "bg-white/20"
-                } flex items-center justify-center mr-3`}
+                } flex items-center justify-center mr-3 overflow-hidden`}
               >
                 <Image
-                  src="/images/logo.png"
-                  alt="Yến Sào Logo"
-                  width={30}
-                  height={30}
-                  className="object-contain"
+                  src="/images/logo.jpg"
+                  alt="Yến Sào Thủ Đức"
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full rounded-full scale-110"
                 />
               </div>
               <span
@@ -138,7 +155,7 @@ export default function Navbar() {
                   isScrolled ? "text-amber-600" : "text-white"
                 }`}
               >
-                Yến Sào Việt
+                Yến Sào Thủ Đức
               </span>
             </Link>
 
@@ -146,10 +163,9 @@ export default function Navbar() {
             <nav className="hidden md:flex items-center space-x-1">
               <Link
                 href="/"
-                className={
-                  navLinkClasses +
-                  ` ${isScrolled ? "text-gray-800" : "text-white"}`
-                }
+                className={`${navLinkClasses} ${
+                  isScrolled ? "text-gray-800" : "text-white"
+                }`}
               >
                 <span className="flex items-center">
                   <FiHome className="mr-1" size={16} />
@@ -168,7 +184,7 @@ export default function Navbar() {
                 </button>
                 <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   <Link
-                    href="/products"
+                    href="/product"
                     className="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600"
                   >
                     Tất cả sản phẩm
@@ -176,7 +192,7 @@ export default function Navbar() {
                   {categories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/products?category=${category.slug}`}
+                      href={`/categories/${category.slug}`}
                       className="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600"
                     >
                       {category.name}
@@ -187,10 +203,9 @@ export default function Navbar() {
 
               <Link
                 href="/about"
-                className={
-                  navLinkClasses +
-                  ` ${isScrolled ? "text-gray-800" : "text-white"}`
-                }
+                className={`${navLinkClasses} ${
+                  isScrolled ? "text-gray-800" : "text-white"
+                }`}
               >
                 <span className="flex items-center">
                   <FiInfo className="mr-1" size={16} />
@@ -200,10 +215,9 @@ export default function Navbar() {
 
               <Link
                 href="/contact"
-                className={
-                  navLinkClasses +
-                  ` ${isScrolled ? "text-gray-800" : "text-white"}`
-                }
+                className={`${navLinkClasses} ${
+                  isScrolled ? "text-gray-800" : "text-white"
+                }`}
               >
                 <span className="flex items-center">
                   <FiMail className="mr-1" size={16} />
@@ -234,8 +248,14 @@ export default function Navbar() {
                 <FiHeart size={20} />
               </Link>
 
-              <Link
-                href="/cart"
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Ngăn event bubbling
+                  console.log(
+                    "Cart button clicked, setting isCartOpen to true"
+                  );
+                  setIsCartOpen(true);
+                }}
                 className={`p-2 rounded-full hover:bg-white/20 relative ${
                   isScrolled ? "text-gray-800" : "text-white"
                 } transition-colors`}
@@ -247,7 +267,7 @@ export default function Navbar() {
                     {cartCount}
                   </span>
                 )}
-              </Link>
+              </button>
 
               {user ? (
                 <div className="relative" ref={userMenuRef}>
@@ -286,7 +306,7 @@ export default function Navbar() {
                       </div>
 
                       <Link
-                        href="/profile"
+                        href="/account"
                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
                       >
                         <FiUser className="mr-3" size={16} />
@@ -313,7 +333,7 @@ export default function Navbar() {
 
                       <button
                         onClick={handleLogout}
-                        className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        className="flex items-center w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
                       >
                         <FiLogOut className="mr-3" size={16} />
                         Đăng xuất
@@ -455,7 +475,7 @@ export default function Navbar() {
                   {categories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/products?category=${category.slug}`}
+                      href={`/categories/${category.slug}`}
                       className="block px-4 py-2 ml-4 hover:bg-amber-50 hover:text-amber-600 rounded-md text-sm"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -475,7 +495,7 @@ export default function Navbar() {
                         <p className="text-xs text-amber-600">Khách hàng</p>
                       </div>
                       <Link
-                        href="/profile"
+                        href="/account"
                         className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -535,6 +555,15 @@ export default function Navbar() {
 
       {/* Spacer to account for fixed header */}
       <div className={`${isScrolled ? "h-16" : "h-20"}`}></div>
+
+      {/* Add Mini Cart */}
+      <MiniCart
+        isOpen={isCartOpen}
+        onClose={() => {
+          console.log("Closing MiniCart");
+          setIsCartOpen(false);
+        }}
+      />
     </>
   );
 }

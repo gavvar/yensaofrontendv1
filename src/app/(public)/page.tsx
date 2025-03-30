@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -10,24 +10,74 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
 
+// Imports
+import categoryService from "@/services/categoryService";
+import productService from "@/services/productService";
+import { Category } from "@/services/categoryService";
+import { Product } from "@/types/product";
+// import { formatCurrency } from "@/utils/format";
+import ProductCard from "@/components/user/ProductCard";
+import { getFullImageUrl } from "@/utils/image";
+import ImageUrlChecker from "@/components/debug/ImageUrlChecker";
+
 // Components can be moved to separate files later
-import ProductCard from "@/components/products/ProductCard";
-import SectionTitle from "@/components/ui/SectionTitle";
+const SectionTitle = ({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle: string;
+}) => (
+  <div className="text-center mb-10">
+    <h2 className="text-3xl font-bold mb-3">{title}</h2>
+    <p className="text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+  </div>
+);
 
 export default function HomePage() {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
 
-  // Simulating data fetch - replace with actual API call later
   useEffect(() => {
-    // This will be replaced with actual API call
-    const mockFetch = async () => {
-      // Simulating network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setLoading(false);
+    // Fetch featured products
+    const fetchFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+
+        // Sử dụng API mới cho sản phẩm nổi bật
+        const products = await productService.getFeaturedProducts(4);
+
+        // Log để kiểm tra dữ liệu
+        console.log("Featured products loaded:", products);
+
+        setFeaturedProducts(products);
+      } catch (error) {
+        console.error("Error fetching featured products:", error);
+
+        // Không làm gì thêm, UI đã xử lý trường hợp không có dữ liệu
+      } finally {
+        setLoading(false);
+      }
     };
 
-    mockFetch();
+    // Fetch categories
+    const fetchCategories = async () => {
+      try {
+        setCategoriesLoading(true);
+        const rootCategories = await categoryService.getRootCategories();
+        // Lấy tối đa 3 danh mục để hiển thị
+        setCategories(rootCategories.slice(0, 3));
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+    fetchCategories();
   }, []);
 
   return (
@@ -42,14 +92,21 @@ export default function HomePage() {
           className="w-full h-full"
         >
           <SwiperSlide>
-            <div className="relative w-full h-full bg-amber-100">
+            <div className="relative w-full h-full">
+              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-10" />
-              {/* Image placeholder - replace with actual image */}
-              <div className="bg-amber-200 w-full h-full flex items-center justify-center">
-                <span className="text-amber-800 text-xl">
-                  Hình ảnh banner 1
-                </span>
-              </div>
+
+              {/* Banner image */}
+              <Image
+                src="/images/banner.jpg"
+                alt="Yến sào chất lượng cao"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+
+              {/* Content overlay */}
               <div className="absolute top-1/2 left-14 transform -translate-y-1/2 z-20 text-white max-w-xl">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                   Yến Sào Chất Lượng Cao
@@ -69,14 +126,20 @@ export default function HomePage() {
           </SwiperSlide>
 
           <SwiperSlide>
-            <div className="relative w-full h-full bg-amber-50">
+            <div className="relative w-full h-full">
+              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent z-10" />
-              {/* Image placeholder - replace with actual image */}
-              <div className="bg-amber-100 w-full h-full flex items-center justify-center">
-                <span className="text-amber-800 text-xl">
-                  Hình ảnh banner 2
-                </span>
-              </div>
+
+              {/* Banner image */}
+              <Image
+                src="/images/banner2.jpg" // Giả sử bạn có banner2.jpg
+                alt="Sản phẩm yến chưng sẵn"
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+
+              {/* Content overlay */}
               <div className="absolute top-1/2 left-14 transform -translate-y-1/2 z-20 text-white max-w-xl">
                 <h1 className="text-4xl md:text-5xl font-bold mb-4">
                   Sản Phẩm Yến Chưng Sẵn
@@ -109,8 +172,12 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
-            {/* Empty state when API is not integrated yet */}
-            {featuredProducts.length === 0 && (
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            ) : (
+              // Placeholder khi không có sản phẩm nổi bật
               <>
                 {[1, 2, 3, 4].map((item) => (
                   <div
@@ -153,69 +220,73 @@ export default function HomePage() {
             subtitle="Khám phá các dòng sản phẩm yến sào đa dạng"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
-            <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
-            >
-              <div className="h-48 bg-amber-100 flex items-center justify-center">
-                <span className="text-amber-800">Hình ảnh yến thô</span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Yến Thô</h3>
-                <p className="text-gray-600 mb-4">
-                  Tổ yến nguyên chất từ thiên nhiên, chưa qua chế biến
-                </p>
-                <Link
-                  href="/products/raw-nest"
-                  className="text-amber-600 font-medium hover:text-amber-700"
-                >
-                  Khám phá →
-                </Link>
-              </div>
-            </motion.div>
+          {categoriesLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-500"></div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+              {categories.length > 0 ? (
+                categories.map((category) => (
+                  <motion.div
+                    key={category.id}
+                    whileHover={{ y: -10 }}
+                    className="bg-white rounded-xl shadow-sm overflow-hidden"
+                  >
+                    <div className="h-48 bg-amber-100 flex items-center justify-center relative">
+                      {category.imageUrl ? (
+                        <Image
+                          src={getFullImageUrl(category.imageUrl)}
+                          alt={category.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover"
+                          id={`cat-img-${category.id}`}
+                          onError={() => {
+                            // Xử lý lỗi ảnh (tùy chọn)
+                            const imgElement = document.getElementById(
+                              `cat-img-${category.id}`
+                            );
+                            if (imgElement) {
+                              imgElement.style.display = "none";
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span className="text-amber-800">{category.name}</span>
+                      )}
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {category.name}
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        {category.description || "Khám phá sản phẩm chất lượng"}
+                      </p>
+                      <Link
+                        href={`/categories/${category.slug}`}
+                        className="text-amber-600 font-medium hover:text-amber-700"
+                      >
+                        Khám phá →
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="col-span-3 text-center py-10">
+                  <p className="text-gray-500">Không có danh mục nào</p>
+                </div>
+              )}
+            </div>
+          )}
 
-            <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
+          <div className="text-center mt-8">
+            <Link
+              href="/categories"
+              className="inline-block border-2 border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white font-medium py-2 px-6 rounded-md transition-colors"
             >
-              <div className="h-48 bg-amber-100 flex items-center justify-center">
-                <span className="text-amber-800">Hình ảnh yến tinh chế</span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Yến Tinh Chế</h3>
-                <p className="text-gray-600 mb-4">
-                  Tổ yến đã qua xử lý sạch lông, tạp chất, sẵn sàng chế biến
-                </p>
-                <Link
-                  href="/products/processed-nest"
-                  className="text-amber-600 font-medium hover:text-amber-700"
-                >
-                  Khám phá →
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ y: -10 }}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
-            >
-              <div className="h-48 bg-amber-100 flex items-center justify-center">
-                <span className="text-amber-800">Hình ảnh yến chưng sẵn</span>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">Yến Chưng Sẵn</h3>
-                <p className="text-gray-600 mb-4">
-                  Sản phẩm yến sào đã chế biến, tiện lợi sử dụng ngay
-                </p>
-                <Link
-                  href="/products/ready-to-eat"
-                  className="text-amber-600 font-medium hover:text-amber-700"
-                >
-                  Khám phá →
-                </Link>
-              </div>
-            </motion.div>
+              Xem tất cả danh mục
+            </Link>
           </div>
         </div>
       </section>
@@ -298,6 +369,12 @@ export default function HomePage() {
           </Swiper>
         </div>
       </section>
+
+      {process.env.NODE_ENV === "development" && (
+        <div className="container mx-auto mt-12 px-4">
+          <ImageUrlChecker />
+        </div>
+      )}
     </main>
   );
 }

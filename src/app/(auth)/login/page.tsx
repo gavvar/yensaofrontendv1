@@ -7,7 +7,7 @@ import { useAuth } from "@/contexts/authContext";
 import { toast } from "react-toastify";
 
 export default function LoginPage() {
-  const { login, error, clearError } = useAuth(); //user
+  const { login, error, clearError, isAuthenticated } = useAuth(); //user
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,6 +54,27 @@ export default function LoginPage() {
       setIsSubmitted(false);
     }
   }, [error, loading, isSubmitted]);
+
+  useEffect(() => {
+    // Xóa trạng thái tự động chuyển hướng nếu đã ở trang login
+    if (isAuthenticated) {
+      router.push("/");
+      return;
+    }
+
+    // Kiểm tra nếu đến từ session expired
+    const searchParams = new URLSearchParams(window.location.search);
+    const sessionExpired = searchParams.get("session") === "expired";
+
+    if (sessionExpired) {
+      // Hiển thị thông báo session expired
+      toast.info("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại");
+
+      // Xóa query param để tránh thông báo lặp lại khi refresh
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, [isAuthenticated, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

@@ -16,6 +16,7 @@ import {
   FiMenu,
   FiX,
   FiChevronDown,
+  FiList,
 } from "react-icons/fi";
 
 export default function AdminLayout({
@@ -83,6 +84,13 @@ export default function AdminLayout({
           >
             <FiShoppingBag size={20} className="mr-3" />
             <span>Đơn hàng</span>
+          </Link>
+          <Link
+            href="/admin/categories"
+            className="flex items-center px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-amber-600 rounded-lg mb-2"
+          >
+            <FiList size={20} className="mr-3" />
+            <span>Danh mục</span>
           </Link>
           <Link
             href="/admin/products"

@@ -1,11 +1,12 @@
 // src/services/authService.ts
-import apiClient from "./axiosConfig";
+import apiClient from "../utils/axiosConfig";
+import { API_ENDPOINTS } from "./api/endpoints";
 
 export interface User {
   id: string;
   fullName: string;
   email: string;
-  role: "user" | "admin";
+  role: "customer" | "admin";
   isActive?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -26,6 +27,7 @@ export interface AuthResponse {
 export interface LoginData {
   email: string;
   password: string;
+  rememberMe?: boolean;
 }
 
 export interface RegisterData {
@@ -48,43 +50,42 @@ export interface ChangePasswordData {
   newPassword: string;
 }
 
-export const register = async (data: RegisterData) => {
-  return apiClient.post<AuthResponse>("/auth/register", data);
+// Register
+export const register = (data: RegisterData) => {
+  return apiClient.post(API_ENDPOINTS.AUTH.REGISTER, data);
 };
 
-export const login = async (data: LoginData) => {
-  return apiClient.post<AuthResponse>("/auth/login", data);
+// Login
+export const login = (data: LoginData) => {
+  return apiClient.post(API_ENDPOINTS.AUTH.LOGIN, data);
 };
 
-export const forgotPassword = async (data: ForgotPasswordData) => {
-  return apiClient.post<{ success: boolean; message: string }>(
-    "/auth/forgot-password",
-    data
-  );
+// Forgot password
+export const forgotPassword = (data: { email: string }) => {
+  return apiClient.post(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, data);
 };
 
-export const resetPassword = async (data: ResetPasswordData) => {
-  return apiClient.post<{ success: boolean; message: string }>(
-    "/auth/reset-password",
-    data
-  );
+// Reset password
+export const resetPassword = (data: { token: string; password: string }) => {
+  return apiClient.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, data);
 };
 
-export const changePassword = async (data: ChangePasswordData) => {
-  return apiClient.post<{ success: boolean; message: string }>(
-    "/auth/change-password",
-    data
-  );
+// Change password (when logged in)
+export const changePassword = (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  return apiClient.post(API_ENDPOINTS.USER.CHANGE_PASSWORD, data);
 };
 
-export const logout = async () => {
-  return apiClient.post<{ success: boolean; message: string }>("/auth/logout");
+// Logout
+export const logout = () => {
+  return apiClient.post(API_ENDPOINTS.AUTH.LOGOUT);
 };
 
-export const logoutAll = async () => {
-  return apiClient.post<{ success: boolean; message: string }>(
-    "/auth/logout-all"
-  );
+// Logout from all devices
+export const logoutAll = () => {
+  return apiClient.post(API_ENDPOINTS.AUTH.LOGOUT_ALL);
 };
 
 export const getSessions = async () => {
@@ -100,19 +101,12 @@ export const getSessions = async () => {
   }>("/auth/sessions");
 };
 
-export const refreshToken = async () => {
-  return apiClient.post<{ success: boolean; data: { token: string } }>(
-    "/auth/refresh-token"
-  );
+// Get logged-in user data
+export const getMe = () => {
+  return apiClient.get(API_ENDPOINTS.AUTH.ME);
 };
 
-export const getMe = async () => {
-  return apiClient.get<{
-    success: boolean;
-    data: {
-      id: string;
-      role: string;
-      email: string;
-    };
-  }>("/auth/me");
+// Refresh token
+export const refreshToken = () => {
+  return apiClient.post(API_ENDPOINTS.AUTH.REFRESH);
 };

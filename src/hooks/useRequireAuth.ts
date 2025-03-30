@@ -6,43 +6,56 @@ import { useAuth } from "@/contexts/authContext";
 
 export function useRequireAuth(
   redirectUrl = "/login",
-  requiredRole?: "admin" | "user"
+  requiredRole?: "admin" | "customer" // Thay đổi từ "user" thành "customer"
 ) {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [redirecting, setRedirecting] = useState(false); // Theo dõi trạng thái redirect
-  const hasCheckedAuth = useRef(false); // Đảm bảo chỉ kiểm tra một lần nếu đã xác thực
+  const [redirecting, setRedirecting] = useState(false);
+  const hasCheckedAuth = useRef(false);
 
   useEffect(() => {
-    // Chỉ kiểm tra khi đã tải xong thông tin user và chưa redirect
-    if (!loading && !redirecting && !hasCheckedAuth.current) {
-      // Kiểm tra xác thực
-      if (!user) {
-        setRedirecting(true);
-        console.log("Chưa đăng nhập, chuyển hướng đến:", redirectUrl);
-        router.push(redirectUrl);
-        return;
-      }
-
-      // Kiểm tra phân quyền
-      if (requiredRole && user.role !== requiredRole) {
-        setRedirecting(true);
-        console.log("Không đủ quyền, chuyển hướng đến: /unauthorized");
-        router.push("/unauthorized");
-        return;
-      }
-
-      // Đã xác thực và có đủ quyền
-      setIsAuthorized(true);
-      hasCheckedAuth.current = true; // Đánh dấu đã kiểm tra xong
+    // Skip if still loading or already redirecting
+    if (authLoading || redirecting) {
+      return;
     }
 
-    // Reset redirecting state nếu user hoặc loading thay đổi
-    if (user && redirecting) {
-      setRedirecting(false);
+    // Skip if already checked and authorized
+    if (hasCheckedAuth.current && isAuthorized) {
+      return;
     }
-  }, [user, loading, router, redirectUrl, requiredRole, redirecting]);
 
-  return { isAuthorized, loading: loading || redirecting, user };
+    // Debug output to help track issues
+    console.log("Auth check:", { user, requiredRole });
+
+    // Check if user is logged in
+    if (!user) {
+      setRedirecting(true);
+      console.log("Not logged in, redirecting to:", redirectUrl);
+      router.push(redirectUrl);
+      return;
+    }
+
+    // Check role requirements if specified
+    if (requiredRole && user.role !== requiredRole) {
+      setRedirecting(true);
+      console.log(`Required role: ${requiredRole}, User role: ${user.role}`);
+      router.push("/unauthorized");
+      return;
+    }
+
+    // User is authorized
+    setIsAuthorized(true);
+    hasCheckedAuth.current = true;
+  }, [
+    user,
+    authLoading,
+    router,
+    redirectUrl,
+    requiredRole,
+    redirecting,
+    isAuthorized,
+  ]);
+
+  return { isAuthorized, loading: authLoading || redirecting, user };
 }

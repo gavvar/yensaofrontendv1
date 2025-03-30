@@ -1,5 +1,5 @@
 // src/services/userService.ts
-import apiClient from "./axiosConfig";
+import apiClient from "../utils/axiosConfig";
 import { User } from "./authService";
 
 export interface UpdateProfileData {

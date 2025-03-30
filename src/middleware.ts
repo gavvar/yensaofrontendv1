@@ -10,29 +10,26 @@ export function middleware(request: NextRequest) {
   const isPublicPath =
     path === "/login" || path === "/register" || path === "/forgot-password";
 
-  // Lấy token từ cookies hoặc headers
-  const token =
-    request.cookies.get("token")?.value ||
-    request.headers.get("authorization")?.split(" ")[1];
+  // Kiểm tra xem có cookie accessToken không (HTTP-only cookie)
+  const isAuthenticated = request.cookies.has("accessToken");
 
   console.log(
-    `Middleware check: Path=${path}, Public=${isPublicPath}, HasToken=${!!token}`
+    `Middleware check: Path=${path}, Public=${isPublicPath}, IsAuthenticated=${isAuthenticated}`
   );
 
   // Nếu đang truy cập trang admin
   if (path.startsWith("/admin")) {
-    // Kiểm tra session storage không khả thi trong middleware,
-    // nên ta chỉ có thể kiểm tra token
-    if (!token) {
-      console.log("No token, redirecting from admin to login");
+    // Kiểm tra xác thực thông qua cookie accessToken
+    if (!isAuthenticated) {
+      console.log("Not authenticated, redirecting from admin to login");
       return NextResponse.redirect(new URL("/login", request.url));
     }
-    // Nếu có token, cho phép truy cập
+    // Nếu đã xác thực, cho phép truy cập
     return NextResponse.next();
   }
 
-  // Nếu đã có token và đang truy cập trang login/register, chuyển hướng đến home
-  if (isPublicPath && token) {
+  // Nếu đã xác thực và đang truy cập trang login/register, chuyển hướng đến home
+  if (isPublicPath && isAuthenticated) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
