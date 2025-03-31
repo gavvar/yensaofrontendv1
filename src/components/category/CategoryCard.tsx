@@ -23,14 +23,14 @@ export default function CategoryCard({ category }: CategoryCardProps) {
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-              <span className="text-gray-400">Không có hình ảnh</span>
+              <span className="text-black font-medium">Không có hình ảnh</span>
             </div>
           )}
         </div>
         <div className="p-4">
-          <h3 className="text-lg font-semibold mb-1">{category.name}</h3>
+          <h3 className="text-lg font-bold text-black mb-1">{category.name}</h3>
           {category.description && (
-            <p className="text-gray-600 text-sm line-clamp-2">
+            <p className="text-black font-medium text-sm line-clamp-2">
               {category.description}
             </p>
           )}

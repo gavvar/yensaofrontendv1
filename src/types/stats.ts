@@ -14,12 +14,14 @@ export interface DashboardStats {
   newCustomers: number;
   productsSold: number;
   period: string;
+  avgProcessingHours?: number; // Thêm nếu API cung cấp
 }
 
+// Kiểm tra và cập nhật interface RevenueData
 export interface RevenueData {
   date: string;
-  revenue: number;
-  orderCount: number;
+  totalAmount: number;
+  // Có thể có thêm các trường khác tùy thuộc vào API
 }
 
 export interface TopProduct {

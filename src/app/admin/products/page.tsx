@@ -171,7 +171,7 @@ export default function ProductsPage() {
       {/* Search & Filters */}
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <div className="flex items-center mb-4">
-          <FiFilter className="mr-2 text-gray-500" />
+          <FiFilter className="mr-2 text-gray-900" />
           <h2 className="text-lg font-medium text-gray-700">Tìm kiếm & Lọc</h2>
         </div>
 
@@ -314,7 +314,7 @@ export default function ProductsPage() {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-16 px-4">
-            <p className="text-gray-500 mb-4">Không tìm thấy sản phẩm nào</p>
+            <p className="text-gray-900 mb-4">Không tìm thấy sản phẩm nào</p>
             <button
               onClick={resetFilters}
               className="text-amber-600 hover:text-amber-700 font-medium"
@@ -329,37 +329,37 @@ export default function ProductsPage() {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Sản phẩm
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Danh mục
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Giá
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Số lượng
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Trạng thái
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                   >
                     Hành động
                   </th>
@@ -389,7 +389,7 @@ export default function ProductsPage() {
                           </div>
                         ) : (
                           <div className="flex-shrink-0 h-10 w-10 mr-3 bg-gray-100 rounded-md flex items-center justify-center">
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-gray-900">
                               {product.name.charAt(0).toUpperCase()}
                             </span>
                           </div>
@@ -398,7 +398,7 @@ export default function ProductsPage() {
                           <p className="text-sm font-medium text-gray-900">
                             {product.name}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-900">
                             SKU: {product.sku}
                           </p>
                         </div>
@@ -406,7 +406,7 @@ export default function ProductsPage() {
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-900">
                         {product.category?.name || "—"}
                       </span>
                     </td>
@@ -419,7 +419,7 @@ export default function ProductsPage() {
                             <span className="text-sm font-medium text-gray-900">
                               {product.discountPrice.toLocaleString()}đ
                             </span>
-                            <span className="ml-2 text-xs text-gray-500 line-through">
+                            <span className="ml-2 text-xs text-gray-900 line-through">
                               {product.price.toLocaleString()}đ
                             </span>
                             <span className="ml-2 text-xs bg-red-100 text-red-800 px-1.5 py-0.5 rounded">
@@ -440,7 +440,7 @@ export default function ProductsPage() {
                     </td>
 
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-900">
                         {product.quantity} {product.unit || "cái"}
                       </span>
                     </td>
@@ -468,7 +468,7 @@ export default function ProductsPage() {
                           </button>
                           <button
                             onClick={() => setConfirmDelete(null)}
-                            className="text-gray-600 hover:text-gray-900"
+                            className="text-gray-900 hover:text-gray-900"
                           >
                             <FiX className="h-5 w-5" />
                           </button>
@@ -478,7 +478,7 @@ export default function ProductsPage() {
                           <Link
                             href={`/product/${product.slug}`}
                             target="_blank"
-                            className="text-gray-400 hover:text-gray-500"
+                            className="text-gray-900 hover:text-gray-900"
                             title="Xem"
                           >
                             <FiEye className="h-5 w-5" />
@@ -511,7 +511,7 @@ export default function ProductsPage() {
       {/* Pagination */}
       {!loading && products.length > 0 && (
         <div className="flex justify-between items-center mt-6">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-900">
             Hiển thị {products.length} / {totalItems} sản phẩm
           </div>
 
@@ -564,7 +564,7 @@ export default function ProductsPage() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-500">Hiển thị:</span>
+            <span className="text-sm text-gray-900">Hiển thị:</span>
             <select
               value={limit}
               onChange={(e) => {

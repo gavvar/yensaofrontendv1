@@ -27,23 +27,74 @@ export const formatDate = (dateStr: string) => {
       typeof dateStr === "string" ? parseISO(dateStr) : new Date(dateStr);
     return format(date, "dd/MM/yyyy", { locale: vi });
   } catch (error) {
+    console.log("Error formatting date:", error);
     return dateStr;
   }
 };
 
 /**
- * Format ngày tháng với nhiều tùy chọn
- * @param dateString Chuỗi ngày
- * @param format Định dạng (short: ngày/tháng/năm, long: thêm giờ, full: chi tiết)
+ * Định dạng ngày giờ
+ * @param dateString Chuỗi ngày giờ
+ * @param format Định dạng (default: 'full', options: 'full', 'short', 'date', 'time', 'long')
+ * @returns Chuỗi ngày giờ đã được định dạng
  */
-export const formatDateTime = (dateStr: string) => {
-  try {
-    const date =
-      typeof dateStr === "string" ? parseISO(dateStr) : new Date(dateStr);
-    return format(date, "dd/MM/yyyy HH:mm", { locale: vi });
-  } catch (error) {
-    return dateStr;
+export const formatDateTime = (
+  dateString: string | Date,
+  format: "full" | "short" | "date" | "time" | "long" = "full"
+): string => {
+  if (!dateString) return "";
+
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
+
+  if (isNaN(date.getTime())) {
+    console.error("Ngày không hợp lệ:", dateString);
+    return "";
   }
+
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: "Asia/Ho_Chi_Minh", // Múi giờ Việt Nam
+  };
+
+  switch (format) {
+    case "short":
+      // VD: 15/04/2023
+      options.day = "2-digit";
+      options.month = "2-digit";
+      options.year = "numeric";
+      break;
+    case "date":
+      // VD: 15 tháng 4, 2023
+      options.day = "numeric";
+      options.month = "long";
+      options.year = "numeric";
+      break;
+    case "time":
+      // VD: 14:30
+      options.hour = "2-digit";
+      options.minute = "2-digit";
+      break;
+    case "long":
+      // VD: 15 tháng 4, 2023, 14:30:45
+      options.day = "numeric";
+      options.month = "long";
+      options.year = "numeric";
+      options.hour = "2-digit";
+      options.minute = "2-digit";
+      options.second = "2-digit";
+      break;
+    case "full":
+    default:
+      // VD: 15 tháng 4, 2023, 14:30
+      options.day = "numeric";
+      options.month = "long";
+      options.year = "numeric";
+      options.hour = "2-digit";
+      options.minute = "2-digit";
+      break;
+  }
+
+  return new Intl.DateTimeFormat("vi-VN", options).format(date);
 };
 
 /**

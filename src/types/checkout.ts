@@ -42,11 +42,20 @@ export interface ShippingDetails {
 // Response khi áp dụng mã giảm giá
 export interface CouponResponse {
   valid: boolean;
+  coupon?: {
+    id: number;
+    code: string;
+    type: CouponType;
+    value: number;
+    minOrderValue: number;
+    maxDiscount: number | null;
+  };
   code: string;
   discountType: "percentage" | "fixed";
   discountValue: number;
-  maxDiscount?: number;
-  message?: string;
+  maxDiscount: number | null;
+  discountAmount: number;
+  message: string;
 }
 
 // Các phương thức thanh toán mở rộng từ PaymentMethod (nếu cần)
@@ -133,3 +142,5 @@ export interface CheckoutPaymentInfo {
   transactionId?: string;
   status?: string;
 }
+
+import { CouponType } from "./coupon";

@@ -62,7 +62,7 @@ export default function CategoryList({
   }
 
   if (categories.length === 0) {
-    return <div className="text-gray-500">Không có danh mục nào</div>;
+    return <div className="text-gray-900">Không có danh mục nào</div>;
   }
 
   return (

@@ -96,8 +96,9 @@ export default function ForgotPasswordPage() {
           <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             Quên mật khẩu
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu
+          <p className="mt-2 text-center text-sm text-gray-900">
+            Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu. Email khôi
+            phục sẽ có hiệu lực trong 1 giờ.
           </p>
         </div>
 
@@ -128,6 +129,11 @@ export default function ForgotPasswordPage() {
                   Chúng tôi đã gửi hướng dẫn đặt lại mật khẩu đến{" "}
                   <strong>{email}</strong>. Vui lòng kiểm tra hộp thư đến và thư
                   rác.
+                </p>
+                <p className="mt-2">
+                  Email có hiệu lực trong 1 giờ. Nếu bạn không nhận được email,
+                  hãy kiểm tra thư rác hoặc thử gửi lại sau khi hết thời gian
+                  chờ.
                 </p>
               </div>
 
@@ -173,7 +179,7 @@ export default function ForgotPasswordPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="h-5 w-5 text-gray-400" />
+                  <FiMail className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   id="email-address"

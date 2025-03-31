@@ -60,13 +60,13 @@ export const login = (data: LoginData) => {
   return apiClient.post(API_ENDPOINTS.AUTH.LOGIN, data);
 };
 
-// Forgot password
-export const forgotPassword = (data: { email: string }) => {
+// Forgot password - Thêm xử lý response chi tiết hơn
+export const forgotPassword = (data: ForgotPasswordData) => {
   return apiClient.post(API_ENDPOINTS.AUTH.FORGOT_PASSWORD, data);
 };
 
-// Reset password
-export const resetPassword = (data: { token: string; password: string }) => {
+// Reset password - Thêm xử lý response chi tiết hơn
+export const resetPassword = (data: ResetPasswordData) => {
   return apiClient.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, data);
 };
 

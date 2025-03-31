@@ -7,8 +7,8 @@ import { FiDownload } from "react-icons/fi";
 interface ExportReportFormProps {
   startDate: Date;
   endDate: Date;
-  onStartDateChange: (date: Date) => void;
-  onEndDateChange: (date: Date) => void;
+  onStartDateChange: (date: Date | null) => void;
+  onEndDateChange: (date: Date | null) => void;
   onExport: () => void;
   dashboardStats: {
     totalOrders?: number;
@@ -44,7 +44,7 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-900 mb-4">
               Chọn khoảng thời gian để xuất báo cáo doanh thu chi tiết
             </p>
 
@@ -97,7 +97,7 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Khoảng thời gian:</span>
+                <span className="text-sm text-gray-900">Khoảng thời gian:</span>
                 <span className="text-sm font-medium">
                   {format(startDate, "dd/MM/yyyy")} -{" "}
                   {format(endDate, "dd/MM/yyyy")}
@@ -105,21 +105,21 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Tổng số đơn hàng:</span>
+                <span className="text-sm text-gray-900">Tổng số đơn hàng:</span>
                 <span className="text-sm font-medium">
                   {dashboardStats?.totalOrders || "..."}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">Tổng doanh thu:</span>
+                <span className="text-sm text-gray-900">Tổng doanh thu:</span>
                 <span className="text-sm font-medium">
                   {formatCurrency(dashboardStats?.revenue || 0)}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-900">
                   Đơn giá trung bình:
                 </span>
                 <span className="text-sm font-medium">
@@ -133,7 +133,7 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
             </div>
 
-            <div className="mt-4 text-xs text-gray-500">
+            <div className="mt-4 text-xs text-gray-900">
               * Báo cáo sẽ bao gồm chi tiết về đơn hàng, sản phẩm, doanh thu
               theo ngày và thông tin thanh toán.
             </div>

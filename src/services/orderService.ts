@@ -6,21 +6,45 @@ import {
   OrderSummary,
   CreateOrderRequest,
   CreateOrderResponse,
-  CouponResponse,
   UpdateOrderInfoRequest,
   UpdateOrderStatusRequest,
   UpdatePaymentStatusRequest,
   GetOrderStatusesResponse,
   OrderListParams,
   OrderListResponse,
+  OrderStatus,
 } from "@/types/order";
 
-import { ShippingInfo } from "@/types/shipping"; // Thêm import này
+// Chỉ import từ một nơi
+import { ShippingInfo } from "@/types/shipping";
+import { CouponResponse } from "@/types/checkout"; // Ưu tiên sử dụng từ checkout.ts
 
-// API Error Response interface
+// Thêm định nghĩa OrderDetail nếu không có trong types/order.ts
+export interface OrderDetail extends Order {
+  // Thêm các trường bổ sung cho chi tiết đơn hàng nếu cần
+  customerFullAddress?: string;
+  paymentDetails?: {
+    method: string;
+    status: string;
+    transactionId?: string;
+    paidAt?: string;
+  };
+  statusHistory?: {
+    status: string;
+    timestamp: string;
+    note?: string;
+  }[];
+}
+
+// Cập nhật interface ApiErrorResponse để xử lý trường hợp error có thể là chuỗi hoặc object
 interface ApiErrorResponse {
   success: false;
-  error: string;
+  error:
+    | string
+    | {
+        message: string;
+        [key: string]: unknown;
+      };
 }
 
 // API response interface
@@ -105,21 +129,44 @@ const validateCoupon = async (
       API_ENDPOINTS.COUPON.VALIDATE,
       {
         code,
-        totalAmount,
+        cartTotal: totalAmount,
       },
       { withCredentials: true }
     );
-    return response.data;
+
+    // Map API response to CouponResponse interface
+    const couponData = response.data.data.coupon || {};
+
+    const couponResponse: CouponResponse = {
+      valid: response.data.data.valid,
+      coupon: response.data.data.coupon,
+      code: code,
+      discountType: couponData.type === "percentage" ? "percentage" : "fixed",
+      discountValue: couponData.value || 0,
+      maxDiscount: couponData.maxDiscount || null,
+      discountAmount: response.data.data.discountAmount || 0,
+      message: response.data.data.message || "",
+    };
+
+    return couponResponse;
   } catch (error: unknown) {
     console.error("Error validating coupon:", error);
 
     if (error instanceof AxiosError && error.response?.data) {
       const errorData = error.response.data as ApiErrorResponse;
-      throw new Error(errorData.error || "Mã giảm giá không hợp lệ");
-    }
+      let errorMessage = "Mã giảm giá không hợp lệ";
 
-    if (error instanceof Error) {
-      throw error;
+      if (
+        typeof errorData.error === "object" &&
+        errorData.error !== null &&
+        "message" in errorData.error
+      ) {
+        errorMessage = errorData.error.message;
+      } else if (typeof errorData.error === "string") {
+        errorMessage = errorData.error;
+      }
+
+      throw new Error(errorMessage);
     }
 
     throw new Error("Không thể xác thực mã giảm giá");
@@ -188,7 +235,7 @@ const orderService = {
    * Lấy chi tiết đơn hàng theo ID
    * @param id ID đơn hàng
    */
-  getOrderById: async (id: number): Promise<Order> => {
+  getOrderById: async (id: number): Promise<OrderDetail> => {
     try {
       const response = await apiClient.get(API_ENDPOINTS.ORDER.DETAIL(id), {
         withCredentials: true,
@@ -205,7 +252,7 @@ const orderService = {
    * Lấy chi tiết đơn hàng theo số đơn hàng
    * @param orderNumber Số đơn hàng
    */
-  getOrderByNumber: async (orderNumber: string): Promise<Order> => {
+  getOrderByNumber: async (orderNumber: string): Promise<OrderDetail> => {
     try {
       const response = await apiClient.get(
         API_ENDPOINTS.ORDER.BY_NUMBER(orderNumber),
@@ -343,7 +390,7 @@ const orderService = {
    * @param id ID đơn hàng
    * @param statusData Dữ liệu trạng thái mới
    */
-  updateOrderStatus: async (
+  updateOrderStatusAdmin: async (
     id: number,
     statusData: UpdateOrderStatusRequest
   ): Promise<ApiResponse<Order>> => {
@@ -402,6 +449,43 @@ const orderService = {
   trackOrderByTrackingNumber, // Thêm hàm này
   trackOrderByOrderNumberAndPhone, // Thêm method này
   validateCoupon, // Thêm method này
+
+  /**
+   * Lấy danh sách đơn hàng của người dùng hiện tại
+   */
+  getUserOrders: async () => {
+    const response = await apiClient.get(API_ENDPOINTS.ORDER.LIST);
+    return response.data;
+  },
+
+  /**
+   * Cập nhật trạng thái đơn hàng
+   * @param id ID đơn hàng
+   * @param status Trạng thái đơn hàng mới
+   * @param notes Ghi chú (tuỳ chọn)
+   */
+  updateOrderStatus: async (
+    id: number,
+    status: OrderStatus,
+    notes?: string
+  ) => {
+    const response = await apiClient.put(
+      API_ENDPOINTS.ORDER.UPDATE_STATUS(id),
+      { status, notes }
+    );
+    return response.data;
+  },
+
+  /**
+   * Theo dõi đơn hàng bằng số đơn và số điện thoại
+   */
+  trackOrder: async (data: { orderNumber: string; phone: string }) => {
+    const response = await apiClient.post(
+      API_ENDPOINTS.ORDER.TRACK_BY_ORDER_NUMBER_PHONE,
+      data
+    );
+    return response.data;
+  },
 };
 
 export default orderService;

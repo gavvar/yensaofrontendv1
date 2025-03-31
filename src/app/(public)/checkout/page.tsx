@@ -126,7 +126,7 @@ export default function CheckoutPage() {
             <h2 className="text-lg font-semibold mb-4">Xác nhận đơn hàng</h2>
 
             <div className="mb-6">
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-900 mb-4">
                 Vui lòng kiểm tra lại thông tin đơn hàng của bạn trước khi đặt
                 hàng.
               </p>
@@ -166,7 +166,7 @@ export default function CheckoutPage() {
             <h2 className="text-2xl font-semibold mb-2">
               Đặt hàng thành công!
             </h2>
-            <p className="text-gray-500 mb-6">
+            <p className="text-gray-900 mb-6">
               Đơn hàng của bạn đã được tạo thành công. Mã đơn hàng: #
               {checkout.orderNumber}
             </p>
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
           {/* Additional info */}
           <div className="bg-white shadow-sm rounded-lg p-6">
             <h3 className="text-base font-medium mb-3">Hỗ trợ khách hàng</h3>
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm text-gray-900 mb-2">
               Nếu bạn có bất kỳ câu hỏi nào về đơn hàng, vui lòng liên hệ với
               chúng tôi.
             </p>

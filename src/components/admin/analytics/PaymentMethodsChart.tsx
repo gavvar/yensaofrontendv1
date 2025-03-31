@@ -27,7 +27,15 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
   };
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      payload: PaymentMethodData;
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md">
@@ -95,7 +103,7 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
                     </span>
                   </div>
                   <div className="flex justify-between px-5">
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-gray-900">
                       {method.value} đơn hàng
                     </span>
                     <span className="text-sm font-medium text-gray-800">
@@ -108,7 +116,7 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-500">
+            <p className="text-gray-900">
               Không có dữ liệu phương thức thanh toán
             </p>
           </div>

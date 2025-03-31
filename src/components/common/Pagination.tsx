@@ -4,134 +4,131 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  totalItems?: number; // Thêm prop totalItems (để hiển thị tổng số mục)
   onPageChange: (page: number) => void;
+  showSummary?: boolean;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
+  totalItems,
   onPageChange,
+  showSummary = true,
 }) => {
-  // Số trang hiển thị trước và sau trang hiện tại
-  const siblingsCount = 1;
+  // Không hiển thị phân trang nếu chỉ có 1 trang
+  if (totalPages <= 1) {
+    return showSummary && totalItems ? (
+      <div className="text-sm text-gray-900 mt-4">
+        <span>{totalItems} kết quả</span>
+      </div>
+    ) : null;
+  }
 
-  // Tạo mảng các trang cần hiển thị
+  // Tạo danh sách các trang sẽ hiển thị
   const getPageNumbers = () => {
-    const pages = [];
+    const pageNumbers = [];
+    const maxPagesToShow = 5; // Số lượng trang tối đa để hiển thị
 
-    // Luôn hiển thị trang đầu tiên
-    pages.push(1);
+    // Nếu tổng số trang ít, hiển thị tất cả
+    if (totalPages <= maxPagesToShow) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // Xác định phạm vi trang để hiển thị
+      let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+      let endPage = startPage + maxPagesToShow - 1;
 
-    // Tính toán các trang gần trang hiện tại
-    const startPage = Math.max(2, currentPage - siblingsCount);
-    const endPage = Math.min(totalPages - 1, currentPage + siblingsCount);
+      // Điều chỉnh nếu endPage vượt quá totalPages
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+      }
 
-    // Thêm dấu ... sau trang 1 nếu cần
-    if (startPage > 2) {
-      pages.push(-1); // -1 đại diện cho dấu ...
-    }
-
-    // Thêm các trang ở giữa
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    // Thêm dấu ... trước trang cuối nếu cần
-    if (endPage < totalPages - 1) {
-      pages.push(-2); // -2 đại diện cho dấu ... thứ hai
-    }
-
-    // Luôn hiển thị trang cuối cùng nếu có nhiều hơn 1 trang
-    if (totalPages > 1) {
-      pages.push(totalPages);
-    }
-
-    return pages;
-  };
-
-  const renderPageButton = (pageNumber: number, label?: React.ReactNode) => {
-    const isCurrentPage = pageNumber === currentPage;
-
-    return (
-      <button
-        key={pageNumber}
-        onClick={() => onPageChange(pageNumber)}
-        disabled={isCurrentPage}
-        className={`flex items-center justify-center w-10 h-10 mx-1 rounded-md focus:outline-none
-          ${
-            isCurrentPage
-              ? "bg-amber-600 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
-          }
-        `}
-        aria-current={isCurrentPage ? "page" : undefined}
-      >
-        {label || pageNumber}
-      </button>
-    );
-  };
-
-  // Nút Previous
-  const renderPrevButton = () => (
-    <button
-      onClick={() => onPageChange(currentPage - 1)}
-      disabled={currentPage <= 1}
-      className={`flex items-center justify-center w-10 h-10 mx-1 rounded-md focus:outline-none
-        ${
-          currentPage <= 1
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-white text-gray-700 hover:bg-gray-100"
+      // Thêm trang đầu tiên và dấu ... nếu cần
+      if (startPage > 1) {
+        pageNumbers.push(1);
+        if (startPage > 2) {
+          pageNumbers.push("...");
         }
-      `}
-      aria-label="Previous page"
-    >
-      <FiChevronLeft size={20} />
-    </button>
-  );
+      }
 
-  // Nút Next
-  const renderNextButton = () => (
-    <button
-      onClick={() => onPageChange(currentPage + 1)}
-      disabled={currentPage >= totalPages}
-      className={`flex items-center justify-center w-10 h-10 mx-1 rounded-md focus:outline-none
-        ${
-          currentPage >= totalPages
-            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-            : "bg-white text-gray-700 hover:bg-gray-100"
+      // Thêm các trang trong phạm vi
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i);
+      }
+
+      // Thêm dấu ... và trang cuối cùng nếu cần
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pageNumbers.push("...");
         }
-      `}
-      aria-label="Next page"
-    >
-      <FiChevronRight size={20} />
-    </button>
-  );
+        pageNumbers.push(totalPages);
+      }
+    }
 
-  if (totalPages <= 1) return null;
+    return pageNumbers;
+  };
 
   return (
-    <div className="flex justify-center items-center mt-6">
-      <nav className="flex items-center" aria-label="Pagination">
-        {renderPrevButton()}
-
-        <div className="flex">
-          {getPageNumbers().map((pageNumber) => {
-            if (pageNumber === -1 || pageNumber === -2) {
-              return (
-                <span
-                  key={`ellipsis-${pageNumber}`}
-                  className="flex items-center justify-center w-10 h-10 mx-1 text-gray-500"
-                >
-                  ...
-                </span>
-              );
-            }
-            return renderPageButton(pageNumber);
-          })}
+    <div className="flex items-center justify-between mt-4">
+      {/* Hiển thị tổng số kết quả nếu có */}
+      {showSummary && totalItems && (
+        <div className="text-sm text-gray-900">
+          <span>{totalItems} kết quả</span>
         </div>
+      )}
 
-        {renderNextButton()}
-      </nav>
+      <div className="flex items-center space-x-1 ml-auto">
+        {/* Nút quay lại */}
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`px-2 py-2 border rounded-md ${
+            currentPage === 1
+              ? "border-gray-200 text-gray-300 cursor-not-allowed"
+              : "border-gray-300 text-gray-900 hover:bg-gray-50"
+          }`}
+          aria-label="Previous page"
+        >
+          <FiChevronLeft className="h-5 w-5" />
+        </button>
+
+        {/* Các nút số trang */}
+        {getPageNumbers().map((page, index) => (
+          <React.Fragment key={index}>
+            {page === "..." ? (
+              <span className="px-3 py-2 text-gray-900">...</span>
+            ) : (
+              <button
+                onClick={() => typeof page === "number" && onPageChange(page)}
+                className={`px-4 py-2 border rounded-md ${
+                  currentPage === page
+                    ? "bg-indigo-50 border-indigo-500 text-indigo-600"
+                    : "border-gray-300 text-gray-900 hover:bg-gray-50"
+                }`}
+              >
+                {page}
+              </button>
+            )}
+          </React.Fragment>
+        ))}
+
+        {/* Nút tiếp theo */}
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`px-2 py-2 border rounded-md ${
+            currentPage === totalPages
+              ? "border-gray-200 text-gray-300 cursor-not-allowed"
+              : "border-gray-300 text-gray-900 hover:bg-gray-50"
+          }`}
+          aria-label="Next page"
+        >
+          <FiChevronRight className="h-5 w-5" />
+        </button>
+      </div>
     </div>
   );
 };

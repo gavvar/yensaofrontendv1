@@ -19,7 +19,7 @@ export interface Category {
   products?: ProductSummary[]; // Thay thế any[] bằng ProductSummary[]
 }
 
-// Thay đổi 1: Định nghĩa interface cho Product
+// Định nghĩa interface cho Product
 export interface ProductSummary {
   id: number;
   name: string;
@@ -45,6 +45,12 @@ export interface CategoryQueryParams {
   parent?: number | null;
   active?: boolean;
   sort?: "name_asc" | "name_desc" | "sort_asc" | "sort_desc";
+}
+
+// Interface mới cho yêu cầu sắp xếp lại danh mục
+export interface ReorderCategoryRequest {
+  categoryId: number;
+  newOrder: number;
 }
 
 /**
@@ -84,6 +90,23 @@ export const categoryService = {
       return response.data.data;
     } catch (error) {
       console.error(`Error fetching category with slug ${slug}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Lấy chi tiết một category theo ID
+   * @param id ID của category
+   * @returns Promise với thông tin chi tiết category
+   */
+  getCategoryById: async (id: number | string): Promise<Category> => {
+    try {
+      const response = await apiClient.get(
+        API_ENDPOINTS.CATEGORY.DETAIL(id.toString())
+      );
+      return response.data.data;
+    } catch (error) {
+      console.error(`Error fetching category with id ${id}:`, error);
       throw error;
     }
   },
@@ -192,7 +215,6 @@ export const categoryService = {
       // Lấy tất cả danh mục
       const allCategories = await categoryService.getAllCategories();
 
-      // Thay đổi 2: Loại bỏ biến rootCategories không sử dụng
       // Hàm đệ quy để tạo cây danh mục
       const buildTree = (
         categories: Category[],
@@ -216,7 +238,6 @@ export const categoryService = {
 
   /**
    * Lấy danh sách category với phân trang và lọc
-   * @param params Các tham số query
    * @returns Promise với danh sách category
    */
   getCategories: async (): Promise<Category[]> => {
@@ -233,6 +254,64 @@ export const categoryService = {
     } catch (error) {
       console.error("Error fetching categories:", error);
       return [];
+    }
+  },
+
+  /**
+   * Lấy đường dẫn phân cấp (breadcrumb) cho một danh mục
+   * @param identifier ID hoặc slug của danh mục
+   * @returns Promise với mảng chứa các danh mục từ gốc đến danh mục hiện tại
+   */
+  getCategoryBreadcrumb: async (
+    identifier: string | number
+  ): Promise<Category[]> => {
+    try {
+      // Xác định danh mục hiện tại
+      const isNumeric = !isNaN(Number(identifier));
+      let category: Category;
+
+      if (isNumeric) {
+        category = await categoryService.getCategoryById(identifier);
+      } else {
+        category = await categoryService.getCategoryBySlug(
+          identifier as string
+        );
+      }
+
+      // Khởi tạo mảng breadcrumb với danh mục hiện tại
+      const breadcrumb: Category[] = [category];
+
+      // Lấy tất cả các danh mục cha
+      let parentId = category.parentId;
+      while (parentId) {
+        const parentCategory = await categoryService.getCategoryById(parentId);
+        breadcrumb.unshift(parentCategory); // Thêm vào đầu mảng
+        parentId = parentCategory.parentId;
+      }
+
+      return breadcrumb;
+    } catch (error) {
+      console.error(`Error getting breadcrumb for ${identifier}:`, error);
+      throw error;
+    }
+  },
+
+  /**
+   * Sắp xếp lại thứ tự của danh mục
+   * @param reorderData Mảng các đối tượng chứa categoryId và newOrder
+   * @returns Promise với kết quả thao tác
+   */
+  reorderCategories: async (
+    reorderData: ReorderCategoryRequest[]
+  ): Promise<{ success: boolean; message: string }> => {
+    try {
+      const response = await apiClient.post(API_ENDPOINTS.CATEGORY.REORDER, {
+        categories: reorderData,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error reordering categories:", error);
+      throw error;
     }
   },
 };

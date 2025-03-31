@@ -146,7 +146,7 @@ export default function ProductDetailPage() {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">
           <h1 className="text-3xl font-bold mb-4">Sản phẩm không tồn tại</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-900 mb-8">
             Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
           </p>
           <Link
@@ -178,7 +178,7 @@ export default function ProductDetailPage() {
     <div className="bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="flex items-center text-sm text-gray-500 mb-6">
+        <div className="flex items-center text-sm text-gray-900 mb-6">
           <Link href="/" className="hover:text-amber-600">
             Trang chủ
           </Link>
@@ -261,7 +261,7 @@ export default function ProductDetailPage() {
                     <span className="text-2xl font-bold text-red-600 mr-2">
                       {formatCurrency(product.discountPrice)}
                     </span>
-                    <span className="text-lg text-gray-400 line-through">
+                    <span className="text-lg text-gray-900 line-through">
                       {formatCurrency(product.price)}
                     </span>
                     {discountPercentage > 0 && (
@@ -278,7 +278,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Short Description */}
-              <div className="mb-6 text-gray-600">
+              <div className="mb-6 text-gray-900">
                 {product.description
                   ? createShortDescription(product.description)
                   : "Không có mô tả ngắn"}
@@ -292,7 +292,7 @@ export default function ProductDetailPage() {
                 <div className="flex items-center">
                   <button
                     onClick={decreaseQuantity}
-                    className="text-gray-500 focus:outline-none focus:text-gray-600 p-2 border rounded-l-md"
+                    className="text-gray-900 focus:outline-none focus:text-gray-900 p-2 border rounded-l-md"
                   >
                     <FiMinus />
                   </button>
@@ -305,7 +305,7 @@ export default function ProductDetailPage() {
                   />
                   <button
                     onClick={increaseQuantity}
-                    className="text-gray-500 focus:outline-none focus:text-gray-600 p-2 border rounded-r-md"
+                    className="text-gray-900 focus:outline-none focus:text-gray-900 p-2 border rounded-r-md"
                   >
                     <FiPlus />
                   </button>
@@ -329,7 +329,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Additional Actions */}
-              <div className="flex space-x-4 text-gray-600">
+              <div className="flex space-x-4 text-gray-900">
                 <button className="flex items-center hover:text-amber-600">
                   <FiHeart className="mr-1" /> Yêu thích
                 </button>
@@ -341,11 +341,11 @@ export default function ProductDetailPage() {
               {/* Product Meta Information */}
               <div className="mt-8 border-t pt-4 space-y-2 text-sm">
                 <div className="flex">
-                  <span className="text-gray-500 w-32">Mã sản phẩm:</span>
+                  <span className="text-gray-900 w-32">Mã sản phẩm:</span>
                   <span className="text-gray-700">{product.sku || "N/A"}</span>
                 </div>
                 <div className="flex">
-                  <span className="text-gray-500 w-32">Danh mục:</span>
+                  <span className="text-gray-900 w-32">Danh mục:</span>
                   <span className="text-gray-700">
                     {product.category ? (
                       <Link
@@ -360,7 +360,7 @@ export default function ProductDetailPage() {
                   </span>
                 </div>
                 <div className="flex">
-                  <span className="text-gray-500 w-32">Trạng thái:</span>
+                  <span className="text-gray-900 w-32">Trạng thái:</span>
                   <span
                     className={
                       product.status === "active"
@@ -431,19 +431,19 @@ export default function ProductDetailPage() {
                     <h3 className="font-semibold mb-3">Thông tin cơ bản</h3>
                     <div className="space-y-2">
                       <div className="grid grid-cols-2 gap-4 py-2 border-b">
-                        <div className="text-gray-600">Xuất xứ</div>
+                        <div className="text-gray-900">Xuất xứ</div>
                         <div>Việt Nam</div>
                       </div>
                       <div className="grid grid-cols-2 gap-4 py-2 border-b">
-                        <div className="text-gray-600">Thương hiệu</div>
+                        <div className="text-gray-900">Thương hiệu</div>
                         <div>YensaoVN</div>
                       </div>
                       <div className="grid grid-cols-2 gap-4 py-2 border-b">
-                        <div className="text-gray-600">Khối lượng</div>
+                        <div className="text-gray-900">Khối lượng</div>
                         <div>100g</div>
                       </div>
                       <div className="grid grid-cols-2 gap-4 py-2 border-b">
-                        <div className="text-gray-600">Hạn sử dụng</div>
+                        <div className="text-gray-900">Hạn sử dụng</div>
                         <div>12 tháng kể từ ngày sản xuất</div>
                       </div>
                     </div>
@@ -466,7 +466,7 @@ export default function ProductDetailPage() {
                     <h3 className="text-lg font-medium mb-2">
                       Đánh giá sản phẩm
                     </h3>
-                    <p className="text-gray-500 mb-4">
+                    <p className="text-gray-900 mb-4">
                       Hiện chưa có đánh giá nào cho sản phẩm này
                     </p>
                     <button className="bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-md">

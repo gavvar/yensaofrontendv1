@@ -691,7 +691,7 @@ export default function EditProductPage() {
                     }`}
                     placeholder="Nhập giá gốc"
                   />
-                  <span className="absolute left-3 top-2 text-gray-500">đ</span>
+                  <span className="absolute left-3 top-2 text-gray-900">đ</span>
                 </div>
                 {errors.price && (
                   <p className="mt-1 text-sm text-red-500">{errors.price}</p>
@@ -717,7 +717,7 @@ export default function EditProductPage() {
                     }`}
                     placeholder="Nhập giá khuyến mãi (nếu có)"
                   />
-                  <span className="absolute left-3 top-2 text-gray-500">đ</span>
+                  <span className="absolute left-3 top-2 text-gray-900">đ</span>
                 </div>
                 {errors.discountPrice && (
                   <p className="mt-1 text-sm text-red-500">
@@ -844,7 +844,7 @@ export default function EditProductPage() {
                   disabled={uploading}
                 />
               </label>
-              <span className="ml-3 text-sm text-gray-500">
+              <span className="ml-3 text-sm text-gray-900">
                 Bạn có thể chọn nhiều ảnh (tối đa 5MB/ảnh)
               </span>
             </div>
@@ -852,7 +852,7 @@ export default function EditProductPage() {
             {uploading && (
               <div className="mb-4 flex items-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-l-2 border-amber-500 mr-2"></div>
-                <span className="text-sm text-gray-500">Đang xử lý ảnh...</span>
+                <span className="text-sm text-gray-900">Đang xử lý ảnh...</span>
               </div>
             )}
 

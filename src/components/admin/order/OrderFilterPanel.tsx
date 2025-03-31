@@ -153,7 +153,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="h-5 w-5 text-gray-400" />
+                <FiSearch className="h-5 w-5 text-gray-900" />
               </div>
               <input
                 type="text"
@@ -233,7 +233,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="h-5 w-5 text-gray-400" />
+                  <FiCalendar className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   type="date"
@@ -256,7 +256,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="h-5 w-5 text-gray-400" />
+                  <FiCalendar className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   type="date"
@@ -358,7 +358,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 sm:text-sm">₫</span>
+                        <span className="text-gray-900 sm:text-sm">₫</span>
                       </div>
                       <input
                         type="number"
@@ -386,7 +386,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 sm:text-sm">₫</span>
+                        <span className="text-gray-900 sm:text-sm">₫</span>
                       </div>
                       <input
                         type="number"
@@ -457,7 +457,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FiPhone className="h-5 w-5 text-gray-400" />
+                        <FiPhone className="h-5 w-5 text-gray-900" />
                       </div>
                       <input
                         type="text"
@@ -509,7 +509,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiMapPin className="h-5 w-5 text-gray-400" />
+                      <FiMapPin className="h-5 w-5 text-gray-900" />
                     </div>
                     <input
                       type="text"

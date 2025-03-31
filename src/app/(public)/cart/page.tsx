@@ -135,7 +135,7 @@ export default function CartPage() {
             <FiShoppingBag size={40} className="text-amber-600" />
           </div>
           <h1 className="text-2xl font-bold mb-4">Giỏ hàng trống</h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-900 mb-8">
             Bạn chưa có sản phẩm nào trong giỏ hàng. Hãy khám phá các sản phẩm
             của chúng tôi.
           </p>
@@ -224,7 +224,7 @@ export default function CartPage() {
                         {item.product.name}
                       </Link>
                       <div className="text-sm mt-1">
-                        <div className="text-gray-500">
+                        <div className="text-gray-900">
                           Đơn giá:{" "}
                           {formatCurrency(
                             item.product.discountPrice || item.product.price
@@ -257,7 +257,7 @@ export default function CartPage() {
                             </button>
                           </div>
                         ) : (
-                          <div className="mt-2 flex items-center text-gray-500">
+                          <div className="mt-2 flex items-center text-gray-900">
                             {item.notes ? (
                               <>
                                 <span className="line-clamp-1">
@@ -296,7 +296,7 @@ export default function CartPage() {
                       onClick={() =>
                         handleQuantityChange(item.id, item.quantity - 1)
                       }
-                      className="text-gray-500 hover:text-amber-600"
+                      className="text-gray-900 hover:text-amber-600"
                     >
                       <FiMinusCircle size={18} />
                     </button>
@@ -313,7 +313,7 @@ export default function CartPage() {
                       onClick={() =>
                         handleQuantityChange(item.id, item.quantity + 1)
                       }
-                      className="text-gray-500 hover:text-amber-600"
+                      className="text-gray-900 hover:text-amber-600"
                     >
                       <FiPlusCircle size={18} />
                     </button>
@@ -329,7 +329,7 @@ export default function CartPage() {
                 <div className="col-span-1 text-right">
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="text-gray-400 hover:text-red-500"
+                    className="text-gray-900 hover:text-red-500"
                     title="Xóa sản phẩm"
                   >
                     <FiTrash2 size={18} />
@@ -349,19 +349,19 @@ export default function CartPage() {
 
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
-                <span className="text-gray-600">
+                <span className="text-gray-900">
                   Số lượng sản phẩm đã chọn:
                 </span>
                 <span className="font-medium">{selectedItemsCount}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Tổng tiền:</span>
+                <span className="text-gray-900">Tổng tiền:</span>
                 <span className="font-medium">
                   {formatCurrency(selectedItemsTotal)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Phí vận chuyển:</span>
+                <span className="text-gray-900">Phí vận chuyển:</span>
                 <span className="font-medium">Miễn phí</span>
               </div>
             </div>

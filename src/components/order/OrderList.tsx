@@ -162,7 +162,7 @@ const OrderList: React.FC<OrderListProps> = ({
       {/* Filter and actions row */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 bg-white p-4 rounded-lg shadow-sm">
         <div className="flex items-center mb-4 sm:mb-0">
-          <FiFilter className="mr-2 text-gray-500" />
+          <FiFilter className="mr-2 text-gray-900" />
           <label htmlFor="status-filter" className="text-sm text-gray-700 mr-2">
             Lọc theo trạng thái:
           </label>
@@ -236,7 +236,7 @@ const OrderList: React.FC<OrderListProps> = ({
       {!loading && !error && orders.length === 0 && (
         <div className="bg-white p-8 rounded-lg shadow-sm text-center">
           <svg
-            className="mx-auto h-12 w-12 text-gray-400"
+            className="mx-auto h-12 w-12 text-gray-900"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -252,7 +252,7 @@ const OrderList: React.FC<OrderListProps> = ({
           <h3 className="mt-2 text-sm font-medium text-gray-900">
             Không có đơn hàng nào
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-900">
             {filter.orderStatus
               ? `Bạn chưa có đơn hàng nào ở trạng thái "${
                   orderStatuses.find((s) => s.value === filter.orderStatus)
@@ -281,7 +281,7 @@ const OrderList: React.FC<OrderListProps> = ({
 
       {/* Orders count */}
       {!loading && !error && orders.length > 0 && (
-        <div className="text-sm text-gray-500 text-center mt-4">
+        <div className="text-sm text-gray-900 text-center mt-4">
           Hiển thị{" "}
           {Math.min((currentPage - 1) * (filter.limit || 10) + 1, totalOrders)}-
           {Math.min(currentPage * (filter.limit || 10), totalOrders)} trên{" "}

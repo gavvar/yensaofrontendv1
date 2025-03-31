@@ -49,7 +49,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
       // Redirect to login if not authenticated
       if (!isAuthenticated) {
         toast.error("Vui lòng đăng nhập để xem chi tiết đơn hàng");
-        router.push(`/login?redirect=/orders/${id}`);
+        router.push(`/login?redirect=/account/orders/${id}`);
         return;
       }
 
@@ -120,7 +120,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
       {/* Back button */}
       <div className="mb-6">
         <Link
-          href="/orders"
+          href="/account/orders" // Thêm /account/
           className="inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800"
         >
           <FiArrowLeft className="mr-1" />
@@ -134,7 +134,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
           <h1 className="text-2xl font-bold text-gray-900">
             Chi tiết đơn hàng
           </h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-900">
             Xem thông tin chi tiết và trạng thái đơn hàng
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
           <p className="font-medium">Đã xảy ra lỗi</p>
           <p>{error}</p>
           <button
-            onClick={() => router.push("/orders")}
+            onClick={() => router.push("/account/orders")} // Thêm /account/
             className="mt-2 bg-white text-red-600 px-4 py-2 rounded border border-red-300 hover:bg-red-50"
           >
             Quay lại danh sách đơn hàng
@@ -172,16 +172,16 @@ export default function OrderDetailPage({ params }: OrderDetailPageProps) {
       ) : !order ? (
         <div className="bg-white shadow-sm rounded-lg p-8 text-center">
           <div className="flex justify-center mb-4">
-            <FiShoppingBag className="h-16 w-16 text-gray-400" />
+            <FiShoppingBag className="h-16 w-16 text-gray-900" />
           </div>
           <h2 className="text-xl font-semibold mb-2">
             Không tìm thấy đơn hàng
           </h2>
-          <p className="text-gray-500 mb-6">
+          <p className="text-gray-900 mb-6">
             Đơn hàng này không tồn tại hoặc bạn không có quyền xem.
           </p>
           <button
-            onClick={() => router.push("/orders")}
+            onClick={() => router.push("/account/orders")} // Thêm /account/
             className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-md transition-colors"
           >
             Quay lại danh sách đơn hàng

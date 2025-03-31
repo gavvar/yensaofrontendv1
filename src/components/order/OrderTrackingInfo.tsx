@@ -73,7 +73,7 @@ const OrderTrackingInfo: React.FC<OrderTrackingInfoProps> = ({
           <div className="space-y-3">
             {/* Tracking number */}
             <div>
-              <p className="text-sm text-gray-600">Mã vận đơn:</p>
+              <p className="text-sm text-gray-900">Mã vận đơn:</p>
               <div className="mt-1 flex items-center">
                 <span className="font-medium text-gray-800">
                   {trackingNumber}
@@ -95,7 +95,7 @@ const OrderTrackingInfo: React.FC<OrderTrackingInfoProps> = ({
             {/* Shipping provider */}
             {shippingProvider && (
               <div>
-                <p className="text-sm text-gray-600">Đơn vị vận chuyển:</p>
+                <p className="text-sm text-gray-900">Đơn vị vận chuyển:</p>
                 <p className="mt-1 font-medium text-gray-800 flex items-center">
                   <FiPackage className="mr-2" />
                   {shippingProvider}
@@ -106,7 +106,7 @@ const OrderTrackingInfo: React.FC<OrderTrackingInfoProps> = ({
             {/* Estimated delivery date */}
             {estimatedDeliveryDate && (
               <div>
-                <p className="text-sm text-gray-600">Dự kiến giao hàng:</p>
+                <p className="text-sm text-gray-900">Dự kiến giao hàng:</p>
                 <p className="mt-1 font-medium text-gray-800 flex items-center">
                   <FiCalendar className="mr-2" />
                   {formatDateTime(estimatedDeliveryDate, "short")}

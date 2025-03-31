@@ -65,7 +65,7 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
                 <p className="text-2xl font-bold text-amber-600">
                   {avgProcessingHours.toFixed(1)} giờ
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-900 mt-1">
                   Từ lúc đặt hàng đến khi giao hàng thành công
                 </p>
               </div>
@@ -95,7 +95,7 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-500">
+            <p className="text-gray-900">
               Không có dữ liệu trạng thái đơn hàng
             </p>
           </div>

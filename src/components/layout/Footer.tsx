@@ -20,7 +20,7 @@ export default function Footer() {
           {/* About Company */}
           <div>
             <h3 className="text-xl font-bold mb-4 text-amber-500">YẾN SÀO</h3>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-900 mb-6">
               Chuyên cung cấp các sản phẩm yến sào chất lượng cao, nguồn gốc rõ
               ràng, đảm bảo dinh dưỡng và an toàn cho sức khỏe gia đình bạn.
             </p>
@@ -71,7 +71,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/products"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Sản phẩm
                 </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/products/raw-nest"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Yến thô
                 </Link>
@@ -87,7 +87,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/products/processed-nest"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Yến tinh chế
                 </Link>
@@ -95,7 +95,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/products/ready-to-eat"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Yến chưng sẵn
                 </Link>
@@ -103,7 +103,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Về chúng tôi
                 </Link>
@@ -111,7 +111,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300 flex items-center"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300 flex items-center"
                 >
                   <span className="mr-2">›</span>Liên hệ
                 </Link>
@@ -125,7 +125,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <FiMapPin className="text-amber-500 mt-1.5 mr-3 flex-shrink-0" />
-                <span className="text-gray-400">
+                <span className="text-gray-900">
                   123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh
                 </span>
               </li>
@@ -133,7 +133,7 @@ export default function Footer() {
                 <FiPhone className="text-amber-500 mr-3 flex-shrink-0" />
                 <a
                   href="tel:0901234567"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300"
                 >
                   090 123 4567
                 </a>
@@ -142,7 +142,7 @@ export default function Footer() {
                 <FiMail className="text-amber-500 mr-3 flex-shrink-0" />
                 <a
                   href="mailto:info@yensao.vn"
-                  className="text-gray-400 hover:text-amber-500 transition duration-300"
+                  className="text-gray-900 hover:text-amber-500 transition duration-300"
                 >
                   info@yensao.vn
                 </a>
@@ -153,7 +153,7 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Đăng ký nhận tin</h3>
-            <p className="text-gray-400 mb-4">
+            <p className="text-gray-900 mb-4">
               Nhận thông tin về sản phẩm mới, khuyến mãi và bài viết hữu ích về
               yến sào
             </p>
@@ -172,7 +172,7 @@ export default function Footer() {
                   Đăng ký
                 </button>
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-900">
                 * Chúng tôi sẽ không gửi spam. Xem chính sách bảo mật của chúng
                 tôi.
               </p>
@@ -185,25 +185,25 @@ export default function Footer() {
 
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-900 text-sm">
             © {currentYear} YẾN SÀO. Tất cả quyền được bảo lưu.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link
               href="/privacy-policy"
-              className="text-gray-500 hover:text-amber-500 text-sm transition duration-300"
+              className="text-gray-900 hover:text-amber-500 text-sm transition duration-300"
             >
               Chính sách bảo mật
             </Link>
             <Link
               href="/terms"
-              className="text-gray-500 hover:text-amber-500 text-sm transition duration-300"
+              className="text-gray-900 hover:text-amber-500 text-sm transition duration-300"
             >
               Điều khoản sử dụng
             </Link>
             <Link
               href="/shipping-policy"
-              className="text-gray-500 hover:text-amber-500 text-sm transition duration-300"
+              className="text-gray-900 hover:text-amber-500 text-sm transition duration-300"
             >
               Chính sách vận chuyển
             </Link>

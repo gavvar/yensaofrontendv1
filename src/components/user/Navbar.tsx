@@ -314,7 +314,7 @@ export default function Navbar() {
                       </Link>
 
                       <Link
-                        href="/orders"
+                        href="/account/orders"
                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
                       >
                         <FiPackage className="mr-3" size={16} />
@@ -469,7 +469,7 @@ export default function Navbar() {
 
                 {/* Categories */}
                 <div className="pl-4 border-t pt-2 mt-2">
-                  <p className="text-sm text-gray-500 mb-1">
+                  <p className="text-sm text-gray-900 mb-1">
                     Danh mục sản phẩm:
                   </p>
                   {categories.map((category) => (

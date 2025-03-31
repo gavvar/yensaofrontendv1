@@ -93,7 +93,7 @@ export default function RegisterPage() {
           <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             Đăng ký tài khoản
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          <p className="mt-2 text-center text-sm text-gray-900">
             Hoặc{" "}
             <Link
               href="/login"
@@ -121,7 +121,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiUser className="h-5 w-5 text-gray-400" />
+                  <FiUser className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   id="fullName"
@@ -154,7 +154,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="h-5 w-5 text-gray-400" />
+                  <FiMail className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   id="email-address"
@@ -188,7 +188,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-gray-400" />
+                  <FiLock className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   id="password"
@@ -208,7 +208,7 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                    className="text-gray-900 hover:text-gray-900 focus:outline-none"
                   >
                     {showPassword ? (
                       <FiEyeOff className="h-5 w-5" />
@@ -234,7 +234,7 @@ export default function RegisterPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-gray-400" />
+                  <FiLock className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   id="confirmPassword"
@@ -254,7 +254,7 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                    className="text-gray-900 hover:text-gray-900 focus:outline-none"
                   >
                     {showConfirmPassword ? (
                       <FiEyeOff className="h-5 w-5" />

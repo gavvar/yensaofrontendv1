@@ -30,7 +30,7 @@ const SectionTitle = ({
 }) => (
   <div className="text-center mb-10">
     <h2 className="text-3xl font-bold mb-3">{title}</h2>
-    <p className="text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
+    <p className="text-gray-900 max-w-2xl mx-auto">{subtitle}</p>
   </div>
 );
 
@@ -185,7 +185,7 @@ export default function HomePage() {
                     className="bg-white shadow-md rounded-lg p-4 border border-gray-100"
                   >
                     <div className="bg-gray-100 h-64 rounded-md flex items-center justify-center mb-4">
-                      <span className="text-gray-400">Hình ảnh sản phẩm</span>
+                      <span className="text-gray-900">Hình ảnh sản phẩm</span>
                     </div>
                     <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
                     <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
@@ -260,7 +260,7 @@ export default function HomePage() {
                       <h3 className="text-xl font-semibold mb-2">
                         {category.name}
                       </h3>
-                      <p className="text-gray-600 mb-4">
+                      <p className="text-gray-900 mb-4">
                         {category.description || "Khám phá sản phẩm chất lượng"}
                       </p>
                       <Link
@@ -274,7 +274,7 @@ export default function HomePage() {
                 ))
               ) : (
                 <div className="col-span-3 text-center py-10">
-                  <p className="text-gray-500">Không có danh mục nào</p>
+                  <p className="text-gray-900">Không có danh mục nào</p>
                 </div>
               )}
             </div>
@@ -298,12 +298,12 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold mb-4">
               Về Yến Sào Của Chúng Tôi
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-900 mb-4">
               Chúng tôi tự hào mang đến những sản phẩm yến sào chất lượng cao,
               được thu hoạch và chế biến theo quy trình nghiêm ngặt, đảm bảo giữ
               nguyên giá trị dinh dưỡng và hương vị tự nhiên.
             </p>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-900 mb-6">
               Với hơn 10 năm kinh nghiệm trong lĩnh vực yến sào, chúng tôi cam
               kết mang đến những sản phẩm chất lượng, an toàn và giàu dinh dưỡng
               cho sức khỏe của bạn và gia đình.
@@ -359,7 +359,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-600">
+                  <p className="text-gray-900">
                     Sản phẩm yến sào chất lượng, giao hàng nhanh chóng. Tôi rất
                     hài lòng với dịch vụ và sẽ tiếp tục ủng hộ.
                   </p>

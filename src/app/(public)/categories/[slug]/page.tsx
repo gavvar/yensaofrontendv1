@@ -102,7 +102,7 @@ export default function CategoryPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center text-sm text-gray-500 mb-6">
+      <div className="flex items-center text-sm text-gray-900 mb-6">
         <Link href="/" className="hover:text-amber-600">
           Trang chủ
         </Link>
@@ -121,7 +121,7 @@ export default function CategoryPage() {
         <h1 className="text-3xl font-bold mb-2">
           {loading ? "Đang tải..." : category?.name || "Danh mục sản phẩm"}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-900">
           {category?.description ||
             "Khám phá các sản phẩm yến sào chất lượng cao"}
         </p>
@@ -133,7 +133,7 @@ export default function CategoryPage() {
         <div className="lg:hidden flex justify-between items-center mb-4">
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="flex items-center text-gray-600 hover:text-amber-600"
+            className="flex items-center text-gray-900 hover:text-amber-600"
           >
             {isFilterOpen ? (
               <>
@@ -147,7 +147,7 @@ export default function CategoryPage() {
           </button>
 
           <div className="flex items-center">
-            <span className="text-sm text-gray-500 mr-2">Sắp xếp:</span>
+            <span className="text-sm text-gray-900 mr-2">Sắp xếp:</span>
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
@@ -169,7 +169,9 @@ export default function CategoryPage() {
           }`}
         >
           <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3">Sắp xếp</h3>
+            <h3 className="text-lg text-gray-900 font-semibold mb-3">
+              Sắp xếp
+            </h3>
             <div className="space-y-2">
               <div className="flex items-center">
                 <input
@@ -325,13 +327,13 @@ export default function CategoryPage() {
         <div className="lg:w-3/4">
           {/* Sort dropdown (desktop) */}
           <div className="hidden lg:flex justify-between items-center mb-6">
-            <p className="text-gray-500">
+            <p className="text-gray-900">
               {loading
                 ? "Đang tải sản phẩm..."
                 : `Hiển thị ${filteredProducts.length} sản phẩm`}
             </p>
             <div className="flex items-center">
-              <span className="text-sm text-gray-500 mr-2">Sắp xếp:</span>
+              <span className="text-sm text-gray-900 mr-2">Sắp xếp:</span>
               <select
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
@@ -380,7 +382,7 @@ export default function CategoryPage() {
                       disabled={pagination.page === 1}
                       className={`px-3 py-1 rounded ${
                         pagination.page === 1
-                          ? "text-gray-400 cursor-not-allowed"
+                          ? "text-gray-900 cursor-not-allowed"
                           : "text-gray-700 hover:bg-amber-100"
                       }`}
                     >
@@ -406,7 +408,7 @@ export default function CategoryPage() {
                       disabled={pagination.page === pagination.totalPages}
                       className={`px-3 py-1 rounded ${
                         pagination.page === pagination.totalPages
-                          ? "text-gray-400 cursor-not-allowed"
+                          ? "text-gray-900 cursor-not-allowed"
                           : "text-gray-700 hover:bg-amber-100"
                       }`}
                     >
@@ -418,7 +420,7 @@ export default function CategoryPage() {
             </>
           ) : (
             <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-gray-500 mb-4">
+              <p className="text-gray-900 mb-4">
                 Không tìm thấy sản phẩm nào trong danh mục này với bộ lọc hiện
                 tại.
               </p>

@@ -79,7 +79,7 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({
   const renderIcon = (icon: ReactElement, isCompleted: boolean) => {
     // Thêm type assertion cho props để giải quyết lỗi
     return React.cloneElement(icon, {
-      className: `h-5 w-5 ${isCompleted ? "text-amber-600" : "text-gray-400"}`,
+      className: `h-5 w-5 ${isCompleted ? "text-amber-600" : "text-gray-900"}`,
     } as React.SVGProps<SVGSVGElement>); // Xác định kiểu props chính xác
   };
 
@@ -131,15 +131,15 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({
               // Styles dựa trên trạng thái
               const stepColor = isCompleted
                 ? "text-amber-600 border-amber-600 bg-amber-100"
-                : "text-gray-400 border-gray-200 bg-gray-100";
+                : "text-gray-900 border-gray-200 bg-gray-100";
 
-              const textColor = isCompleted ? "text-gray-900" : "text-gray-500";
+              const textColor = isCompleted ? "text-gray-900" : "text-gray-900";
 
               const labelColor = isCurrent
                 ? "font-semibold text-amber-700"
                 : isCompleted
                 ? "font-medium text-gray-900"
-                : "font-medium text-gray-500";
+                : "font-medium text-gray-900";
 
               return (
                 <div

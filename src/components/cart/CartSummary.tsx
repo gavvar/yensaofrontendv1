@@ -39,7 +39,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
       <div className={`bg-white rounded-lg shadow-sm p-4 ${className}`}>
-        <p className="text-gray-500 text-center">Giỏ hàng của bạn đang trống</p>
+        <p className="text-gray-900 text-center">Giỏ hàng của bạn đang trống</p>
       </div>
     );
   }
@@ -50,12 +50,12 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
       {/* Hiển thị thông tin số lượng sản phẩm */}
       <div className="flex justify-between mb-2">
-        <span className="text-gray-600">
+        <span className="text-gray-900">
           {showCheckoutItems
             ? `Sản phẩm thanh toán (${totalSelectedItems})`
             : `Tổng sản phẩm (${cart.items.length})`}
         </span>
-        <span className="text-gray-600">
+        <span className="text-gray-900">
           {showCheckoutItems
             ? totalSelectedQuantity
             : cart.items.reduce((sum, item) => sum + item.quantity, 0)}{" "}
@@ -72,7 +72,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
                 <p className="text-sm text-gray-700 line-clamp-1">
                   {item.product.name}
                 </p>
-                <p className="text-xs text-gray-500">SL: {item.quantity}</p>
+                <p className="text-xs text-gray-900">SL: {item.quantity}</p>
               </div>
               <span className="text-sm font-medium">
                 {formatCurrency(item.product.price * item.quantity)}
@@ -84,7 +84,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
 
       {/* Tổng tiền sản phẩm */}
       <div className="flex justify-between mb-2">
-        <span className="text-gray-600">Tạm tính</span>
+        <span className="text-gray-900">Tạm tính</span>
         <span className="font-medium">{formatCurrency(subtotal)}</span>
       </div>
 
@@ -99,7 +99,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({
       </div>
 
       {/* Thông báo mô tả */}
-      <p className="text-xs text-gray-500 mt-4">
+      <p className="text-xs text-gray-900 mt-4">
         Đã bao gồm thuế VAT (nếu có). Phí vận chuyển sẽ được tính ở trang thanh
         toán.
       </p>

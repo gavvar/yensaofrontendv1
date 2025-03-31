@@ -199,7 +199,7 @@ export default function OrderTrackingPage() {
                   className={`w-10 h-10 rounded-full flex items-center justify-center ${
                     currentIndex >= index
                       ? "bg-amber-600 text-white"
-                      : "bg-gray-200 text-gray-500"
+                      : "bg-gray-200 text-gray-900"
                   }`}
                 >
                   <step.icon className="h-5 w-5" />
@@ -208,7 +208,7 @@ export default function OrderTrackingPage() {
                   className={`mt-2 text-xs text-center ${
                     currentIndex >= index
                       ? "text-amber-600 font-medium"
-                      : "text-gray-500"
+                      : "text-gray-900"
                   }`}
                 >
                   {step.label}
@@ -269,7 +269,7 @@ export default function OrderTrackingPage() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiPackage className="text-gray-400" />
+                  <FiPackage className="text-gray-900" />
                 </div>
                 <input
                   type="text"
@@ -285,7 +285,7 @@ export default function OrderTrackingPage() {
 
             <div className="relative flex items-center my-8">
               <div className="flex-grow border-t border-gray-300"></div>
-              <span className="flex-shrink mx-4 text-gray-400 text-sm">
+              <span className="flex-shrink mx-4 text-gray-900 text-sm">
                 HOẶC
               </span>
               <div className="flex-grow border-t border-gray-300"></div>
@@ -301,7 +301,7 @@ export default function OrderTrackingPage() {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FiSearch className="text-gray-400" />
+                    <FiSearch className="text-gray-900" />
                   </div>
                   <input
                     type="text"
@@ -395,7 +395,7 @@ export default function OrderTrackingPage() {
               <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between">
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500">
+                    <h3 className="text-sm font-medium text-gray-900">
                       Mã đơn hàng
                     </h3>
                     <p className="text-lg font-semibold">
@@ -404,7 +404,7 @@ export default function OrderTrackingPage() {
                   </div>
 
                   <div className="mt-4 sm:mt-0">
-                    <h3 className="text-sm font-medium text-gray-500">
+                    <h3 className="text-sm font-medium text-gray-900">
                       Ngày đặt hàng
                     </h3>
                     <p className="text-base">
@@ -414,7 +414,7 @@ export default function OrderTrackingPage() {
 
                   {trackingResult.order.trackingNumber && (
                     <div className="mt-4 sm:mt-0">
-                      <h3 className="text-sm font-medium text-gray-500">
+                      <h3 className="text-sm font-medium text-gray-900">
                         Mã vận đơn
                       </h3>
                       <p className="text-base">
@@ -474,12 +474,12 @@ export default function OrderTrackingPage() {
                                       {event.status}
                                     </p>
                                     {event.description && (
-                                      <p className="text-sm text-gray-500">
+                                      <p className="text-sm text-gray-900">
                                         {event.description}
                                       </p>
                                     )}
                                   </div>
-                                  <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                                  <div className="text-right text-sm whitespace-nowrap text-gray-900">
                                     {event.location && <p>{event.location}</p>}
                                     <time dateTime={event.timestamp}>
                                       {formatDate(event.timestamp)}
@@ -501,21 +501,21 @@ export default function OrderTrackingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500">
+                    <h4 className="text-sm font-medium text-gray-900">
                       Người nhận
                     </h4>
                     <p className="mt-1">{trackingResult.order.customerName}</p>
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500">
+                    <h4 className="text-sm font-medium text-gray-900">
                       Số điện thoại
                     </h4>
                     <p className="mt-1">{trackingResult.order.customerPhone}</p>
                   </div>
 
                   <div className="md:col-span-2">
-                    <h4 className="text-sm font-medium text-gray-500">
+                    <h4 className="text-sm font-medium text-gray-900">
                       Địa chỉ giao hàng
                     </h4>
                     <p className="mt-1">
@@ -528,7 +528,7 @@ export default function OrderTrackingPage() {
               {/* Action buttons */}
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
-                  <p className="text-sm text-gray-500 mb-4 sm:mb-0">
+                  <p className="text-sm text-gray-900 mb-4 sm:mb-0">
                     Có vấn đề với đơn hàng? Vui lòng liên hệ với chúng tôi qua
                     số hotline 1900 1234.
                   </p>

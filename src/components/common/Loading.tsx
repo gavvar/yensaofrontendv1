@@ -1,10 +1,22 @@
-export default function Loading() {
+import React from "react";
+
+interface LoadingProps {
+  message?: string;
+  className?: string;
+}
+
+const Loading: React.FC<LoadingProps> = ({
+  message = "Đang tải...",
+  className = "",
+}) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80 z-50">
-      <div className="relative">
-        <div className="h-16 w-16 rounded-full border-4 border-amber-200 border-t-amber-600 animate-spin"></div>
-        <p className="mt-4 text-amber-600 font-medium">Đang tải...</p>
-      </div>
+    <div
+      className={`flex flex-col items-center justify-center py-8 ${className}`}
+    >
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mb-4"></div>
+      <p className="text-gray-900">{message}</p>
     </div>
   );
-}
+};
+
+export default Loading;

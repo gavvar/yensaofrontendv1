@@ -1,29 +1,38 @@
-import React from "react";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+import React, { useMemo } from "react";
 import {
-  LineChart,
-  Line,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ResponsiveContainer,
+  TooltipProps,
 } from "recharts";
+import { FiCalendar } from "react-icons/fi";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { formatCurrency } from "@/utils/format";
+import { RevenueData } from "@/types/stats";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 
-interface RevenueData {
-  date: string;
-  revenue: number;
-  orderCount: number;
-  formattedDate: string;
-}
+// Định nghĩa kiểu cụ thể cho groupBy
+type GroupByType = "day" | "week" | "month";
 
 interface RevenueChartProps {
   data: RevenueData[];
   loading: boolean;
-  groupBy: "day" | "week" | "month";
-  onGroupByChange: (groupBy: "day" | "week" | "month") => void;
+  groupBy: GroupByType;
+  onGroupByChange: (groupBy: GroupByType) => void;
+}
+
+// Định nghĩa type cho dữ liệu chart sau khi đã format
+interface ChartDataItem extends RevenueData {
+  formattedDate: string;
+  totalAmountFormatted: string;
 }
 
 const RevenueChart: React.FC<RevenueChartProps> = ({
@@ -32,17 +41,47 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
   groupBy,
   onGroupByChange,
 }) => {
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  // Format date for display
+  const chartData = useMemo(() => {
+    return data.map((item) => ({
+      ...item,
+      formattedDate: formatDate(item.date, groupBy),
+      totalAmountFormatted: formatCurrency(item.totalAmount),
+    }));
+  }, [data, groupBy]);
+
+  // Hàm format ngày dựa trên groupBy
+  function formatDate(dateString: string, groupType: string): string {
+    try {
+      const date = new Date(dateString);
+      switch (groupType) {
+        case "day":
+          return format(date, "dd/MM/yyyy", { locale: vi });
+        case "week":
+          return format(date, "'Tuần' w, yyyy", { locale: vi });
+        case "month":
+          return format(date, "MM/yyyy", { locale: vi });
+        default:
+          return format(date, "dd/MM/yyyy", { locale: vi });
+      }
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return dateString;
+    }
+  }
+
+  // Custom tooltip with proper TypeScript typing
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: TooltipProps<ValueType, NameType>) => {
     if (active && payload && payload.length) {
+      const data = payload[0].payload as ChartDataItem;
       return (
-        <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md">
-          <p className="font-medium">{payload[0].payload.formattedDate}</p>
-          <p className="text-[#4CAF50]">
-            Doanh thu: {payload[0].value.toLocaleString("vi-VN")} VNĐ
-          </p>
-          <p className="text-[#2196F3]">
-            Số đơn: {payload[0].payload.orderCount}
+        <div className="bg-white p-4 border border-gray-200 shadow-md rounded-md">
+          <p className="font-medium">{data.formattedDate}</p>
+          <p className="text-amber-600 font-medium mt-2">
+            {formatCurrency(payload[0].value as number)}
           </p>
         </div>
       );
@@ -51,92 +90,76 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-      <div className="p-6 border-b border-gray-100">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">
-            Doanh thu theo thời gian
-          </h2>
+    <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">Doanh thu</h2>
+          <p className="text-sm text-gray-900">
+            Biểu đồ doanh thu theo thời gian
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-2 mt-3 sm:mt-0">
-            <button
-              onClick={() => onGroupByChange("day")}
-              className={`px-3 py-1 rounded-md text-xs font-medium ${
-                groupBy === "day"
-                  ? "bg-amber-600 text-white"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-              }`}
+        <div className="flex items-center space-x-2">
+          <div className="relative">
+            <select
+              value={groupBy}
+              onChange={(e) => {
+                // Ép kiểu để đảm bảo giá trị thuộc GroupByType
+                const value = e.target.value as GroupByType;
+                onGroupByChange(value);
+              }}
+              className="appearance-none bg-white border border-gray-300 rounded-md py-1.5 pl-3 pr-8 text-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"
             >
-              Ngày
-            </button>
-            <button
-              onClick={() => onGroupByChange("week")}
-              className={`px-3 py-1 rounded-md text-xs font-medium ${
-                groupBy === "week"
-                  ? "bg-amber-600 text-white"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              Tuần
-            </button>
-            <button
-              onClick={() => onGroupByChange("month")}
-              className={`px-3 py-1 rounded-md text-xs font-medium ${
-                groupBy === "month"
-                  ? "bg-amber-600 text-white"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              Tháng
-            </button>
+              <option value="day">Theo ngày</option>
+              <option value="week">Theo tuần</option>
+              <option value="month">Theo tháng</option>
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <FiCalendar className="h-4 w-4 text-gray-900" />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="p-6">
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500"></div>
-          </div>
-        ) : data.length > 0 ? (
-          <div className="h-64 md:h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="formattedDate"
-                  tick={{ fontSize: 12 }}
-                  tickMargin={10}
-                />
-                <YAxis
-                  tick={{ fontSize: 12 }}
-                  tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
-                />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#4CAF50"
-                  name="Doanh thu"
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <div className="flex justify-center items-center h-64">
-            <p className="text-gray-500">
-              Không có dữ liệu cho khoảng thời gian này
-            </p>
-          </div>
-        )}
-      </div>
+      {loading ? (
+        <div className="h-64 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500"></div>
+        </div>
+      ) : data.length > 0 ? (
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="formattedDate"
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "#E5E7EB" }}
+              />
+              <YAxis
+                tickFormatter={(value) => `${value.toLocaleString()}đ`}
+                tick={{ fontSize: 12 }}
+                tickLine={false}
+                axisLine={{ stroke: "#E5E7EB" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar
+                dataKey="totalAmount"
+                fill="#F59E0B"
+                radius={[4, 4, 0, 0]}
+                maxBarSize={50}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      ) : (
+        <div className="h-64 flex items-center justify-center text-gray-900">
+          Không có dữ liệu doanh thu trong thời gian này
+        </div>
+      )}
     </div>
   );
 };

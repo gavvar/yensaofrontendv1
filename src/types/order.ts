@@ -162,14 +162,19 @@ export interface CreateOrderResponse {
 
 // Response khi xác thực mã giảm giá
 export interface CouponResponse {
-  success: boolean;
   valid: boolean;
-  code: string;
-  discountType: "percentage" | "fixed";
-  discountValue: number;
-  discount: number;
-  maxDiscount?: number;
-  message?: string;
+  coupon?: {
+    id: number;
+    code: string;
+    type: "percentage" | "fixed_amount";
+    value: number;
+    minOrderValue: number;
+    maxDiscount: number | null;
+  };
+  discountAmount: number;
+  message: string;
+  cartTotal?: number;
+  finalTotal?: number;
 }
 
 // Request cập nhật thông tin đơn hàng

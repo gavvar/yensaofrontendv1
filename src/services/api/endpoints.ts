@@ -15,19 +15,15 @@ export const API_ENDPOINTS = {
     CHANGE_PASSWORD: "/auth/change-password",
   },
 
-  // User endpoints
+  // User endpoints - đã cập nhật theo API backend thực tế
   USER: {
     PROFILE: "/users/profile",
     UPDATE_PROFILE: "/users/profile",
-    CHANGE_PASSWORD: "/users/change-password",
-    LIST: "/users",
-    DETAIL: (id: string | number) => `/users/${id}`,
-    STATS: "/users/stats",
-    ADDRESSES: "/users/addresses",
-    ADDRESS_DETAIL: (id: string) => `/users/addresses/${id}`,
-    SET_DEFAULT_ADDRESS: (id: string) => `/users/addresses/${id}/default`,
-    ORDERS: "/users/orders",
-    ORDER_DETAIL: (id: string) => `/users/orders/${id}`,
+    CHANGE_PASSWORD: "/auth/change-password", // Đã chuyển sang endpoint AUTH
+    LIST: "/users", // Admin route để lấy danh sách user
+    DETAIL: (id: string | number) => `/users/${id}`, // Để lấy chi tiết user (admin)
+    STATS: "/users/stats", // Thống kê người dùng cho admin
+    DELETE: (id: string | number) => `/users/${id}`, // Xóa người dùng (admin)
   },
 
   // Product endpoints
@@ -48,15 +44,16 @@ export const API_ENDPOINTS = {
       `/products/${productId}/images/${imageId}/thumbnail`,
   },
 
-  // Category endpoints
+  // Category endpoints - đã cập nhật đúng với backend
   CATEGORY: {
     LIST: "/categories",
     DETAIL: (id: string) => `/categories/${id}`,
-    BY_SLUG: "/categories/slug", // Đường dẫn cơ bản không chứa placeholder
+    BY_SLUG: (slug: string) => `/categories/${slug}`, // Đã sửa thành tham số động
     CREATE: "/categories",
     UPDATE: (id: number) => `/categories/${id}`,
     DELETE: (id: number) => `/categories/${id}`,
-    ROOT: "/categories/root",
+
+    REORDER: "/categories/reorder", // Thêm endpoint mới
   },
 
   // Order endpoints - cập nhật đầy đủ
@@ -91,21 +88,25 @@ export const API_ENDPOINTS = {
     CALCULATE_FEE: "/shipping/calculate-fee",
   },
 
-  // Payment endpoints - thêm mới
+  // Payment endpoints - đã cập nhật đúng với backend
   PAYMENT: {
-    METHODS: "/payments/methods",
-    CREATE: "/payments",
-    PROCESS: "/payments/process",
-    VERIFY: "/payments/verify",
-    CALLBACK: "/payments/callback", //
+    METHODS: "/payment/methods",
+    CREATE: "/payment",
+    PROCESS: "/payment/process", // Thêm endpoint mới có trong backend
+    VERIFY: "/payment/verify", // Thêm endpoint mới có trong backend
+    CALLBACK: (provider: string) => `/payment/callback/${provider}`, // Sửa để phù hợp với backend
+    STATUS: "/payment/status", // Thêm endpoint này
   },
 
-  // Thêm COUPON endpoints
+  // Cập nhật COUPON endpoints
   COUPON: {
     VALIDATE: "/coupons/validate",
     APPLY: "/coupons/apply",
     LIST: "/coupons",
     DETAIL: (id: number) => `/coupons/${id}`,
+    CREATE: "/coupons",
+    UPDATE: (id: number) => `/coupons/${id}`,
+    DELETE: (id: number) => `/coupons/${id}`,
   },
 
   // Statistics endpoints
@@ -141,8 +142,7 @@ export const API_ENDPOINTS = {
       // Thêm các endpoints còn thiếu
       HISTORY: (id: number) => `/orders/${id}/history`,
       UPDATE_STATUS: (id: number) => `/orders/${id}/status`,
-      UPDATE_PAYMENT_STATUS: (id: number) =>
-        `/admin/orders/${id}/payment-status`,
+      UPDATE_PAYMENT_STATUS: (id: number) => `/orders/${id}/payment-status`,
       UPDATE_PAYMENT_INFO: (id: number) => `/orders/${id}/payment`,
       UPDATE_TRACKING: (id: number) => `/orders/${id}/tracking`,
       RESEND_EMAIL: (id: number) => `/orders/${id}/resend-email`,

@@ -141,7 +141,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
         className={`bg-white shadow overflow-hidden rounded-lg ${className}`}
       >
         <div className="px-4 py-6 text-center">
-          <p className="text-gray-500">{emptyMessage}</p>
+          <p className="text-gray-900">{emptyMessage}</p>
         </div>
       </div>
     );
@@ -273,7 +273,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
               {showSelectColumn && (
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   <input
                     type="checkbox"
@@ -287,7 +287,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
               )}
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortClick("orderNumber")}
               >
                 <div className="flex items-center">
@@ -296,13 +296,13 @@ const OrderTable: React.FC<OrderTableProps> = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
               >
                 Khách hàng
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortClick("totalAmount")}
               >
                 <div className="flex items-center justify-end">
@@ -311,7 +311,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortClick("orderStatus")}
               >
                 <div className="flex items-center justify-center">
@@ -320,13 +320,13 @@ const OrderTable: React.FC<OrderTableProps> = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider"
               >
                 Thanh toán
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortClick("orderDate")}
               >
                 <div className="flex items-center justify-end">
@@ -335,7 +335,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
               >
                 Thao tác
               </th>
@@ -368,7 +368,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
                     {order.customerName}
                   </div>
                   {order.customerPhone && (
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-900">
                       {order.customerPhone}
                     </div>
                   )}
@@ -382,7 +382,7 @@ const OrderTable: React.FC<OrderTableProps> = ({
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   <PaymentStatusBadge status={order.paymentStatus} size="sm" />
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900">
                   {formatDateTime(order.orderDate, "short")}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

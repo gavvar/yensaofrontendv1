@@ -190,7 +190,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
             </div>
             {selectedStatus !== currentStatus && (
               <>
-                <FiArrowRight className="mx-2 text-gray-400" />
+                <FiArrowRight className="mx-2 text-gray-900" />
                 <div className="px-3 py-2 bg-amber-100 text-amber-800 text-sm rounded-md">
                   {statuses.find((s) => s.value === selectedStatus)?.label ||
                     selectedStatus}
@@ -220,7 +220,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
               </option>
             ))}
           </select>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-900">
             {getStatusDescription(selectedStatus)}
           </p>
         </div>

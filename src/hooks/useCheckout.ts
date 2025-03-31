@@ -174,7 +174,7 @@ export const useCheckout = (): UseCheckoutReturn => {
           return false;
         }
 
-        const response = await orderService.validateCoupon(
+        const response: CouponResponse = await orderService.validateCoupon(
           code,
           state.subtotal
         );
@@ -183,14 +183,28 @@ export const useCheckout = (): UseCheckoutReturn => {
           // Calculate discount amount
           let discountAmount = 0;
 
-          if (response.discountType === "percentage") {
-            discountAmount = (state.subtotal * response.discountValue) / 100;
-            // Apply max discount if specified
-            if (response.maxDiscount && discountAmount > response.maxDiscount) {
-              discountAmount = response.maxDiscount;
+          // Nếu response đã có discountAmount, sử dụng nó
+          if (response.discountAmount) {
+            discountAmount = response.discountAmount;
+          }
+          // Nếu không, tính dựa vào thông tin mã giảm giá
+          else if (response.coupon) {
+            // Lấy thông tin từ coupon object nếu có
+            const discountType = response.discountType || response.coupon.type;
+            const discountValue =
+              response.discountValue || response.coupon.value;
+            const maxDiscount =
+              response.maxDiscount || response.coupon.maxDiscount;
+
+            if (discountType === "percentage") {
+              discountAmount = (state.subtotal * discountValue) / 100;
+              // Apply max discount if specified
+              if (maxDiscount && discountAmount > maxDiscount) {
+                discountAmount = maxDiscount;
+              }
+            } else {
+              discountAmount = discountValue;
             }
-          } else if (response.discountType === "fixed") {
-            discountAmount = response.discountValue;
           }
 
           // Recalculate total
@@ -309,6 +323,17 @@ export const useCheckout = (): UseCheckoutReturn => {
         return false;
       }
 
+      // Xác định paymentMethod một cách đơn giản
+      let paymentMethodValue: string;
+      if (typeof state.paymentMethod === "string") {
+        paymentMethodValue = state.paymentMethod;
+      } else if (state.paymentMethod?.code) {
+        paymentMethodValue = state.paymentMethod.code;
+      } else {
+        toast.error("Phương thức thanh toán không hợp lệ");
+        return false;
+      }
+
       if (state.selectedItems.length === 0) {
         toast.error("Giỏ hàng của bạn đang trống");
         return false;
@@ -327,10 +352,7 @@ export const useCheckout = (): UseCheckoutReturn => {
         discount: state.discount,
         tax: state.tax,
         totalAmount: state.total,
-        paymentMethod:
-          typeof state.paymentMethod === "string"
-            ? state.paymentMethod
-            : state.paymentMethod.code,
+        paymentMethod: paymentMethodValue, // Sử dụng trực tiếp giá trị
         items: cartItemsToOrderItems(state.selectedItems),
         couponCode: state.couponCode || undefined,
       };
@@ -389,7 +411,7 @@ export const useCheckout = (): UseCheckoutReturn => {
     removeItems,
   ]);
 
-  // Complete payment after order is placed
+  // Sửa hàm completePayment để đảm bảo luôn có giá trị trả về
   const completePayment = useCallback(async (): Promise<boolean> => {
     try {
       if (!state.orderId) {
@@ -397,13 +419,18 @@ export const useCheckout = (): UseCheckoutReturn => {
         return false;
       }
 
-      // If payment method is COD
-      const paymentCode =
-        typeof state.paymentMethod === "string"
-          ? state.paymentMethod
-          : state.paymentMethod?.code;
+      // Xác định paymentMethod đơn giản
+      let paymentMethod: string;
+      if (typeof state.paymentMethod === "string") {
+        paymentMethod = state.paymentMethod;
+      } else if (state.paymentMethod?.code) {
+        paymentMethod = state.paymentMethod.code;
+      } else {
+        paymentMethod = "cod"; // Mặc định
+      }
 
-      if (paymentCode === "COD") {
+      // Kiểm tra nếu là COD, bỏ qua việc chuẩn hóa viết hoa
+      if (paymentMethod.toLowerCase() === "cod") {
         // Set step to complete
         setState((prev) => ({
           ...prev,
@@ -420,7 +447,7 @@ export const useCheckout = (): UseCheckoutReturn => {
         localStorage.setItem("currentOrderId", state.orderId.toString());
         localStorage.setItem("currentOrderNumber", state.orderNumber || "");
         localStorage.setItem("currentOrderAmount", state.total.toString());
-        localStorage.setItem("currentPaymentMethod", paymentCode || "");
+        localStorage.setItem("currentPaymentMethod", paymentMethod);
       }
 
       // For online payment methods, create payment and get payment URL
@@ -428,35 +455,35 @@ export const useCheckout = (): UseCheckoutReturn => {
         orderId: state.orderId,
         orderNumber: state.orderNumber!,
         amount: state.total,
-        paymentMethod: paymentCode || "",
-        returnUrl: `${window.location.origin}/checkout/complete`,
+        paymentMethod: paymentMethod, // Sử dụng trực tiếp
+        clientUrl: window.location.origin,
       });
 
-      if (paymentResponse.success) {
-        // Kiểm tra và lấy ra URL thanh toán
-        const paymentUrl = paymentResponse.data?.paymentUrl;
+      if (paymentResponse.success && paymentResponse.data?.paymentUrl) {
+        // Save payment URL in state - convert undefined to null
+        setState((prev) => ({
+          ...prev,
+          paymentUrl: paymentResponse.data.paymentUrl || null,
+        }));
 
-        if (paymentUrl) {
-          // Cập nhật state với URL thanh toán hợp lệ
-          setState((prev) => ({
-            ...prev,
-            paymentUrl: paymentUrl, // Bây giờ chắc chắn là string
-          }));
-
-          // Chuyển hướng đến cổng thanh toán
-          window.location.href = paymentUrl;
-          return true;
-        } else {
-          throw new Error("URL thanh toán không hợp lệ");
-        }
+        // Redirect to payment gateway
+        window.location.href = paymentResponse.data.paymentUrl;
+        return true;
       } else {
-        throw new Error(
-          paymentResponse.message || "Không thể tạo yêu cầu thanh toán"
+        // Handle error case
+        toast.error(
+          paymentResponse.message ||
+            "Không thể tạo thanh toán. Vui lòng thử lại sau."
         );
+        return false;
       }
     } catch (err) {
       console.error("Error completing payment:", err);
-      toast.error("Không thể hoàn tất thanh toán. Vui lòng thử lại sau.");
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : "Không thể hoàn tất thanh toán. Vui lòng thử lại sau."
+      );
       return false;
     }
   }, [
@@ -487,9 +514,9 @@ export const useCheckout = (): UseCheckoutReturn => {
             ...prev,
             paymentStatus: "paid",
             paymentInfo: {
-              transactionId: paymentStatusResponse.data.transactionId || "", // Thêm fallback về ""
+              transactionId: paymentStatusResponse.data.transactionId || "",
               paidAt:
-                paymentStatusResponse.data.paidAt || new Date().toISOString(), // Thêm fallback về thời điểm hiện tại
+                paymentStatusResponse.data.paidAt || new Date().toISOString(),
               method: paymentStatusResponse.data.paymentMethod || "unknown",
             },
           }));

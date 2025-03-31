@@ -72,7 +72,7 @@ export default function CategoriesPage() {
       </div>
 
       {rootCategories.length === 0 && (
-        <div className="text-gray-500 text-center p-4">
+        <div className="text-gray-900 text-center p-4">
           Không có danh mục nào
         </div>
       )}

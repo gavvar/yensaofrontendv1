@@ -19,11 +19,7 @@ import {
   ShippingProvider,
   CalculateShippingFeeRequest,
 } from "@/types/shipping";
-import {
-  PaymentMethod,
-  ApplyCouponRequest,
-  PaymentData,
-} from "@/types/payment";
+import { PaymentMethod, PaymentData } from "@/types/payment";
 
 // Hooks
 import { useCart } from "@/contexts/CartContext";
@@ -321,19 +317,38 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
       }
 
       try {
-        const requestData: ApplyCouponRequest = {
+        const requestData = {
           code,
           totalAmount: getTotalAmount(),
           // Optionally include items data if required by API
+          cartItems: getSelectedItems().map((item) => ({
+            productId: item.product.id,
+            price: item.product.price,
+            quantity: item.quantity,
+          })),
         };
 
         const response = await paymentService.applyCoupon(requestData);
 
-        if (response.success && response.data.valid) {
+        if (response.success && response.data?.valid) {
+          // Tìm giá trị discount từ response - ưu tiên dùng discountAmount
+          const discountAmount =
+            response.data.discountAmount !== undefined
+              ? response.data.discountAmount
+              : response.data.discount !== undefined
+              ? response.data.discount
+              : 0;
+
+          // Đảm bảo giá trị là số
+          const numericDiscount =
+            typeof discountAmount === "number"
+              ? discountAmount
+              : parseFloat(String(discountAmount)) || 0;
+
           setCheckout((prev) => ({
             ...prev,
             couponCode: code,
-            discount: response.data.discount,
+            discount: numericDiscount,
             couponApplied: true,
             couponMessage: "Đã áp dụng mã giảm giá",
           }));
@@ -344,10 +359,17 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
           setCheckout((prev) => ({
             ...prev,
             couponApplied: false,
-            couponMessage: response.data.message || "Mã giảm giá không hợp lệ",
+            couponMessage:
+              response.data?.message ||
+              response.message ||
+              "Mã giảm giá không hợp lệ",
           }));
 
-          toast.error(response.data.message || "Mã giảm giá không hợp lệ");
+          toast.error(
+            response.data?.message ||
+              response.message ||
+              "Mã giảm giá không hợp lệ"
+          );
           return false;
         }
       } catch (error: unknown) {
@@ -368,7 +390,7 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
         return false;
       }
     },
-    [getTotalAmount]
+    [getTotalAmount, getSelectedItems]
   );
 
   // Remove coupon

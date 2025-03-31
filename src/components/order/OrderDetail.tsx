@@ -42,12 +42,12 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <FiPackage className="text-gray-500" />
+              <FiPackage className="text-gray-900" />
               <h2 className="text-lg font-bold text-gray-800">
                 Đơn hàng #{order.orderNumber}
               </h2>
             </div>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-900 mt-1">
               Ngày đặt: {formatDateTime(order.orderDate, "long")}
             </p>
           </div>
@@ -86,12 +86,12 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="flex items-start">
-              <FiUser className="mt-1 mr-2 text-gray-500" />
+              <FiUser className="mt-1 mr-2 text-gray-900" />
               <div>
                 <p className="font-medium text-gray-800">
                   {order.customerName}
                 </p>
-                <div className="mt-1 space-y-1 text-sm text-gray-600">
+                <div className="mt-1 space-y-1 text-sm text-gray-900">
                   {order.customerEmail && (
                     <div className="flex items-center">
                       <FiMail className="mr-2" />
@@ -109,10 +109,10 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
 
           <div>
             <div className="flex items-start">
-              <FiMapPin className="mt-1 mr-2 text-gray-500" />
+              <FiMapPin className="mt-1 mr-2 text-gray-900" />
               <div>
                 <p className="font-medium text-gray-800">Địa chỉ giao hàng</p>
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-1 text-sm text-gray-900">
                   {order.customerAddress}
                 </p>
               </div>
@@ -128,13 +128,13 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-gray-600">Phương thức thanh toán</p>
+            <p className="text-sm text-gray-900">Phương thức thanh toán</p>
             <p className="font-medium text-gray-800">
               {formatPaymentMethod(order.paymentMethod as PaymentMethod)}
             </p>
           </div>
           <div>
-            <p className="text-sm text-gray-600">Trạng thái thanh toán</p>
+            <p className="text-sm text-gray-900">Trạng thái thanh toán</p>
             <div className="mt-1">
               <PaymentStatusBadge status={order.paymentStatus} />
             </div>
@@ -151,25 +151,25 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
               <tr>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Sản phẩm
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Số lượng
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Đơn giá
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-4 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                 >
                   Thành tiền
                 </th>
@@ -192,17 +192,17 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
                       <div>
                         <div className="font-medium">{item.productName}</div>
                         {item.variantName && (
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-900">
                             {item.variantName}
                           </div>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-center text-gray-500">
+                  <td className="px-4 py-4 text-sm text-center text-gray-900">
                     {item.quantity}
                   </td>
-                  <td className="px-4 py-4 text-sm text-right text-gray-500">
+                  <td className="px-4 py-4 text-sm text-right text-gray-900">
                     {formatAmount(item.price, order.currency)}
                   </td>
                   <td className="px-4 py-4 text-sm text-right text-gray-900 font-medium">
@@ -216,7 +216,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
               <tr>
                 <td
                   colSpan={3}
-                  className="px-4 py-2 text-sm text-right text-gray-500"
+                  className="px-4 py-2 text-sm text-right text-gray-900"
                 >
                   Tạm tính:
                 </td>
@@ -229,7 +229,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
               <tr>
                 <td
                   colSpan={3}
-                  className="px-4 py-2 text-sm text-right text-gray-500"
+                  className="px-4 py-2 text-sm text-right text-gray-900"
                 >
                   Phí vận chuyển:
                 </td>
@@ -243,7 +243,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-4 py-2 text-sm text-right text-gray-500"
+                    className="px-4 py-2 text-sm text-right text-gray-900"
                   >
                     Giảm giá {order.couponCode && `(${order.couponCode})`}:
                   </td>
@@ -258,7 +258,7 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-4 py-2 text-sm text-right text-gray-500"
+                    className="px-4 py-2 text-sm text-right text-gray-900"
                   >
                     Thuế:
                   </td>
@@ -289,10 +289,10 @@ const OrderDetail: React.FC<OrderDetailProps> = ({
       {order.note && (
         <div className="p-4 sm:p-6">
           <div className="flex items-start">
-            <FiFileText className="mt-1 mr-2 text-gray-500" />
+            <FiFileText className="mt-1 mr-2 text-gray-900" />
             <div>
               <p className="font-medium text-gray-800">Ghi chú đơn hàng</p>
-              <p className="mt-1 text-sm text-gray-600">{order.note}</p>
+              <p className="mt-1 text-sm text-gray-900">{order.note}</p>
             </div>
           </div>
         </div>

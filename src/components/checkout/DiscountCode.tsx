@@ -1,141 +1,94 @@
 import React, { useState } from "react";
+import { FiCheck, FiX } from "react-icons/fi";
 import { useCheckout } from "@/contexts/CheckoutContext";
-import { FiTag, FiX, FiCheck } from "react-icons/fi";
 import { formatCurrency } from "@/utils/format";
-//file nay dung de nhap ma giam gia va ap dung ma giam gia
+
 interface DiscountCodeProps {
   className?: string;
 }
 
-/**
- * Component nhập và áp dụng mã giảm giá
- */
 const DiscountCode: React.FC<DiscountCodeProps> = ({ className = "" }) => {
   const { checkout, applyCoupon, removeCoupon } = useCheckout();
   const [couponCode, setCouponCode] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Xử lý khi nhập mã
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCouponCode(e.target.value);
-    if (error) setError("");
-  };
-
-  // Xử lý áp dụng mã giảm giá
   const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!couponCode.trim() || isSubmitting) return;
 
-    if (!couponCode.trim()) {
-      setError("Vui lòng nhập mã giảm giá");
-      return;
-    }
-
+    setIsSubmitting(true);
     try {
-      setLoading(true);
-      setError("");
-      const success = await applyCoupon(couponCode.trim());
-
-      if (success) {
-        setCouponCode("");
-      }
-    } catch (err) {
-      console.error("Error applying coupon:", err);
-      setError("Có lỗi xảy ra khi áp dụng mã giảm giá");
+      await applyCoupon(couponCode.trim());
+    } catch (error) {
+      console.error("Error applying coupon:", error);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  // Xử lý xóa mã giảm giá
-  const handleRemoveCoupon = () => {
-    removeCoupon();
-  };
+  // Đảm bảo discount là số hợp lệ
+  const discountAmount =
+    typeof checkout.discount === "number" && !isNaN(checkout.discount)
+      ? checkout.discount
+      : 0;
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm p-6 ${className}`}>
-      <h2 className="text-base font-semibold mb-4">Mã giảm giá</h2>
+    <div className={`bg-white rounded-lg shadow-sm p-4 sm:p-6 ${className}`}>
+      <h3 className="text-lg font-semibold mb-4">Mã giảm giá</h3>
 
       {checkout.couponApplied ? (
-        <div className="bg-green-50 p-4 rounded-md">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <FiCheck className="text-green-500 mr-2" size={18} />
-              <div>
-                <p className="font-medium text-gray-800">
+        <div className="bg-green-50 p-3 sm:p-4 rounded-md">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
+            <div className="flex items-center w-full sm:w-auto">
+              <FiCheck
+                className="text-green-500 mr-2 flex-shrink-0"
+                size={18}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold text-green-700 truncate">
                   {checkout.couponCode}
-                </p>
+                </div>
                 <p className="text-sm text-green-600">
-                  Đã áp dụng giảm {formatCurrency(checkout.discount)}
+                  Đã áp dụng giảm {formatCurrency(discountAmount)}
                 </p>
               </div>
             </div>
 
             <button
-              onClick={handleRemoveCoupon}
-              className="text-gray-500 hover:text-red-500 p-1"
+              onClick={removeCoupon}
+              className="text-red-500 hover:text-red-700 p-1 flex-shrink-0"
               aria-label="Xóa mã giảm giá"
             >
-              <FiX size={18} />
+              <FiX size={20} />
             </button>
           </div>
         </div>
       ) : (
-        <form onSubmit={handleApplyCoupon} className="space-y-3">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
-              <FiTag />
-            </div>
-
+        <form onSubmit={handleApplyCoupon}>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
             <input
               type="text"
               value={couponCode}
-              onChange={handleChange}
+              onChange={(e) => setCouponCode(e.target.value)}
               placeholder="Nhập mã giảm giá"
-              className={`pl-10 w-full p-2.5 border rounded-md ${
-                error ? "border-red-500" : "border-gray-300"
-              } focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent`}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+              disabled={isSubmitting}
             />
+            <button
+              type="submit"
+              className={`px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors whitespace-nowrap sm:flex-shrink-0 ${
+                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Đang xử lý..." : "Áp dụng"}
+            </button>
           </div>
-
-          {error && <p className="text-sm text-red-500">{error}</p>}
-
-          {checkout.couponMessage && !error && !checkout.couponApplied && (
-            <p className="text-sm text-red-500">{checkout.couponMessage}</p>
+          {checkout.couponMessage && !checkout.couponApplied && (
+            <p className="mt-2 text-red-600 text-sm">
+              {checkout.couponMessage}
+            </p>
           )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-md transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <svg
-                  className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Đang áp dụng...
-              </span>
-            ) : (
-              "Áp dụng"
-            )}
-          </button>
         </form>
       )}
     </div>

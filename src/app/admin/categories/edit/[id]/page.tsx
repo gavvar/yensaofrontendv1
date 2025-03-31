@@ -54,7 +54,7 @@ export default function EditCategoryPage() {
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Không tìm thấy danh mục
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-900 mb-6">
             Danh mục bạn đang tìm không tồn tại hoặc đã bị xóa.
           </p>
           <button

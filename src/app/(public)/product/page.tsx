@@ -291,7 +291,7 @@ export default function ProductsPage() {
             />
             {searchQuery && (
               <button
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900 hover:text-gray-900"
                 onClick={() => {
                   setSearchQuery("");
                   // Also clear the input field
@@ -356,7 +356,7 @@ export default function ProductsPage() {
                 </option>
               ))}
             </select>
-            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900 pointer-events-none" />
           </div>
 
           {/* Per Page Dropdown */}
@@ -372,7 +372,7 @@ export default function ProductsPage() {
                 </option>
               ))}
             </select>
-            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+            <FiChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900 pointer-events-none" />
           </div>
         </div>
       </div>
@@ -447,7 +447,7 @@ export default function ProductsPage() {
                 disabled={!!priceError}
                 className={`w-full py-2 rounded-md text-sm font-medium ${
                   priceError
-                    ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    ? "bg-gray-300 text-gray-900 cursor-not-allowed"
                     : "bg-amber-500 text-white hover:bg-amber-600"
                 }`}
               >
@@ -537,7 +537,7 @@ export default function ProductsPage() {
                   disabled={!!priceError}
                   className={`flex-1 py-2 rounded-md text-sm font-medium ${
                     priceError
-                      ? "bg-gray-300 text-gray-600"
+                      ? "bg-gray-300 text-gray-900"
                       : "bg-amber-500 text-white"
                   }`}
                 >
@@ -556,7 +556,7 @@ export default function ProductsPage() {
             priceRange.max ||
             searchQuery) && (
             <div className="mb-4 flex flex-wrap gap-2 items-center">
-              <span className="text-sm text-gray-600">Đang lọc theo:</span>
+              <span className="text-sm text-gray-900">Đang lọc theo:</span>
 
               {selectedCategory && (
                 <div className="bg-gray-100 rounded-full px-3 py-1 text-sm flex items-center">
@@ -564,7 +564,7 @@ export default function ProductsPage() {
                   {categories.find((c) => c.slug === selectedCategory)?.name}
                   <button
                     onClick={() => setSelectedCategory("")}
-                    className="ml-2 text-gray-500 hover:text-gray-700"
+                    className="ml-2 text-gray-900 hover:text-gray-700"
                   >
                     <FiX size={14} />
                   </button>
@@ -581,7 +581,7 @@ export default function ProductsPage() {
                     ` đến ${formatCurrency(Number(priceRange.max))}`}
                   <button
                     onClick={() => setPriceRange({ min: "", max: "" })}
-                    className="ml-2 text-gray-500 hover:text-gray-700"
+                    className="ml-2 text-gray-900 hover:text-gray-700"
                   >
                     <FiX size={14} />
                   </button>
@@ -600,7 +600,7 @@ export default function ProductsPage() {
                       ) as HTMLInputElement;
                       if (input) input.value = "";
                     }}
-                    className="ml-2 text-gray-500 hover:text-gray-700"
+                    className="ml-2 text-gray-900 hover:text-gray-700"
                   >
                     <FiX size={14} />
                   </button>
@@ -618,7 +618,7 @@ export default function ProductsPage() {
 
           {/* Results count + mobile sorting */}
           <div className="flex flex-wrap items-center justify-between mb-4">
-            <p className="text-gray-600">
+            <p className="text-gray-900">
               Hiển thị {products.length} / {totalProducts} sản phẩm
             </p>
           </div>
@@ -666,7 +666,7 @@ export default function ProductsPage() {
                         <h3 className="text-lg font-semibold mb-2">
                           {product.name}
                         </h3>
-                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                        <p className="text-gray-900 text-sm mb-3 line-clamp-2">
                           {product.description}
                         </p>
                         <div className="flex items-center mb-3">
@@ -675,7 +675,7 @@ export default function ProductsPage() {
                               <span className="text-lg font-bold text-amber-600">
                                 {formatCurrency(product.discountPrice)}
                               </span>
-                              <span className="ml-2 text-sm text-gray-500 line-through">
+                              <span className="ml-2 text-sm text-gray-900 line-through">
                                 {formatCurrency(product.price)}
                               </span>
                             </>
@@ -686,7 +686,7 @@ export default function ProductsPage() {
                           )}
                         </div>
                         <div className="flex justify-between items-center">
-                          <div className="flex text-sm text-gray-500">
+                          <div className="flex text-sm text-gray-900">
                             {product.viewCount !== undefined && (
                               <span className="mr-4">
                                 {product.viewCount} lượt xem
@@ -724,12 +724,12 @@ export default function ProductsPage() {
           ) : (
             <div className="text-center py-16">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <FiX size={24} className="text-gray-400" />
+                <FiX size={24} className="text-gray-900" />
               </div>
               <h3 className="text-lg font-semibold mb-2">
                 Không tìm thấy sản phẩm
               </h3>
-              <p className="text-gray-500 mb-6">
+              <p className="text-gray-900 mb-6">
                 Không có sản phẩm nào phù hợp với tiêu chí tìm kiếm của bạn.
               </p>
               <button

@@ -171,7 +171,7 @@ export default function AdminOrdersPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Quản lý đơn hàng</h1>
-          <p className="text-gray-600">
+          <p className="text-gray-900">
             Xem và quản lý tất cả đơn hàng của cửa hàng
           </p>
         </div>
@@ -185,11 +185,11 @@ export default function AdminOrdersPage() {
               value={filters.search || ""}
               onChange={(e) => handleFilterChange({ search: e.target.value })}
             />
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-900" />
           </div>
 
           <button
-            className="bg-white border border-gray-300 rounded-md p-2 hover:bg-gray-50 text-gray-500"
+            className="bg-white border border-gray-300 rounded-md p-2 hover:bg-gray-50 text-gray-900"
             onClick={() => setShowBulkActions(!showBulkActions)}
           >
             <FiFilter className="h-5 w-5" />
@@ -210,10 +210,10 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Tổng đơn hàng</p>
+              <p className="text-gray-900 text-sm">Tổng đơn hàng</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {isLoading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   orderStats.total
                 )}
@@ -229,10 +229,10 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Doanh thu</p>
+              <p className="text-gray-900 text-sm">Doanh thu</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {isLoading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   formatCurrency(orderStats.revenue)
                 )}
@@ -248,10 +248,10 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Đang xử lý</p>
+              <p className="text-gray-900 text-sm">Đang xử lý</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {isLoading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   orderStats.processing
                 )}
@@ -267,10 +267,10 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Hoàn thành</p>
+              <p className="text-gray-900 text-sm">Hoàn thành</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {isLoading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   orderStats.completed
                 )}
@@ -286,10 +286,10 @@ export default function AdminOrdersPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Đã hủy</p>
+              <p className="text-gray-900 text-sm">Đã hủy</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {isLoading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   orderStats.cancelled
                 )}
@@ -339,7 +339,7 @@ export default function AdminOrdersPage() {
                 disabled={selectedIds.length === 0}
                 className={`flex items-center px-4 py-2 rounded ${
                   selectedIds.length === 0
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    ? "bg-gray-100 text-gray-900 cursor-not-allowed"
                     : "bg-amber-50 text-amber-600 hover:bg-amber-100"
                 }`}
               >
@@ -353,7 +353,7 @@ export default function AdminOrdersPage() {
                 disabled={selectedIds.length === 0}
                 className={`flex items-center px-4 py-2 rounded ${
                   selectedIds.length === 0
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    ? "bg-gray-100 text-gray-900 cursor-not-allowed"
                     : "bg-red-50 text-red-600 hover:bg-red-100"
                 }`}
               >
@@ -385,7 +385,7 @@ export default function AdminOrdersPage() {
                 disabled={selectedIds.length === 0 || !showDeletedOrders}
                 className={`flex items-center px-4 py-2 rounded ${
                   selectedIds.length === 0 || !showDeletedOrders
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    ? "bg-gray-100 text-gray-900 cursor-not-allowed"
                     : "bg-green-50 text-green-600 hover:bg-green-100"
                 }`}
               >
@@ -421,7 +421,7 @@ export default function AdminOrdersPage() {
                     )}
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                       onClick={() =>
                         changeSort(
                           "orderNumber",
@@ -440,13 +440,13 @@ export default function AdminOrdersPage() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Khách hàng
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                       onClick={() =>
                         changeSort(
                           "totalAmount",
@@ -465,7 +465,7 @@ export default function AdminOrdersPage() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      className="px-6 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                       onClick={() =>
                         changeSort(
                           "orderStatus",
@@ -484,13 +484,13 @@ export default function AdminOrdersPage() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Thanh toán
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider cursor-pointer"
                       onClick={() =>
                         changeSort(
                           "orderDate",
@@ -509,7 +509,7 @@ export default function AdminOrdersPage() {
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Thao tác
                     </th>
@@ -535,7 +535,7 @@ export default function AdminOrdersPage() {
                           <div className="text-sm font-medium text-gray-900">
                             #{order.orderNumber}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-900">
                             {order.itemCount} sản phẩm
                           </div>
                         </td>
@@ -544,12 +544,12 @@ export default function AdminOrdersPage() {
                             {order.customerName}
                           </div>
                           {order.email && (
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-900">
                               {order.email}
                             </div>
                           )}
                           {order.phone && (
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-900">
                               {order.phone}
                             </div>
                           )}
@@ -565,7 +565,7 @@ export default function AdminOrdersPage() {
                         <td className="px-6 py-4 whitespace-nowrap text-center">
                           <PaymentStatusBadge status={order.paymentStatus} />
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
                           {formatOrderDate(order.orderDate)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -610,7 +610,7 @@ export default function AdminOrdersPage() {
                     <tr>
                       <td
                         colSpan={showBulkActions ? 8 : 7}
-                        className="px-6 py-10 text-center text-gray-500"
+                        className="px-6 py-10 text-center text-gray-900"
                       >
                         {error || "Không tìm thấy đơn hàng nào"}
                       </td>
@@ -653,7 +653,7 @@ export default function AdminOrdersPage() {
                         className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
                           pagination.page <= 1
                             ? "text-gray-300 cursor-not-allowed"
-                            : "text-gray-500 hover:bg-gray-50"
+                            : "text-gray-900 hover:bg-gray-50"
                         }`}
                       >
                         <span className="sr-only">Previous</span>
@@ -680,7 +680,7 @@ export default function AdminOrdersPage() {
                         className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
                           pagination.page >= pagination.totalPages
                             ? "text-gray-300 cursor-not-allowed"
-                            : "text-gray-500 hover:bg-gray-50"
+                            : "text-gray-900 hover:bg-gray-50"
                         }`}
                       >
                         <span className="sr-only">Next</span>
@@ -704,7 +704,7 @@ export default function AdminOrdersPage() {
                 ? "Xác nhận xóa đơn hàng"
                 : "Xác nhận khôi phục đơn hàng"}
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="text-gray-900 mb-6">
               {actionType === "delete"
                 ? `Bạn có chắc chắn muốn xóa ${selectedIds.length} đơn hàng đã chọn? Hành động này không thể hoàn tác.`
                 : `Bạn có chắc chắn muốn khôi phục ${selectedIds.length} đơn hàng đã chọn?`}

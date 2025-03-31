@@ -175,7 +175,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             Họ tên <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
               <FiUser />
             </div>
             <input
@@ -204,7 +204,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             Email <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
               <FiMail />
             </div>
             <input
@@ -233,7 +233,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             Số điện thoại <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
               <FiPhone />
             </div>
             <input
@@ -262,7 +262,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             Địa chỉ giao hàng <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
               <FiMapPin />
             </div>
             <input
@@ -293,7 +293,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
             Ghi chú
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
               <FiMessageSquare />
             </div>
             <textarea

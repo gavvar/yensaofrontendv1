@@ -57,7 +57,7 @@ export default function OrdersPage() {
     // Redirect to login if not authenticated
     if (!isAuthenticated) {
       toast.error("Vui lòng đăng nhập để xem đơn hàng của bạn");
-      router.push("/login?redirect=/orders");
+      router.push("/login?redirect=/account/orders"); // Thêm /account vào trước /orders
       return;
     }
 
@@ -125,7 +125,7 @@ export default function OrdersPage() {
       {/* Page header */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Đơn hàng của tôi</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm text-gray-900">
           Quản lý và theo dõi tất cả đơn hàng của bạn
         </p>
       </div>
@@ -166,10 +166,10 @@ export default function OrdersPage() {
       ) : orders.length === 0 ? (
         <div className="bg-white shadow-sm rounded-lg p-8 text-center">
           <div className="flex justify-center mb-4">
-            <FiShoppingBag className="h-16 w-16 text-gray-400" />
+            <FiShoppingBag className="h-16 w-16 text-gray-900" />
           </div>
           <h2 className="text-xl font-semibold mb-2">Chưa có đơn hàng nào</h2>
-          <p className="text-gray-500 mb-6">
+          <p className="text-gray-900 mb-6">
             {filterParams.orderStatus || filterParams.orderNumber
               ? "Không tìm thấy đơn hàng nào khớp với điều kiện tìm kiếm của bạn."
               : "Bạn chưa có đơn hàng nào. Hãy mua sắm ngay!"}

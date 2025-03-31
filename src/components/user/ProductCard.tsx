@@ -57,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <span className="text-gray-400">Không có ảnh</span>
+            <span className="text-gray-900">Không có ảnh</span>
           </div>
         )}
       </Link>
@@ -88,7 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <span className="text-red-600 font-medium">
                   {formatCurrency(product.discountPrice)}
                 </span>
-                <span className="text-gray-400 text-sm line-through">
+                <span className="text-gray-900 text-sm line-through">
                   {formatCurrency(product.price)}
                 </span>
               </div>
@@ -109,7 +109,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Thêm thông tin lượt xem và số lượng đã bán */}
-        <div className="flex justify-between text-xs text-gray-500 mt-2">
+        <div className="flex justify-between text-xs text-gray-900 mt-2">
           {product.viewCount !== undefined && (
             <span>{product.viewCount} lượt xem</span>
           )}

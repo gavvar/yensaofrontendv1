@@ -57,14 +57,14 @@ const MiniCart: React.FC<MiniCartProps> = ({ isOpen, onClose }) => {
               <FiShoppingCart className="mr-2" />
               Giỏ hàng
               {cart && (
-                <span className="ml-2 text-sm text-gray-500">
+                <span className="ml-2 text-sm text-gray-900">
                   ({cart.items?.length || 0} sản phẩm)
                 </span>
               )}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors"
+              className="text-gray-900 hover:text-gray-700 transition-colors"
             >
               <FiX size={24} />
             </button>
@@ -75,7 +75,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ isOpen, onClose }) => {
             {!isAuthenticated ? (
               <div className="flex flex-col items-center justify-center h-full text-center p-4">
                 <FiShoppingCart size={64} className="text-gray-300 mb-4" />
-                <p className="text-gray-500 mb-4">
+                <p className="text-gray-900 mb-4">
                   Vui lòng đăng nhập để xem giỏ hàng của bạn
                 </p>
                 <Link
@@ -88,7 +88,7 @@ const MiniCart: React.FC<MiniCartProps> = ({ isOpen, onClose }) => {
             ) : !cart || !cart.items || cart.items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center p-4">
                 <FiShoppingCart size={64} className="text-gray-300 mb-4" />
-                <p className="text-gray-500 mb-4">
+                <p className="text-gray-900 mb-4">
                   Giỏ hàng của bạn đang trống
                 </p>
                 <Link
@@ -126,21 +126,21 @@ const MiniCart: React.FC<MiniCartProps> = ({ isOpen, onClose }) => {
                       >
                         {item.product.name}
                       </Link>
-                      <div className="text-sm text-gray-500 mt-1">
+                      <div className="text-sm text-gray-900 mt-1">
                         {item.quantity} x{" "}
                         {formatCurrency(
                           item.product.discountPrice || item.product.price
                         )}
                       </div>
                       {item.notes && (
-                        <div className="text-xs text-gray-500 mt-1 italic">
+                        <div className="text-xs text-gray-900 mt-1 italic">
                           Ghi chú: {item.notes}
                         </div>
                       )}
                     </div>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-gray-400 hover:text-red-500 transition-colors"
+                      className="text-gray-900 hover:text-red-500 transition-colors"
                       title="Xóa khỏi giỏ hàng"
                     >
                       <FiTrash2 size={16} />

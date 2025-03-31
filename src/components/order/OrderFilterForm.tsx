@@ -86,7 +86,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
           <div className="flex-1">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="h-5 w-5 text-gray-400" />
+                <FiSearch className="h-5 w-5 text-gray-900" />
               </div>
               <input
                 type="text"
@@ -196,7 +196,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400" />
+                      <FiCalendar className="h-5 w-5 text-gray-900" />
                     </div>
                     <input
                       type="date"
@@ -217,7 +217,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-400" />
+                      <FiCalendar className="h-5 w-5 text-gray-900" />
                     </div>
                     <input
                       type="date"
@@ -238,7 +238,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
       {(orderNumber || orderStatus || paymentStatus || fromDate || toDate) && (
         <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
           <div className="flex flex-wrap gap-2">
-            <span className="text-sm text-gray-500">Bộ lọc đang áp dụng:</span>
+            <span className="text-sm text-gray-900">Bộ lọc đang áp dụng:</span>
 
             {orderNumber && (
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -246,7 +246,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setOrderNumber("")}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-gray-900 hover:text-gray-700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -260,7 +260,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setOrderStatus("")}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-gray-900 hover:text-gray-700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -274,7 +274,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setPaymentStatus("")}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-gray-900 hover:text-gray-700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -287,7 +287,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setFromDate("")}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-gray-900 hover:text-gray-700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -300,7 +300,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <button
                   type="button"
                   onClick={() => setToDate("")}
-                  className="ml-1 text-gray-500 hover:text-gray-700"
+                  className="ml-1 text-gray-900 hover:text-gray-700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>

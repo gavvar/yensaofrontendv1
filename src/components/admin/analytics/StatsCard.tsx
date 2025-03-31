@@ -1,5 +1,4 @@
 import React from "react";
-import { IconType } from "react-icons";
 
 interface StatsCardProps {
   title: string;
@@ -20,10 +19,10 @@ const StatsCard: React.FC<StatsCardProps> = ({
     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-gray-500 text-sm">{title}</p>
+          <p className="text-gray-900 text-sm">{title}</p>
           <p className="text-2xl font-bold text-gray-800 mt-1">
             {loading ? (
-              <span className="text-gray-400">Đang tải...</span>
+              <span className="text-gray-900">Đang tải...</span>
             ) : (
               value
             )}

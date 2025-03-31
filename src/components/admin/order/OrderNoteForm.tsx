@@ -129,7 +129,7 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
             <label htmlFor="isPrivate" className="font-medium text-gray-700">
               Ghi chú nội bộ
             </label>
-            <p className="text-gray-500">
+            <p className="text-gray-900">
               Ghi chú này chỉ hiển thị cho nhân viên, khách hàng không nhìn thấy
             </p>
           </div>
@@ -156,7 +156,7 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
               >
                 Gửi thông báo cho khách hàng
               </label>
-              <p className="text-gray-500">
+              <p className="text-gray-900">
                 Khách hàng sẽ nhận được email thông báo về ghi chú này
               </p>
             </div>

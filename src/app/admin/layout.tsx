@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import Link from "next/link";
-// import Image from "next/image";
 import {
   FiHome,
   FiShoppingBag,
@@ -17,6 +16,7 @@ import {
   FiX,
   FiChevronDown,
   FiList,
+  FiTag, // Thêm icon cho Coupon
 } from "react-icons/fi";
 
 export default function AdminLayout({
@@ -99,6 +99,14 @@ export default function AdminLayout({
             <FiPackage size={20} className="mr-3" />
             <span>Sản phẩm</span>
           </Link>
+          {/* Thêm link đến trang quản lý mã giảm giá */}
+          <Link
+            href="/admin/coupons"
+            className="flex items-center px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-amber-600 rounded-lg mb-2"
+          >
+            <FiTag size={20} className="mr-3" />
+            <span>Mã giảm giá</span>
+          </Link>
           <Link
             href="/admin/users"
             className="flex items-center px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-amber-600 rounded-lg mb-2"
@@ -107,7 +115,7 @@ export default function AdminLayout({
             <span>Người dùng</span>
           </Link>
           <Link
-            href="/admin/statistics"
+            href="/admin/analytics"
             className="flex items-center px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-amber-600 rounded-lg mb-2"
           >
             <FiBarChart2 size={20} className="mr-3" />
@@ -138,7 +146,7 @@ export default function AdminLayout({
             {/* Menu Toggle */}
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="md:hidden p-2 rounded-md text-gray-600 hover:text-amber-600 hover:bg-amber-50 focus:outline-none"
+              className="md:hidden p-2 rounded-md text-gray-900 hover:text-amber-600 hover:bg-amber-50 focus:outline-none"
             >
               {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>

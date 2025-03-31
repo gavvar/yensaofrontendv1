@@ -77,8 +77,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         name: initialData.name || "",
         description: initialData.description || "",
         imageUrl: initialData.imageUrl || "",
-        parentId: initialData.parentId,
-        isActive: initialData.isActive,
+        // Sửa lỗi: Thêm giá trị mặc định null cho parentId nếu undefined
+        parentId:
+          initialData.parentId === undefined ? null : initialData.parentId,
+        // Sửa lỗi: Thêm giá trị mặc định true cho isActive nếu undefined
+        isActive:
+          initialData.isActive === undefined ? true : initialData.isActive,
         sortOrder: initialData.sortOrder || 0,
         metaTitle: initialData.metaTitle || "",
         metaDescription: initialData.metaDescription || "",
@@ -195,7 +199,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         <button
           type="button"
           onClick={() => router.back()}
-          className="mr-4 text-gray-600 hover:text-gray-900"
+          className="mr-4 text-gray-900 hover:text-gray-900"
         >
           <FiArrowLeft size={20} />
         </button>

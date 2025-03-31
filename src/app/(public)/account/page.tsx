@@ -167,7 +167,7 @@ export default function AccountPage() {
                     className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 bg-gray-50"
                     disabled
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-900 mt-1">
                     Email không thể thay đổi
                   </p>
                 </div>
@@ -238,19 +238,19 @@ export default function AccountPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <div className="border-b border-gray-100 pb-4">
-                    <p className="text-sm text-gray-500 mb-1">Họ và tên</p>
+                    <p className="text-sm text-gray-900 mb-1">Họ và tên</p>
                     <p className="font-medium">{updatedProfile.fullName}</p>
                   </div>
                 </div>
                 <div>
                   <div className="border-b border-gray-100 pb-4">
-                    <p className="text-sm text-gray-500 mb-1">Email</p>
+                    <p className="text-sm text-gray-900 mb-1">Email</p>
                     <p className="font-medium">{updatedProfile.email}</p>
                   </div>
                 </div>
                 <div>
                   <div>
-                    <p className="text-sm text-gray-500 mb-1">Số điện thoại</p>
+                    <p className="text-sm text-gray-900 mb-1">Số điện thoại</p>
                     <p className="font-medium">
                       {updatedProfile.phone || "Chưa cập nhật"}
                     </p>

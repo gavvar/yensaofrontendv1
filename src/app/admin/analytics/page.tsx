@@ -6,16 +6,11 @@ import adminService from "@/services/adminService";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import {
-  FiCalendar,
   FiDollarSign,
   FiShoppingBag,
   FiUsers,
   FiPackage,
-  FiBarChart2,
-  FiPieChart,
-  FiTrendingUp,
   FiDownload,
-  FiFilter,
 } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,8 +19,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   LineChart,
   Line,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   Cell,
@@ -346,7 +339,20 @@ export default function AdminAnalyticsPage() {
   }, [revenueData, groupBy]);
 
   // Custom tooltip for revenue chart
-  const RevenueTooltip = ({ active, payload, label }: any) => {
+  interface RevenueTooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      payload: {
+        formattedDate: string;
+        revenue: number;
+        orderCount: number;
+      };
+    }>;
+    label?: string;
+  }
+
+  const RevenueTooltip = ({ active, payload }: RevenueTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md">
@@ -364,7 +370,18 @@ export default function AdminAnalyticsPage() {
   };
 
   // Payment method tooltip
-  const PaymentTooltip = ({ active, payload }: any) => {
+  interface PaymentTooltipProps {
+    active?: boolean;
+    payload?: {
+      payload: {
+        name: string;
+        value: number;
+        amount: number;
+      };
+    }[];
+  }
+
+  const PaymentTooltip = ({ active, payload }: PaymentTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border border-gray-200 shadow-sm rounded-md">
@@ -404,7 +421,7 @@ export default function AdminAnalyticsPage() {
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
           Phân tích thống kê
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-900">
           Xem thống kê chi tiết về hoạt động kinh doanh của cửa hàng
         </p>
       </div>
@@ -462,10 +479,10 @@ export default function AdminAnalyticsPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm">Tổng doanh thu</p>
+              <p className="text-gray-900 text-sm">Tổng doanh thu</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loadingDashboard ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   formatCurrency(dashboardStats?.revenue || 0)
                 )}
@@ -481,10 +498,10 @@ export default function AdminAnalyticsPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm">Tổng đơn hàng</p>
+              <p className="text-gray-900 text-sm">Tổng đơn hàng</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loadingDashboard ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   dashboardStats?.totalOrders || 0
                 )}
@@ -500,10 +517,10 @@ export default function AdminAnalyticsPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm">Sản phẩm đã bán</p>
+              <p className="text-gray-900 text-sm">Sản phẩm đã bán</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loadingDashboard ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   dashboardStats?.productsSold || 0
                 )}
@@ -519,10 +536,10 @@ export default function AdminAnalyticsPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-gray-500 text-sm">Khách hàng mới</p>
+              <p className="text-gray-900 text-sm">Khách hàng mới</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loadingDashboard ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   dashboardStats?.newCustomers || 0
                 )}
@@ -579,7 +596,7 @@ export default function AdminAnalyticsPage() {
 
           <div className="flex flex-wrap items-center gap-4 mb-4">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Từ ngày:</span>
+              <span className="text-sm text-gray-900">Từ ngày:</span>
               <DatePicker
                 selected={startDate}
                 onChange={(date: Date) => setStartDate(date)}
@@ -590,7 +607,7 @@ export default function AdminAnalyticsPage() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Đến ngày:</span>
+              <span className="text-sm text-gray-900">Đến ngày:</span>
               <DatePicker
                 selected={endDate}
                 onChange={(date: Date) => setEndDate(date)}
@@ -643,7 +660,7 @@ export default function AdminAnalyticsPage() {
             </div>
           ) : (
             <div className="flex justify-center items-center h-64">
-              <p className="text-gray-500">
+              <p className="text-gray-900">
                 Không có dữ liệu cho khoảng thời gian này
               </p>
             </div>
@@ -702,7 +719,7 @@ export default function AdminAnalyticsPage() {
                     <p className="text-2xl font-bold text-amber-600">
                       {avgProcessingHours.toFixed(1)} giờ
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-900 mt-1">
                       Từ lúc đặt hàng đến khi giao hàng thành công
                     </p>
                   </div>
@@ -732,7 +749,7 @@ export default function AdminAnalyticsPage() {
               </div>
             ) : (
               <div className="flex justify-center items-center h-64">
-                <p className="text-gray-500">
+                <p className="text-gray-900">
                   Không có dữ liệu trạng thái đơn hàng
                 </p>
               </div>
@@ -797,7 +814,7 @@ export default function AdminAnalyticsPage() {
                         </span>
                       </div>
                       <div className="flex justify-between px-5">
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-gray-900">
                           {method.value} đơn hàng
                         </span>
                         <span className="text-sm font-medium text-gray-800">
@@ -810,7 +827,7 @@ export default function AdminAnalyticsPage() {
               </div>
             ) : (
               <div className="flex justify-center items-center h-64">
-                <p className="text-gray-500">
+                <p className="text-gray-900">
                   Không có dữ liệu phương thức thanh toán
                 </p>
               </div>
@@ -839,19 +856,19 @@ export default function AdminAnalyticsPage() {
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Sản phẩm
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Đã bán
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
                     >
                       Doanh thu
                     </th>
@@ -882,7 +899,7 @@ export default function AdminAnalyticsPage() {
                             <div className="text-sm font-medium text-gray-900">
                               {product.productName}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            <div className="text-sm text-gray-900">
                               ID: {product.productId}
                             </div>
                           </div>
@@ -901,7 +918,7 @@ export default function AdminAnalyticsPage() {
             </div>
           ) : (
             <div className="flex justify-center items-center h-20">
-              <p className="text-gray-500">
+              <p className="text-gray-900">
                 Không có dữ liệu sản phẩm bán chạy
               </p>
             </div>
@@ -920,7 +937,7 @@ export default function AdminAnalyticsPage() {
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-gray-900 mb-4">
                 Chọn khoảng thời gian để xuất báo cáo doanh thu chi tiết
               </p>
 
@@ -977,7 +994,7 @@ export default function AdminAnalyticsPage() {
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-900">
                     Khoảng thời gian:
                   </span>
                   <span className="text-sm font-medium">
@@ -987,7 +1004,7 @@ export default function AdminAnalyticsPage() {
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-900">
                     Tổng số đơn hàng:
                   </span>
                   <span className="text-sm font-medium">
@@ -996,14 +1013,14 @@ export default function AdminAnalyticsPage() {
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Tổng doanh thu:</span>
+                  <span className="text-sm text-gray-900">Tổng doanh thu:</span>
                   <span className="text-sm font-medium">
                     {formatCurrency(dashboardStats?.revenue || 0)}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-gray-900">
                     Đơn giá trung bình:
                   </span>
                   <span className="text-sm font-medium">
@@ -1017,7 +1034,7 @@ export default function AdminAnalyticsPage() {
                 </div>
               </div>
 
-              <div className="mt-4 text-xs text-gray-500">
+              <div className="mt-4 text-xs text-gray-900">
                 * Báo cáo sẽ bao gồm chi tiết về đơn hàng, sản phẩm, doanh thu
                 theo ngày và thông tin thanh toán.
               </div>

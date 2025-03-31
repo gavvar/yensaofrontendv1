@@ -79,7 +79,7 @@ const Modal: React.FC<ModalProps> = ({
                   </Dialog.Title>
                   <button
                     type="button"
-                    className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+                    className="rounded-md text-gray-900 hover:text-gray-900 focus:outline-none"
                     onClick={onClose}
                     ref={cancelButtonRef}
                   >

@@ -246,7 +246,7 @@ export default function AdminUsers() {
           <h1 className="text-2xl font-bold text-gray-800">
             Quản lý người dùng
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-900">
             Quản lý thông tin và quyền của người dùng
           </p>
         </div>
@@ -260,7 +260,7 @@ export default function AdminUsers() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-900" />
           </div>
 
           <div className="relative">
@@ -273,7 +273,7 @@ export default function AdminUsers() {
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
-            <FiFilter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <FiFilter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-900 pointer-events-none" />
           </div>
 
           <button
@@ -294,10 +294,10 @@ export default function AdminUsers() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Tổng người dùng</p>
+              <p className="text-gray-900 text-sm">Tổng người dùng</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   usersStats.total
                 )}
@@ -313,10 +313,10 @@ export default function AdminUsers() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Người dùng mới (30 ngày)</p>
+              <p className="text-gray-900 text-sm">Người dùng mới (30 ngày)</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   usersStats.new
                 )}
@@ -332,10 +332,10 @@ export default function AdminUsers() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Người dùng hoạt động</p>
+              <p className="text-gray-900 text-sm">Người dùng hoạt động</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   usersStats.active
                 )}
@@ -351,10 +351,10 @@ export default function AdminUsers() {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex justify-between">
             <div>
-              <p className="text-gray-500 text-sm">Người dùng bị khoá</p>
+              <p className="text-gray-900 text-sm">Người dùng bị khoá</p>
               <p className="text-2xl font-bold text-gray-800 mt-1">
                 {loading ? (
-                  <span className="text-gray-400">Đang tải...</span>
+                  <span className="text-gray-900">Đang tải...</span>
                 ) : (
                   usersStats.inactive
                 )}
@@ -385,22 +385,22 @@ export default function AdminUsers() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Người dùng
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Email
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Vai trò
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Trạng thái
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Ngày tạo
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                       Thao tác
                     </th>
                   </tr>
@@ -458,7 +458,7 @@ export default function AdminUsers() {
                             {user.isActive ? "Hoạt động" : "Bị khoá"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           {new Date(user.createdAt).toLocaleDateString("vi-VN")}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -486,7 +486,7 @@ export default function AdminUsers() {
                     ))
                   ) : (
                     <tr className="text-center">
-                      <td colSpan={6} className="px-6 py-10 text-gray-500">
+                      <td colSpan={6} className="px-6 py-10 text-gray-900">
                         Không tìm thấy người dùng nào
                       </td>
                     </tr>
@@ -525,7 +525,7 @@ export default function AdminUsers() {
                       className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
                         currentPage === 1
                           ? "text-gray-300 cursor-not-allowed"
-                          : "text-gray-500 hover:bg-gray-50"
+                          : "text-gray-900 hover:bg-gray-50"
                       }`}
                     >
                       <span className="sr-only">Previous</span>
@@ -552,7 +552,7 @@ export default function AdminUsers() {
                           className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium ${
                             currentPage === pageNum
                               ? "bg-amber-50 text-amber-600"
-                              : "bg-white text-gray-500 hover:bg-gray-50"
+                              : "bg-white text-gray-900 hover:bg-gray-50"
                           }`}
                         >
                           {pageNum}
@@ -568,7 +568,7 @@ export default function AdminUsers() {
                       className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
                         currentPage === totalPages
                           ? "text-gray-300 cursor-not-allowed"
-                          : "text-gray-500 hover:bg-gray-50"
+                          : "text-gray-900 hover:bg-gray-50"
                       }`}
                     >
                       <span className="sr-only">Next</span>
@@ -595,7 +595,7 @@ export default function AdminUsers() {
                 </h3>
                 <button
                   onClick={handleCloseModal}
-                  className="text-gray-400 hover:text-gray-500"
+                  className="text-gray-900 hover:text-gray-900"
                 >
                   <FiX className="h-6 w-6" />
                 </button>
@@ -726,14 +726,14 @@ export default function AdminUsers() {
                 </h3>
                 <button
                   onClick={() => setIsDeleteModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-500"
+                  className="text-gray-900 hover:text-gray-900"
                 >
                   <FiX className="h-6 w-6" />
                 </button>
               </div>
 
               <div className="mb-6">
-                <p className="text-gray-500">
+                <p className="text-gray-900">
                   Bạn có chắc chắn muốn xoá người dùng{" "}
                   <span className="font-medium">{userToDelete.name}</span>? Hành
                   động này không thể hoàn tác.

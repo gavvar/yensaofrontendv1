@@ -200,7 +200,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
             <div className="flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FiCreditCard className="h-5 w-5 text-gray-400" />
+                  <FiCreditCard className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   type="text"
@@ -227,7 +227,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
             </label>
             <div className="relative mt-1 rounded-md shadow-sm">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-500 sm:text-sm">₫</span>
+                <span className="text-gray-900 sm:text-sm">₫</span>
               </div>
               <input
                 type="number"
@@ -239,10 +239,10 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
                 placeholder="0"
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-gray-500 sm:text-sm">{currency}</span>
+                <span className="text-gray-900 sm:text-sm">{currency}</span>
               </div>
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-gray-900">
               Tổng đơn hàng: {formatAmount(orderTotal, currency)}
             </p>
           </div>
@@ -260,7 +260,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
             <div className="flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FiCalendar className="h-5 w-5 text-gray-400" />
+                  <FiCalendar className="h-5 w-5 text-gray-900" />
                 </div>
                 <input
                   type="date"

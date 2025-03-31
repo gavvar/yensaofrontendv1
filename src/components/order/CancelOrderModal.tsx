@@ -62,7 +62,7 @@ const CancelOrderModal: React.FC<CancelOrderModalProps> = ({
           </h3>
         </div>
 
-        <p className="mb-4 text-gray-600">
+        <p className="mb-4 text-gray-900">
           Bạn đang hủy đơn hàng{" "}
           <span className="font-medium">{orderNumber}</span>. Hành động này
           không thể hoàn tác sau khi xác nhận.
@@ -91,7 +91,7 @@ const CancelOrderModal: React.FC<CancelOrderModalProps> = ({
         </div>
 
         <div className="mb-4">
-          <p className="text-sm text-gray-500 mb-2">
+          <p className="text-sm text-gray-900 mb-2">
             Lựa chọn nhanh lý do phổ biến:
           </p>
           <div className="flex flex-wrap gap-2">

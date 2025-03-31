@@ -90,7 +90,7 @@ const CartActions: React.FC<CartActionsProps> = ({
             ${
               hasSelectedItems
                 ? "bg-amber-600 text-white hover:bg-amber-700"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-300 text-gray-900 cursor-not-allowed"
             }
             transition-colors
           `}
@@ -141,7 +141,7 @@ const CartActions: React.FC<CartActionsProps> = ({
           ${
             hasSelectedItems
               ? "bg-amber-600 text-white hover:bg-amber-700"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-gray-300 text-gray-900 cursor-not-allowed"
           }
           transition-colors
         `}

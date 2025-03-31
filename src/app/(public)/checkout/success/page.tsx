@@ -95,7 +95,7 @@ export default function CheckoutSuccessPage() {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Đang tải thông tin đơn hàng...</p>
+        <p className="mt-4 text-gray-900">Đang tải thông tin đơn hàng...</p>
       </div>
     );
   }
@@ -119,7 +119,7 @@ export default function CheckoutSuccessPage() {
             />
           </svg>
           <h1 className="text-xl font-semibold mb-2">Đã xảy ra lỗi</h1>
-          <p className="text-gray-600 mb-6">{error}</p>
+          <p className="text-gray-900 mb-6">{error}</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/"
@@ -142,7 +142,7 @@ export default function CheckoutSuccessPage() {
   if (!order) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-gray-600">Không tìm thấy thông tin đơn hàng.</p>
+        <p className="text-gray-900">Không tìm thấy thông tin đơn hàng.</p>
         <Link
           href="/"
           className="inline-flex items-center justify-center mt-4 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700"
@@ -162,7 +162,7 @@ export default function CheckoutSuccessPage() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Đặt hàng thành công!
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-900">
             Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đã được xác nhận.
           </p>
         </div>
@@ -175,7 +175,7 @@ export default function CheckoutSuccessPage() {
                 <h2 className="text-lg font-semibold">
                   Đơn hàng #{order.orderNumber}
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-900">
                   Ngày đặt:{" "}
                   {new Date(order.orderDate).toLocaleDateString("vi-VN")}
                 </p>
@@ -215,12 +215,12 @@ export default function CheckoutSuccessPage() {
 
             <div className="space-y-4">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Tổng sản phẩm:</span>
+                <span className="text-gray-900">Tổng sản phẩm:</span>
                 <span>{order.items.length} sản phẩm</span>
               </div>
 
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Tạm tính:</span>
+                <span className="text-gray-900">Tạm tính:</span>
                 <span>
                   {formatCurrency(
                     order.subtotal || calculateSubtotal(order.items)
@@ -229,13 +229,13 @@ export default function CheckoutSuccessPage() {
               </div>
 
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Phí vận chuyển:</span>
+                <span className="text-gray-900">Phí vận chuyển:</span>
                 <span>{formatCurrency(order.shippingFee)}</span>
               </div>
 
               {order.discount > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Giảm giá:</span>
+                  <span className="text-gray-900">Giảm giá:</span>
                   <span className="text-green-600">
                     -{formatCurrency(order.discount)}
                   </span>
@@ -244,7 +244,7 @@ export default function CheckoutSuccessPage() {
 
               {order.tax > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Thuế:</span>
+                  <span className="text-gray-900">Thuế:</span>
                   <span>{formatCurrency(order.tax)}</span>
                 </div>
               )}
@@ -272,17 +272,17 @@ export default function CheckoutSuccessPage() {
 
             <div className="px-6 py-4">
               <p className="font-medium">{order.customerName}</p>
-              <p className="text-sm text-gray-600">{order.customerPhone}</p>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-900">{order.customerPhone}</p>
+              <p className="text-sm text-gray-900 mt-2">
                 {order.customerEmail}
               </p>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-900 mt-2">
                 {order.customerAddress}
               </p>
 
               {order.note && (
                 <div className="mt-3 pt-3 border-t border-gray-100">
-                  <p className="text-sm text-gray-500 italic">
+                  <p className="text-sm text-gray-900 italic">
                     <span className="font-medium">Ghi chú:</span> {order.note}
                   </p>
                 </div>
@@ -313,7 +313,7 @@ export default function CheckoutSuccessPage() {
                 {getPaymentMethodDisplay(order.paymentMethod as string)}
               </p>
 
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-900 mt-2">
                 Trạng thái thanh toán:
                 <span
                   className={`ml-1 ${
@@ -381,7 +381,7 @@ export default function CheckoutSuccessPage() {
                           {formatCurrency((item.price || 0) * item.quantity)}
                         </p>
                       </div>
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-gray-900">
                         {item.quantity} x {formatCurrency(item.price || 0)}
                       </p>
                     </div>
@@ -389,14 +389,14 @@ export default function CheckoutSuccessPage() {
                 </div>
               ))
             ) : (
-              <div className="px-6 py-4 text-center text-gray-500">
+              <div className="px-6 py-4 text-center text-gray-900">
                 Không có sản phẩm nào trong đơn hàng
               </div>
             )}
 
             {(order.items || []).length > 3 && (
               <div className="px-6 py-3 text-center text-sm">
-                <p className="text-gray-500">
+                <p className="text-gray-900">
                   + {(order.items || []).length - 3} sản phẩm khác
                 </p>
               </div>
@@ -407,7 +407,7 @@ export default function CheckoutSuccessPage() {
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
           <Link
-            href={`/orders/${order.id}`}
+            href={`/account/orders/${order.id}`}
             className="w-full sm:w-auto flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-amber-600 hover:bg-amber-700"
           >
             Xem chi tiết đơn hàng
