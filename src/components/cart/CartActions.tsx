@@ -90,7 +90,7 @@ const CartActions: React.FC<CartActionsProps> = ({
             ${
               hasSelectedItems
                 ? "bg-amber-600 text-white hover:bg-amber-700"
-                : "bg-gray-300 text-gray-900 cursor-not-allowed"
+                : "bg-gray-300 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 cursor-not-allowed"
             }
             transition-colors
           `}
@@ -141,7 +141,7 @@ const CartActions: React.FC<CartActionsProps> = ({
           ${
             hasSelectedItems
               ? "bg-amber-600 text-white hover:bg-amber-700"
-              : "bg-gray-300 text-gray-900 cursor-not-allowed"
+              : "bg-gray-300 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 cursor-not-allowed"
           }
           transition-colors
         `}
@@ -180,7 +180,7 @@ const CartActions: React.FC<CartActionsProps> = ({
 
       <Link
         href="/products"
-        className="flex items-center justify-center mt-3 w-full border border-gray-300 text-gray-700 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+        className="flex items-center justify-center mt-3 w-full border border-gray-300 text-gray-900 dark:text-gray-100700 p-3 rounded-lg hover:bg-gray-50 transition-colors"
       >
         <FiShoppingBag className="mr-2" />
         Tiếp tục mua sắm

@@ -6,6 +6,7 @@ import React, {
   useState,
   useEffect,
   useMemo,
+  useCallback,
 } from "react";
 import { useAuth } from "@/contexts/authContext";
 import cartService from "@/services/cartService";
@@ -255,13 +256,6 @@ export interface CartContextType {
   }[]; // Thêm phương thức này
 }
 
-const defaultCart: Cart = {
-  id: 0,
-  items: [],
-  total: 0,
-  itemCount: 0,
-};
-
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -270,7 +264,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   // Tính toán tổng số lượng và giá trị sản phẩm đã chọn
   const selectedItemsCount = useMemo(() => {
@@ -287,15 +281,41 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       .reduce((total, item) => total + item.subtotal, 0);
   }, [cart]);
 
-  // Fetch giỏ hàng khi người dùng đăng nhập
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchCart();
-    } else {
-      setCart(defaultCart);
+  // Thêm fetchCart vào useCallback
+  const fetchCart = useCallback(async () => {
+    console.log("Fetching cart, isAuthenticated:", isAuthenticated);
+    if (!isAuthenticated) {
+      console.log("User not authenticated, returning");
+      setCart(null);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      console.log("Sending request to get cart");
+      const response = await cartService.getCart();
+      console.log("Cart API response:", response);
+
+      // Chuẩn hóa dữ liệu
+      const normalizedCart = normalizeCartData(response);
+      console.log("Normalized cart:", normalizedCart);
+
+      setCart(normalizedCart);
+    } catch (err: unknown) {
+      console.error("Error fetching cart:", err);
+      setError("Không thể tải giỏ hàng. Vui lòng thử lại sau.");
+      setCart(null);
+    } finally {
       setLoading(false);
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated]);
+
+  // Sửa useEffect
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   // Hàm normalizeCartData để chuẩn hóa dữ liệu từ bất kỳ cấu trúc API nào
   const normalizeCartData = (apiResponse: ApiCartResponse): Cart | null => {
@@ -364,37 +384,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       ),
       itemCount: normalizedItems.length,
     };
-  };
-
-  // Cập nhật hàm fetchCart để sử dụng normalizeCartData
-  const fetchCart = async () => {
-    console.log("Fetching cart, isAuthenticated:", isAuthenticated);
-    if (!isAuthenticated) {
-      console.log("User not authenticated, returning");
-      setCart(null);
-      setLoading(false);
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-      console.log("Sending request to get cart");
-      const response = await cartService.getCart();
-      console.log("Cart API response:", response);
-
-      // Chuẩn hóa dữ liệu
-      const normalizedCart = normalizeCartData(response);
-      console.log("Normalized cart:", normalizedCart);
-
-      setCart(normalizedCart);
-    } catch (err: unknown) {
-      console.error("Error fetching cart:", err);
-      setError("Không thể tải giỏ hàng. Vui lòng thử lại sau.");
-      setCart(null);
-    } finally {
-      setLoading(false);
-    }
   };
 
   // 3. Sửa hàm addToCart để luôn gọi lại fetchCart

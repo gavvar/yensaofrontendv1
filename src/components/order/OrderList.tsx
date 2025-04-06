@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import OrderItem from "./OrderItem";
 import { OrderSummary, OrderStatus, OrderListParams } from "@/types/order";
 import orderService from "@/services/orderService";
@@ -46,8 +46,8 @@ const OrderList: React.FC<OrderListProps> = ({
     { value: "cancelled", label: "Đã hủy" },
   ];
 
-  // Fetch orders based on current filter
-  const fetchOrders = async () => {
+  // Fetch orders based on current filter - đã sửa để không có tham số không sử dụng
+  const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
       setError("");
@@ -67,7 +67,7 @@ const OrderList: React.FC<OrderListProps> = ({
       setError("Không thể tải danh sách đơn hàng. Vui lòng thử lại sau.");
       setLoading(false);
     }
-  };
+  }, [filter]);
 
   // Handle status filter change
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -86,12 +86,12 @@ const OrderList: React.FC<OrderListProps> = ({
     setFilter((prev) => ({ ...prev, page: newPage }));
   };
 
-  // Handle refresh button
+  // Handle refresh button - đã sửa để không truyền tham số
   const handleRefresh = () => {
     fetchOrders();
   };
 
-  // Fetch orders when filter changes
+  // Fetch orders when filter changes - đã sửa để không truyền tham số
   useEffect(() => {
     // Skip fetch if we have initial orders and it's the first render
     if (initialOrders && currentPage === 1 && !filter.orderStatus) {
@@ -99,7 +99,7 @@ const OrderList: React.FC<OrderListProps> = ({
     }
 
     fetchOrders();
-  }, [filter]);
+  }, [fetchOrders, currentPage, initialOrders, filter.orderStatus]);
 
   useEffect(() => {
     console.log("OrderList initialOrders:", initialOrders);
@@ -126,7 +126,7 @@ const OrderList: React.FC<OrderListProps> = ({
           className={`px-3 py-1 mx-1 rounded-md ${
             currentPage === i
               ? "bg-amber-600 text-white"
-              : "bg-white text-gray-700 hover:bg-gray-100"
+              : "bg-white text-gray-900 dark:text-gray-100700 hover:bg-gray-100"
           }`}
         >
           {i}
@@ -139,7 +139,7 @@ const OrderList: React.FC<OrderListProps> = ({
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 mx-1 rounded-md bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1 mx-1 rounded-md bg-white text-gray-900 dark:text-gray-100700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           &laquo;
         </button>
@@ -149,7 +149,7 @@ const OrderList: React.FC<OrderListProps> = ({
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 mx-1 rounded-md bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1 mx-1 rounded-md bg-white text-gray-900 dark:text-gray-100700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           &raquo;
         </button>
@@ -162,8 +162,11 @@ const OrderList: React.FC<OrderListProps> = ({
       {/* Filter and actions row */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 bg-white p-4 rounded-lg shadow-sm">
         <div className="flex items-center mb-4 sm:mb-0">
-          <FiFilter className="mr-2 text-gray-900" />
-          <label htmlFor="status-filter" className="text-sm text-gray-700 mr-2">
+          <FiFilter className="mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+          <label
+            htmlFor="status-filter"
+            className="text-sm text-gray-900 dark:text-gray-100700 mr-2"
+          >
             Lọc theo trạng thái:
           </label>
           <select
@@ -236,7 +239,7 @@ const OrderList: React.FC<OrderListProps> = ({
       {!loading && !error && orders.length === 0 && (
         <div className="bg-white p-8 rounded-lg shadow-sm text-center">
           <svg
-            className="mx-auto h-12 w-12 text-gray-900"
+            className="mx-auto h-12 w-12 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -249,10 +252,10 @@ const OrderList: React.FC<OrderListProps> = ({
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
+          <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
             Không có đơn hàng nào
           </h3>
-          <p className="mt-1 text-sm text-gray-900">
+          <p className="mt-1 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
             {filter.orderStatus
               ? `Bạn chưa có đơn hàng nào ở trạng thái "${
                   orderStatuses.find((s) => s.value === filter.orderStatus)
@@ -281,7 +284,7 @@ const OrderList: React.FC<OrderListProps> = ({
 
       {/* Orders count */}
       {!loading && !error && orders.length > 0 && (
-        <div className="text-sm text-gray-900 text-center mt-4">
+        <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 text-center mt-4">
           Hiển thị{" "}
           {Math.min((currentPage - 1) * (filter.limit || 10) + 1, totalOrders)}-
           {Math.min(currentPage * (filter.limit || 10), totalOrders)} trên{" "}

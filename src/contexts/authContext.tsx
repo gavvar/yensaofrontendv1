@@ -81,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [, setRedirectAttempt] = useState(0);
+
   const router = useRouter();
 
   // Clear error helper - DI CHUYỂN HÀM NÀY LÊN TRƯỚC
@@ -94,26 +94,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem("user");
 
-    // Ngăn nhiều lần redirect trong thời gian ngắn
-    setRedirectAttempt((prev) => {
-      const now = Date.now();
-      const lastAttempt = prev;
+    // Tìm locale trong URL hiện tại
+    if (typeof window !== "undefined") {
+      const pathParts = window.location.pathname.split("/");
+      const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
+      const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
 
-      // Chỉ redirect nếu cách lần cuối > 2 giây
-      if (now - lastAttempt > 2000) {
-        if (
-          typeof window !== "undefined" &&
-          !window.location.pathname.includes("/login")
-        ) {
-          router.push("/login?session=expired");
-        }
-        return now;
+      // Chỉ redirect khi ở trang admin
+      if (window.location.pathname.includes(`/${locale}/admin`)) {
+        router.push(`/${locale}/login?session=expired`);
       }
-      return prev;
-    });
+    }
   }, [router]);
 
-  // Cập nhật hàm checkAuth - thêm xử lý user data
   const checkAuth = useCallback(async () => {
     try {
       console.log("Checking authentication with /auth/me...");
@@ -147,92 +140,72 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         return true;
       } else {
-        // Rest of your code for handling auth failure
+        console.log("Auth unsuccessful");
+        return false;
       }
     } catch (err: unknown) {
       console.error("Error checking auth:", err);
+
+      // QUAN TRỌNG: Chỉ xử lý lỗi 401 nếu đang ở trang admin
       if (err instanceof AxiosError) {
         if (err.response?.status === 401) {
-          // Xử lý lỗi 401 - Unauthorized
-          handleAuthError();
-        } else {
-          console.error("Unexpected error:", err.response?.data);
+          if (
+            typeof window !== "undefined" &&
+            window.location.pathname.startsWith("/admin")
+          ) {
+            // Chỉ xử lý lỗi 401 cho các trang admin
+            handleAuthError();
+          } else {
+            // Đối với các trang khác, chỉ xóa user state nhưng không chuyển hướng
+            localStorage.removeItem("user");
+            setUser(null);
+          }
         }
       }
-      // Existing error handling code - already good
+      return false;
     }
   }, [handleAuthError]);
 
-  // Khởi tạo xác thực khi app khởi động
+  // Thay thế hoàn toàn initAuth trong useEffect
+
   useEffect(() => {
-    // Kiểm tra nếu đang ở đường dẫn login, không thực hiện kiểm tra auth
-    if (
-      typeof window !== "undefined" &&
-      (window.location.pathname === "/login" ||
-        window.location.pathname === "/register")
-    ) {
-      return;
-    }
-
-    // Không tự động redirect khi ở các trang public
-    const publicRoutes = ["/home", "/about", "/contact"]; // Define your public routes here
-    const isPublicRoute = publicRoutes.some((route) =>
-      window.location.pathname.startsWith(route)
-    );
-
     const initAuth = async () => {
       setLoading(true);
-      console.log("Initializing auth...");
 
-      // 1. Khôi phục từ localStorage trước
-      let userFromStorage = null;
+      // Khôi phục từ localStorage và KHÔNG kiểm tra với server cho các trang public
       try {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
-          userFromStorage = JSON.parse(storedUser) as User;
+          const userFromStorage = JSON.parse(storedUser) as User;
           userFromStorage.role = validateUserRole(userFromStorage.role);
-          setUser(userFromStorage); // Đặt user ngay lập tức để UI hiển thị
-          console.log("Restored user from localStorage:", userFromStorage);
+          setUser(userFromStorage);
         }
       } catch (error) {
-        console.error("Lỗi khi khôi phục user từ storage:", error);
+        console.error("Error parsing user from localStorage:", error);
         localStorage.removeItem("user");
       }
 
-      // 2. Kiểm tra với server, nhưng không đặt loading = false ngay lập tức
-      try {
-        const isAuthenticated = await checkAuth();
-
-        // Nếu không xác thực trên server nhưng có dữ liệu local
-        if (!isAuthenticated && userFromStorage) {
-          console.log("Local user exists but not authenticated with server");
-          // Không xóa local data ngay trừ khi ở admin page
-          if (
-            typeof window !== "undefined" &&
-            window.location.pathname.includes("/admin")
-          ) {
-            console.log("On admin page with invalid auth, will redirect");
-            // Thêm delay để tránh redirect loops
-            setTimeout(() => handleAuthError(), 500);
+      // Chỉ kiểm tra xác thực với server nếu đang ở trang admin
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname.startsWith("/admin")
+      ) {
+        try {
+          const isAuthenticated = await checkAuth();
+          if (!isAuthenticated) {
+            router.push("/login");
           }
-        } else if (!isPublicRoute) {
-          // Chỉ redirect khi không phải trang public và không có thông tin đăng nhập
+        } catch (error) {
+          console.error("Admin auth check failed:", error);
           router.push("/login");
         }
-      } catch (error) {
-        console.error("Error checking auth on init:", error);
-        if (!window.location.pathname.includes("/login") && !isPublicRoute) {
-          localStorage.removeItem("user");
-          setUser(null);
-          router.push("/login");
-        }
-      } finally {
-        setLoading(false);
       }
+
+      setLoading(false);
     };
 
     initAuth();
-  }, [checkAuth, handleAuthError, router]);
+  }, [checkAuth, router]);
 
   // Cập nhật Login function
   const login = async (
@@ -363,15 +336,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Reset user state
       setUser(null);
 
-      // Redirect đến trang đăng nhập
-      router.push("/login");
+      // Tìm locale trong URL hiện tại
+      if (typeof window !== "undefined") {
+        const pathParts = window.location.pathname.split("/");
+        const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
+        const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
+
+        // Redirect đến trang đăng nhập với locale
+        router.push(`/${locale}/login`);
+      }
     } catch (error) {
       console.error("Logout error:", error);
 
       // Ngay cả khi API thất bại, vẫn xóa dữ liệu local để đảm bảo logout
       localStorage.removeItem("user");
       setUser(null);
-      router.push("/login");
+
+      if (typeof window !== "undefined") {
+        const pathParts = window.location.pathname.split("/");
+        const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
+        const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
+
+        router.push(`/${locale}/login`);
+      }
     }
   }, [router]);
 

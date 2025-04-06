@@ -25,7 +25,7 @@ const TopProductsTable: React.FC<TopProductsTableProps> = ({
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
         <div className="p-6 border-b border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
             Sản phẩm bán chạy
           </h2>
         </div>
@@ -40,7 +40,7 @@ const TopProductsTable: React.FC<TopProductsTableProps> = ({
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
       <div className="p-6 border-b border-gray-100">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
             Sản phẩm bán chạy
           </h2>
           <Link
@@ -53,7 +53,7 @@ const TopProductsTable: React.FC<TopProductsTableProps> = ({
       </div>
 
       {products.length === 0 ? (
-        <div className="p-6 text-center text-gray-900">
+        <div className="p-6 text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           Chưa có dữ liệu sản phẩm bán chạy
         </div>
       ) : (
@@ -61,16 +61,16 @@ const TopProductsTable: React.FC<TopProductsTableProps> = ({
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider">
                   Sản phẩm
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider">
                   Giá
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider">
                   Đã bán
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider">
                   Doanh thu
                 </th>
               </tr>
@@ -95,34 +95,34 @@ const TopProductsTable: React.FC<TopProductsTableProps> = ({
                             sizes="40px"
                           />
                         ) : (
-                          <div className="h-10 w-10 bg-gray-200 rounded-md flex items-center justify-center text-gray-900">
+                          <div className="h-10 w-10 bg-gray-200 rounded-md flex items-center justify-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             ?
                           </div>
                         )}
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                           {product.name ||
                             product.productName ||
                             (product.product && product.product.name)}
                         </div>
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                           {/* Display any additional product info here */}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatCurrency(
                       product.price ||
                         (product.product && product.product.price) ||
                         0
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatNumber(product.quantity || product.totalSold || 0)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatCurrency(
                       product.revenue || product.totalRevenue || 0
                     )}

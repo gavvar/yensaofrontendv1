@@ -51,7 +51,7 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100">
       <div className="p-6 border-b border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
           Phương thức thanh toán
         </h2>
       </div>
@@ -98,15 +98,15 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
                       className="w-3 h-3 rounded-full mr-2"
                       style={{ backgroundColor: method.color }}
                     ></div>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100700">
                       {method.name}
                     </span>
                   </div>
                   <div className="flex justify-between px-5">
-                    <span className="text-sm text-gray-900">
+                    <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                       {method.value} đơn hàng
                     </span>
-                    <span className="text-sm font-medium text-gray-800">
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100800">
                       {formatCurrency(method.amount)}
                     </span>
                   </div>
@@ -116,7 +116,7 @@ const PaymentMethodsChart: React.FC<PaymentMethodsChartProps> = ({
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-900">
+            <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Không có dữ liệu phương thức thanh toán
             </p>
           </div>

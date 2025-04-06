@@ -6,6 +6,7 @@ import {
 } from "@/constants/order";
 import { format, parseISO } from "date-fns";
 import { vi } from "date-fns/locale";
+import { useLocale } from "next-intl";
 
 /**
  * Format giá tiền sang định dạng VND
@@ -249,3 +250,47 @@ export const formatOrderDate = (dateStr: string) => {
     return dateStr;
   }
 };
+
+export function useCurrencyFormatter() {
+  const locale = useLocale();
+
+  return (value: number | string | undefined | null) => {
+    if (value === undefined || value === null) return "";
+
+    const numericValue = typeof value === "string" ? parseFloat(value) : value;
+
+    if (isNaN(numericValue)) return "";
+
+    if (locale === "vi") {
+      // Format cho tiếng Việt
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(numericValue);
+    } else {
+      // Format cho tiếng Anh (và mặc định)
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(numericValue / 23000); // Giả sử tỷ giá 1 USD = 23000 VND
+    }
+  };
+}
+
+export function useDateFormatter() {
+  const locale = useLocale();
+
+  return (date: Date | string) => {
+    const dateObj = typeof date === "string" ? new Date(date) : date;
+
+    return new Intl.DateTimeFormat(locale === "vi" ? "vi-VN" : "en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(dateObj);
+  };
+}

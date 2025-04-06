@@ -57,7 +57,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <span className="text-gray-900">Không có ảnh</span>
+            <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+              Không có ảnh
+            </span>
           </div>
         )}
       </Link>
@@ -75,7 +77,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Tên sản phẩm */}
         <Link href={`/product/${product.slug}`}>
-          <h3 className="font-medium text-gray-800 mb-2 hover:text-amber-600 transition-colors line-clamp-2 h-12">
+          <h3 className="font-medium text-gray-900 dark:text-gray-100800 mb-2 hover:text-amber-600 transition-colors line-clamp-2 h-12">
             {product.name}
           </h3>
         </Link>
@@ -88,12 +90,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <span className="text-red-600 font-medium">
                   {formatCurrency(product.discountPrice)}
                 </span>
-                <span className="text-gray-900 text-sm line-through">
+                <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 text-sm line-through">
                   {formatCurrency(product.price)}
                 </span>
               </div>
             ) : (
-              <span className="text-gray-800 font-medium">
+              <span className="text-gray-900 dark:text-gray-100800 font-medium">
                 {formatCurrency(product.price)}
               </span>
             )}
@@ -109,7 +111,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         {/* Thêm thông tin lượt xem và số lượng đã bán */}
-        <div className="flex justify-between text-xs text-gray-900 mt-2">
+        <div className="flex justify-between text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-2">
           {product.viewCount !== undefined && (
             <span>{product.viewCount} lượt xem</span>
           )}

@@ -21,7 +21,7 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100">
       <div className="p-6 border-b border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
           Trạng thái đơn hàng
         </h2>
       </div>
@@ -59,13 +59,13 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
 
             <div>
               <div className="mb-4">
-                <h3 className="text-base font-medium text-gray-700 mb-2">
+                <h3 className="text-base font-medium text-gray-900 dark:text-gray-100700 mb-2">
                   Thời gian xử lý trung bình
                 </h3>
                 <p className="text-2xl font-bold text-amber-600">
                   {avgProcessingHours.toFixed(1)} giờ
                 </p>
-                <p className="text-xs text-gray-900 mt-1">
+                <p className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1">
                   Từ lúc đặt hàng đến khi giao hàng thành công
                 </p>
               </div>
@@ -81,7 +81,7 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
                         className="w-3 h-3 rounded-full mr-2"
                         style={{ backgroundColor: status.color }}
                       ></div>
-                      <span className="text-sm text-gray-700">
+                      <span className="text-sm text-gray-900 dark:text-gray-100700">
                         {status.name}:
                       </span>
                     </div>
@@ -95,7 +95,7 @@ const OrderStatusChart: React.FC<OrderStatusChartProps> = ({
           </div>
         ) : (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-900">
+            <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Không có dữ liệu trạng thái đơn hàng
             </p>
           </div>

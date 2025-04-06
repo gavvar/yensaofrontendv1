@@ -20,6 +20,17 @@ export default function CategoryCard({ category }: CategoryCardProps) {
 
   return (
     <Link href={`/products?category=${category.slug}`}>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+        {/* Category image */}
+        <div className="p-4">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+            {category.name}
+          </h3>
+          <p className="text-gray-800 dark:text-gray-300 text-sm">
+            {category.description}
+          </p>
+        </div>
+      </div>
       <div className="relative h-60 group overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
         {/* Category Image with overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10 opacity-70"></div>
@@ -36,7 +47,7 @@ export default function CategoryCard({ category }: CategoryCardProps) {
           <h3 className="text-xl font-semibold mb-1">{category.name}</h3>
 
           {category.description && (
-            <p className="text-sm text-gray-100 mb-2 line-clamp-2">
+            <p className="text-sm text-gray-900 dark:text-gray-100100 mb-2 line-clamp-2">
               {category.description}
             </p>
           )}

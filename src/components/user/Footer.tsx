@@ -23,24 +23,34 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-gray-900 dark:bg-black text-white mt-auto py-10">
+      {/* Nội dung footer - giữ nguyên màu sáng vì footer thường tối trong cả 2 mode */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
             <h3 className="text-2xl font-bold mb-4">Yến Sào VN</h3>
-            <p className="text-gray-900 mb-4">
+            <p className="text-gray-400 dark:text-gray-300 mb-4">
               Chuyên cung cấp các sản phẩm yến sào tự nhiên, nguyên chất, đảm
               bảo chất lượng.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-900 hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-400 dark:text-gray-300 hover:text-white transition"
+              >
                 <FiFacebook size={20} />
               </a>
-              <a href="#" className="text-gray-900 hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-400 dark:text-gray-300 hover:text-white transition"
+              >
                 <FiInstagram size={20} />
               </a>
-              <a href="#" className="text-gray-900 hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-400 dark:text-gray-300 hover:text-white transition"
+              >
                 <FiYoutube size={20} />
               </a>
             </div>
@@ -53,7 +63,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/products"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   Sản phẩm
                 </Link>
@@ -61,7 +71,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   Về chúng tôi
                 </Link>
@@ -69,7 +79,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/blog"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   Bài viết
                 </Link>
@@ -77,7 +87,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/faq"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   Câu hỏi thường gặp
                 </Link>
@@ -90,25 +100,25 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Liên hệ</h4>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <FiMapPin className="mt-1 mr-3 text-gray-900" />
-                <span className="text-gray-900">
+                <FiMapPin className="mt-1 mr-3 text-gray-400 dark:text-gray-300" />
+                <span className="text-gray-400 dark:text-gray-300">
                   123 Đường Nguyễn Huệ, Quận 1, TP.HCM
                 </span>
               </li>
               <li className="flex items-center">
-                <FiPhone className="mr-3 text-gray-900" />
+                <FiPhone className="mr-3 text-gray-400 dark:text-gray-300" />
                 <a
                   href="tel:+84123456789"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   +84 123 456 789
                 </a>
               </li>
               <li className="flex items-center">
-                <FiMail className="mr-3 text-gray-900" />
+                <FiMail className="mr-3 text-gray-400 dark:text-gray-300" />
                 <a
                   href="mailto:info@yensaovn.com"
-                  className="text-gray-900 hover:text-white transition"
+                  className="text-gray-400 dark:text-gray-300 hover:text-white transition"
                 >
                   info@yensaovn.com
                 </a>
@@ -119,7 +129,7 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Đăng ký nhận tin</h4>
-            <p className="text-gray-900 mb-4">
+            <p className="text-gray-400 dark:text-gray-300 mb-4">
               Nhận thông báo về sản phẩm mới và các chương trình khuyến mãi
             </p>
             <form
@@ -145,7 +155,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-900">
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 dark:text-gray-300">
           <p>
             &copy; {new Date().getFullYear()} Yến Sào VN. Tất cả quyền được bảo
             lưu.

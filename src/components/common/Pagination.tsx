@@ -19,7 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({
   // Không hiển thị phân trang nếu chỉ có 1 trang
   if (totalPages <= 1) {
     return showSummary && totalItems ? (
-      <div className="text-sm text-gray-900 mt-4">
+      <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-4">
         <span>{totalItems} kết quả</span>
       </div>
     ) : null;
@@ -75,7 +75,7 @@ const Pagination: React.FC<PaginationProps> = ({
     <div className="flex items-center justify-between mt-4">
       {/* Hiển thị tổng số kết quả nếu có */}
       {showSummary && totalItems && (
-        <div className="text-sm text-gray-900">
+        <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           <span>{totalItems} kết quả</span>
         </div>
       )}
@@ -87,8 +87,8 @@ const Pagination: React.FC<PaginationProps> = ({
           disabled={currentPage === 1}
           className={`px-2 py-2 border rounded-md ${
             currentPage === 1
-              ? "border-gray-200 text-gray-300 cursor-not-allowed"
-              : "border-gray-300 text-gray-900 hover:bg-gray-50"
+              ? "border-gray-200 text-gray-900 dark:text-gray-100300 cursor-not-allowed"
+              : "border-gray-300 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:bg-gray-50"
           }`}
           aria-label="Previous page"
         >
@@ -99,14 +99,16 @@ const Pagination: React.FC<PaginationProps> = ({
         {getPageNumbers().map((page, index) => (
           <React.Fragment key={index}>
             {page === "..." ? (
-              <span className="px-3 py-2 text-gray-900">...</span>
+              <span className="px-3 py-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                ...
+              </span>
             ) : (
               <button
                 onClick={() => typeof page === "number" && onPageChange(page)}
                 className={`px-4 py-2 border rounded-md ${
                   currentPage === page
                     ? "bg-indigo-50 border-indigo-500 text-indigo-600"
-                    : "border-gray-300 text-gray-900 hover:bg-gray-50"
+                    : "border-gray-300 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:bg-gray-50"
                 }`}
               >
                 {page}
@@ -121,8 +123,8 @@ const Pagination: React.FC<PaginationProps> = ({
           disabled={currentPage === totalPages}
           className={`px-2 py-2 border rounded-md ${
             currentPage === totalPages
-              ? "border-gray-200 text-gray-300 cursor-not-allowed"
-              : "border-gray-300 text-gray-900 hover:bg-gray-50"
+              ? "border-gray-200 text-gray-900 dark:text-gray-100300 cursor-not-allowed"
+              : "border-gray-300 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:bg-gray-50"
           }`}
           aria-label="Next page"
         >

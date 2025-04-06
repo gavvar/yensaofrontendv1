@@ -119,7 +119,7 @@ export default function CategoryManager() {
         </div>
       </div>
 
-      <p className="text-gray-900 mb-4">
+      <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
         Kéo và thả để sắp xếp thứ tự danh mục hiển thị.
       </p>
 

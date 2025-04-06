@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import { toast } from "react-toastify";
 import {
@@ -21,16 +21,25 @@ import {
   FiHeart,
 } from "react-icons/fi";
 import categoryService from "@/services/categoryService";
-import { Category } from "@/services/categoryService";
+import type { Category } from "@/services/categoryService";
 import { useCart } from "@/contexts/CartContext";
 import MiniCart from "./MiniCart";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Locale } from "@/i18n";
 
-// Thay đổi cách lấy cart count
+/**
+ * Navigation component for the application.
+ * Handles responsive navigation, user authentication, shopping cart,
+ * dark mode toggle, and language switching.
+ */
 export default function Navbar() {
+  // Auth and cart context
   const { user, logout } = useAuth();
-  const { getCartCount } = useCart(); // Chỉ lấy getCartCount
+  const { getCartCount } = useCart();
 
-  // Tạo state isCartOpen ở cấp component
+  // UI state
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -39,25 +48,48 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const router = useRouter();
+  // Refs
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Lấy cart count từ context
+  // Navigation hooks
+  const router = useRouter();
+
+  // Internationalization
+  const params = useParams();
+  const locale = (
+    typeof params?.locale === "string" ? params.locale : "vi"
+  ) as Locale;
+  const t = useTranslations("common");
+  const tNav = useTranslations("navigation");
+  const tUser = useTranslations("user");
+
+  // Derived values
   const cartCount = getCartCount();
 
+  // Helper function for localized URLs
+  const getLocalizedUrl = useCallback(
+    (path: string): string => {
+      const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+      return `/${locale}${normalizedPath}`;
+    },
+    [locale]
+  );
+
+  // Handle scroll effect
   useEffect(() => {
-    // Add scroll listener for navbar styling
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll);
 
-    // Fetch categories
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // Fetch categories
+  useEffect(() => {
     const fetchCategories = async () => {
       try {
         const rootCategories = await categoryService.getRootCategories();
@@ -68,20 +100,16 @@ export default function Navbar() {
     };
 
     fetchCategories();
+  }, []);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [user]);
-
-  // Redirect to admin dashboard if admin
+  // Redirect admin users
   useEffect(() => {
     if (user?.role === "admin") {
-      router.push("/admin");
+      router.push(getLocalizedUrl("/admin"));
     }
-  }, [user, router]);
+  }, [user, router, getLocalizedUrl]);
 
-  // Đóng dropdown khi click ra ngoài
+  // Handle click outside user menu
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -98,30 +126,26 @@ export default function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log("Cart open state changed:", isCartOpen);
-  }, [isCartOpen]);
-
+  // Event handlers
   const handleLogout = () => {
     logout();
-    toast.success("Đăng xuất thành công!");
-    router.push("/login");
+    toast.success(tUser("logoutSuccess"));
+    router.push(getLocalizedUrl("/login"));
     setIsMenuOpen(false);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/products?search=${encodeURIComponent(searchQuery)}`);
+      router.push(
+        getLocalizedUrl(`/products?search=${encodeURIComponent(searchQuery)}`)
+      );
       setIsSearchOpen(false);
       setSearchQuery("");
     }
   };
 
-  const navLinkClasses =
-    "px-3 py-2 hover:text-amber-500 transition-colors font-medium";
-
-  // Nếu user là admin, không hiển thị navbar này
+  // Do not render navbar for admin users
   if (user?.role === "admin") {
     return null;
   }
@@ -129,71 +153,55 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition duration-300 ${
-          isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 ${
+          isScrolled ? "shadow-md" : "shadow-sm"
+        } transition-shadow duration-300`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
+          {/* Top Navbar - Logo & Main Nav */}
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center">
-              <div
-                className={`w-10 h-10 rounded-full ${
-                  isScrolled ? "bg-amber-100" : "bg-white/20"
-                } flex items-center justify-center mr-3 overflow-hidden`}
-              >
-                <Image
-                  src="/images/logo.jpg"
-                  alt="Yến Sào Thủ Đức"
-                  width={40}
-                  height={40}
-                  className="object-cover w-full h-full rounded-full scale-110"
-                />
-              </div>
-              <span
-                className={`text-xl font-bold ${
-                  isScrolled ? "text-amber-600" : "text-white"
-                }`}
-              >
-                Yến Sào Thủ Đức
+            <Link href={getLocalizedUrl("/")} className="flex items-center">
+              <Image
+                src="/images/logo.jpg"
+                alt={t("brandName")}
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-cover mr-3"
+              />
+              <span className="text-xl font-bold text-amber-600 dark:text-amber-500">
+                {t("brandName")}
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
+            <nav className="hidden md:flex items-center space-x-6">
               <Link
-                href="/"
-                className={`${navLinkClasses} ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                }`}
+                href={getLocalizedUrl("/")}
+                className="flex items-center text-gray-700 dark:text-gray-200 hover:text-amber-600 dark:hover:text-amber-400 font-medium"
               >
-                <span className="flex items-center">
-                  <FiHome className="mr-1" size={16} />
-                  Trang chủ
-                </span>
+                <FiHome className="mr-1" size={16} />
+                {tNav("home")}
               </Link>
 
               <div className="relative group">
-                <button
-                  className={`${navLinkClasses} flex items-center ${
-                    isScrolled ? "text-gray-800" : "text-white"
-                  }`}
-                >
+                <button className="flex items-center text-gray-700 dark:text-gray-200 hover:text-amber-600 dark:hover:text-amber-400 font-medium">
                   <FiPackage className="mr-1" size={16} />
-                  Sản phẩm <FiChevronDown className="ml-1" size={14} />
+                  {tNav("products")}
+                  <FiChevronDown className="ml-1" size={14} />
                 </button>
-                <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                <div className="absolute left-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   <Link
-                    href="/product"
-                    className="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600"
+                    href={getLocalizedUrl("/products")}
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
                   >
-                    Tất cả sản phẩm
+                    {tNav("allProducts")}
                   </Link>
                   {categories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/categories/${category.slug}`}
-                      className="block px-4 py-2 text-gray-800 hover:bg-amber-50 hover:text-amber-600"
+                      href={getLocalizedUrl(`/categories/${category.slug}`)}
+                      className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
                     >
                       {category.name}
                     </Link>
@@ -202,64 +210,49 @@ export default function Navbar() {
               </div>
 
               <Link
-                href="/about"
-                className={`${navLinkClasses} ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                }`}
+                href={getLocalizedUrl("/about")}
+                className="flex items-center text-gray-700 dark:text-gray-200 hover:text-amber-600 dark:hover:text-amber-400 font-medium"
               >
-                <span className="flex items-center">
-                  <FiInfo className="mr-1" size={16} />
-                  Giới thiệu
-                </span>
+                <FiInfo className="mr-1" size={16} />
+                {tNav("about")}
               </Link>
 
               <Link
-                href="/contact"
-                className={`${navLinkClasses} ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                }`}
+                href={getLocalizedUrl("/contact")}
+                className="flex items-center text-gray-700 dark:text-gray-200 hover:text-amber-600 dark:hover:text-amber-400 font-medium"
               >
-                <span className="flex items-center">
-                  <FiMail className="mr-1" size={16} />
-                  Liên hệ
-                </span>
+                <FiMail className="mr-1" size={16} />
+                {tNav("contact")}
               </Link>
             </nav>
 
             {/* Desktop Right Icons */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-2">
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className={`p-2 rounded-full hover:bg-white/20 ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } transition-colors`}
-                aria-label="Tìm kiếm"
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-label={t("search")}
               >
                 <FiSearch size={20} />
               </button>
 
+              <DarkModeToggle />
+
+              {/* Language Switcher */}
+              <LanguageSwitcher />
+
               <Link
-                href="/favorites"
-                className={`p-2 rounded-full hover:bg-white/20 ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } transition-colors`}
-                aria-label="Sản phẩm yêu thích"
+                href={getLocalizedUrl("/favorites")}
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-label={tUser("favorites")}
               >
                 <FiHeart size={20} />
               </Link>
 
               <button
-                onClick={(e) => {
-                  e.stopPropagation(); // Ngăn event bubbling
-                  console.log(
-                    "Cart button clicked, setting isCartOpen to true"
-                  );
-                  setIsCartOpen(true);
-                }}
-                className={`p-2 rounded-full hover:bg-white/20 relative ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } transition-colors`}
-                aria-label="Giỏ hàng"
+                onClick={() => setIsCartOpen(true)}
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
+                aria-label={t("cart")}
               >
                 <FiShoppingCart size={20} />
                 {cartCount > 0 && (
@@ -273,19 +266,9 @@ export default function Navbar() {
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className={`flex items-center p-1 rounded-full ${
-                      isScrolled
-                        ? "text-gray-800 hover:bg-gray-100"
-                        : "text-white hover:bg-white/20"
-                    } transition-colors`}
+                    className="flex items-center p-1 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
-                    <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-1 ${
-                        isScrolled
-                          ? "bg-gradient-to-tr from-amber-600 to-yellow-400"
-                          : "bg-white/30"
-                      }`}
-                    >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-600 to-yellow-400 flex items-center justify-center text-white font-bold mr-1">
                       {user.email ? user.email.charAt(0).toUpperCase() : "U"}
                     </div>
                     <FiChevronDown
@@ -297,73 +280,73 @@ export default function Navbar() {
                   </button>
 
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-10 transition-all duration-300 animate-fadeIn">
-                      <div className="px-4 py-2 border-b">
-                        <p className="text-sm font-semibold text-gray-900 truncate">
+                    <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-10 border border-gray-100 dark:border-gray-700">
+                      <div className="px-4 py-2 border-b dark:border-gray-700">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-200 truncate">
                           {user.email}
                         </p>
-                        <p className="text-xs text-amber-600">Khách hàng</p>
+                        <p className="text-xs text-amber-600 dark:text-amber-500">
+                          {tUser("customer")}
+                        </p>
                       </div>
 
                       <Link
-                        href="/account"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                        href={getLocalizedUrl("/account")}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
                       >
                         <FiUser className="mr-3" size={16} />
-                        Tài khoản của tôi
+                        {tUser("myAccount")}
                       </Link>
 
                       <Link
-                        href="/account/orders"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                        href={getLocalizedUrl("/account/orders")}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
                       >
                         <FiPackage className="mr-3" size={16} />
-                        Đơn hàng của tôi
+                        {tUser("myOrders")}
                       </Link>
 
                       <Link
-                        href="/favorites"
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-600"
+                        href={getLocalizedUrl("/favorites")}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
                       >
                         <FiHeart className="mr-3" size={16} />
-                        Sản phẩm yêu thích
+                        {tUser("favorites")}
                       </Link>
 
-                      <div className="border-t my-1"></div>
+                      <div className="border-t dark:border-gray-700 my-1"></div>
 
                       <button
                         onClick={handleLogout}
-                        className="flex items-center w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
+                        className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                       >
                         <FiLogOut className="mr-3" size={16} />
-                        Đăng xuất
+                        {tUser("logout")}
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
                 <Link
-                  href="/login"
-                  className={`px-4 py-2 rounded-md flex items-center ${
-                    isScrolled
-                      ? "bg-amber-600 text-white hover:bg-amber-700"
-                      : "bg-white text-gray-900 hover:bg-gray-100"
-                  } transition-colors`}
+                  href={getLocalizedUrl("/login")}
+                  className="flex items-center px-4 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white transition-colors"
                 >
                   <FiUser className="mr-2" size={16} />
-                  Đăng nhập
+                  {tUser("login")}
                 </Link>
               )}
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex md:hidden items-center space-x-3">
+            <div className="flex md:hidden items-center space-x-2">
+              <DarkModeToggle />
+
+              <LanguageSwitcher />
+
               <Link
-                href="/cart"
-                className={`p-2 rounded-full hover:bg-white/20 relative ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } transition-colors`}
-                aria-label="Giỏ hàng"
+                href={getLocalizedUrl("/cart")}
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 relative"
+                aria-label={t("cart")}
               >
                 <FiShoppingCart size={20} />
                 {cartCount > 0 && (
@@ -375,10 +358,8 @@ export default function Navbar() {
 
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 rounded-full hover:bg-white/20 ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } transition-colors`}
-                aria-label={isMenuOpen ? "Đóng menu" : "Mở menu"}
+                className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-label={isMenuOpen ? tNav("closeMenu") : tNav("openMenu")}
               >
                 {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
               </button>
@@ -387,19 +368,19 @@ export default function Navbar() {
 
           {/* Search Bar (Desktop) */}
           {isSearchOpen && (
-            <div className="hidden md:block absolute left-0 right-0 mt-2 px-4 pb-4">
+            <div className="hidden md:block py-3 border-t dark:border-gray-800">
               <form onSubmit={handleSearch} className="max-w-lg mx-auto">
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Tìm kiếm sản phẩm..."
-                    className="w-full bg-white border rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder={t("searchPlaceholder")}
+                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <button
                     type="submit"
-                    className="absolute right-0 top-0 h-full px-3 text-amber-600"
+                    className="absolute right-0 top-0 h-full px-3 text-amber-600 dark:text-amber-400"
                   >
                     <FiSearch size={18} />
                   </button>
@@ -411,21 +392,21 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t shadow-lg animate-fadeIn">
+          <div className="md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-800 shadow-lg">
             <div className="container mx-auto px-4 py-2">
               {/* Search Form */}
               <form onSubmit={handleSearch} className="mb-4 pt-4">
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Tìm kiếm sản phẩm..."
-                    className="w-full bg-gray-100 border rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder={t("searchPlaceholder")}
+                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <button
                     type="submit"
-                    className="absolute right-0 top-0 h-full px-3 text-amber-600"
+                    className="absolute right-0 top-0 h-full px-3 text-amber-600 dark:text-amber-400"
                   >
                     <FiSearch size={18} />
                   </button>
@@ -435,48 +416,48 @@ export default function Navbar() {
               {/* Navigation Links */}
               <nav className="space-y-1 pb-4">
                 <Link
-                  href="/"
-                  className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                  href={getLocalizedUrl("/")}
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <FiHome size={18} className="mr-3 text-amber-500" />
-                  Trang chủ
+                  {tNav("home")}
                 </Link>
                 <Link
-                  href="/products"
-                  className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                  href={getLocalizedUrl("/products")}
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <FiPackage size={18} className="mr-3 text-amber-500" />
-                  Sản phẩm
+                  {tNav("products")}
                 </Link>
                 <Link
-                  href="/about"
-                  className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                  href={getLocalizedUrl("/about")}
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <FiInfo size={18} className="mr-3 text-amber-500" />
-                  Giới thiệu
+                  {tNav("about")}
                 </Link>
                 <Link
-                  href="/contact"
-                  className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                  href={getLocalizedUrl("/contact")}
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <FiMail size={18} className="mr-3 text-amber-500" />
-                  Liên hệ
+                  {tNav("contact")}
                 </Link>
 
                 {/* Categories */}
-                <div className="pl-4 border-t pt-2 mt-2">
-                  <p className="text-sm text-gray-900 mb-1">
-                    Danh mục sản phẩm:
+                <div className="pl-4 border-t dark:border-gray-800 pt-2 mt-2">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mb-1">
+                    {tNav("productCategories")}:
                   </p>
                   {categories.map((category) => (
                     <Link
                       key={category.id}
-                      href={`/categories/${category.slug}`}
-                      className="block px-4 py-2 ml-4 hover:bg-amber-50 hover:text-amber-600 rounded-md text-sm"
+                      href={getLocalizedUrl(`/categories/${category.slug}`)}
+                      className="block px-4 py-2 ml-4 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md text-sm"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {category.name}
@@ -485,64 +466,66 @@ export default function Navbar() {
                 </div>
 
                 {/* Auth */}
-                <div className="border-t pt-2 mt-2">
+                <div className="border-t dark:border-gray-800 pt-2 mt-2">
                   {user ? (
                     <>
                       <div className="px-4 py-2 text-sm">
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold text-gray-700 dark:text-gray-200">
                           {user.email}
                         </p>
-                        <p className="text-xs text-amber-600">Khách hàng</p>
+                        <p className="text-xs text-amber-600 dark:text-amber-500">
+                          {tUser("customer")}
+                        </p>
                       </div>
                       <Link
-                        href="/account"
-                        className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                        href={getLocalizedUrl("/account")}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <FiUser size={18} className="mr-3 text-amber-500" />
-                        Tài khoản của tôi
+                        {tUser("myAccount")}
                       </Link>
                       <Link
-                        href="/orders"
-                        className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                        href={getLocalizedUrl("/account/orders")}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <FiPackage size={18} className="mr-3 text-amber-500" />
-                        Đơn hàng của tôi
+                        {tUser("myOrders")}
                       </Link>
                       <Link
-                        href="/favorites"
-                        className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                        href={getLocalizedUrl("/favorites")}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <FiHeart size={18} className="mr-3 text-amber-500" />
-                        Sản phẩm yêu thích
+                        {tUser("favorites")}
                       </Link>
                       <button
-                        className="flex items-center w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-md"
+                        className="flex items-center w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md"
                         onClick={handleLogout}
                       >
                         <FiLogOut size={18} className="mr-3" />
-                        Đăng xuất
+                        {tUser("logout")}
                       </button>
                     </>
                   ) : (
                     <>
                       <Link
-                        href="/login"
-                        className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                        href={getLocalizedUrl("/login")}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <FiUser size={18} className="mr-3 text-amber-500" />
-                        Đăng nhập
+                        {tUser("login")}
                       </Link>
                       <Link
-                        href="/register"
-                        className="flex items-center px-4 py-2 hover:bg-amber-50 hover:text-amber-600 rounded-md"
+                        href={getLocalizedUrl("/register")}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <FiUser size={18} className="mr-3 text-amber-500" />
-                        Đăng ký
+                        {tUser("register")}
                       </Link>
                     </>
                   )}
@@ -553,17 +536,11 @@ export default function Navbar() {
         )}
       </header>
 
-      {/* Spacer to account for fixed header */}
-      <div className={`${isScrolled ? "h-16" : "h-20"}`}></div>
+      {/* Spacer có cùng chiều cao với Navbar */}
+      <div className="h-16 w-full flex-shrink-0" aria-hidden="true"></div>
 
-      {/* Add Mini Cart */}
-      <MiniCart
-        isOpen={isCartOpen}
-        onClose={() => {
-          console.log("Closing MiniCart");
-          setIsCartOpen(false);
-        }}
-      />
+      {/* MiniCart */}
+      <MiniCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }

@@ -16,18 +16,26 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
   return (
-    <nav className="flex text-sm text-gray-900 mb-6" aria-label="Breadcrumb">
+    <nav
+      className="flex text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-6"
+      aria-label="Breadcrumb"
+    >
       <ol className="inline-flex items-center flex-wrap">
         {items.map((item, index) => (
           <React.Fragment key={index}>
             {index > 0 && (
               <li className="mx-2">
-                <FiChevronRight size={14} className="text-gray-900" />
+                <FiChevronRight
+                  size={14}
+                  className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
+                />
               </li>
             )}
             <li>
               {index === items.length - 1 ? (
-                <span className="font-medium text-gray-900">{item.label}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  {item.label}
+                </span>
               ) : (
                 <Link
                   href={item.href}

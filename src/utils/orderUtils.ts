@@ -268,7 +268,7 @@ export const getOrderTimelineDescription = (status: OrderStatus): string => {
   }
 };
 
-export default {
+const orderUtils = {
   getOrderStatusText,
   getPaymentStatusText,
   getOrderStatusInfo,
@@ -284,3 +284,5 @@ export default {
   getNextPossiblePaymentStatuses,
   getOrderTimelineDescription,
 };
+
+export default orderUtils;

@@ -79,13 +79,17 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({
   const renderIcon = (icon: ReactElement, isCompleted: boolean) => {
     // Thêm type assertion cho props để giải quyết lỗi
     return React.cloneElement(icon, {
-      className: `h-5 w-5 ${isCompleted ? "text-amber-600" : "text-gray-900"}`,
+      className: `h-5 w-5 ${
+        isCompleted
+          ? "text-amber-600"
+          : "text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
+      }`,
     } as React.SVGProps<SVGSVGElement>); // Xác định kiểu props chính xác
   };
 
   return (
     <div className={`${className}`}>
-      <h3 className="text-base font-semibold text-gray-800 mb-4">
+      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-4">
         Trạng thái đơn hàng
       </h3>
 
@@ -131,15 +135,17 @@ const OrderTimeline: React.FC<OrderTimelineProps> = ({
               // Styles dựa trên trạng thái
               const stepColor = isCompleted
                 ? "text-amber-600 border-amber-600 bg-amber-100"
-                : "text-gray-900 border-gray-200 bg-gray-100";
+                : "text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 border-gray-200 bg-gray-100";
 
-              const textColor = isCompleted ? "text-gray-900" : "text-gray-900";
+              const textColor = isCompleted
+                ? "text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
+                : "text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100";
 
               const labelColor = isCurrent
                 ? "font-semibold text-amber-700"
                 : isCompleted
-                ? "font-medium text-gray-900"
-                : "font-medium text-gray-900";
+                ? "font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
+                : "font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100";
 
               return (
                 <div

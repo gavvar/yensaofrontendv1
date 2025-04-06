@@ -170,12 +170,12 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="customerName"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Họ tên <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               <FiUser />
             </div>
             <input
@@ -199,12 +199,12 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="customerEmail"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Email <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               <FiMail />
             </div>
             <input
@@ -228,12 +228,12 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="customerPhone"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Số điện thoại <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               <FiPhone />
             </div>
             <input
@@ -257,12 +257,12 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="customerAddress"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Địa chỉ giao hàng <span className="text-red-500">*</span>
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               <FiMapPin />
             </div>
             <input
@@ -288,12 +288,12 @@ const ShippingForm: React.FC<ShippingFormProps> = ({
         <div className="mb-6">
           <label
             htmlFor="note"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Ghi chú
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               <FiMessageSquare />
             </div>
             <textarea

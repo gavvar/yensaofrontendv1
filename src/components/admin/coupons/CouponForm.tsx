@@ -204,7 +204,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Basic Information */}
       <div className="bg-gray-50 p-4 rounded-md">
-        <h3 className="text-md font-medium text-gray-900 mb-4">
+        <h3 className="text-md font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
           Thông tin cơ bản
         </h3>
 
@@ -213,7 +213,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="code"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Mã giảm giá <span className="text-red-500">*</span>
             </label>
@@ -232,7 +232,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
             {errors.code && (
               <p className="mt-1 text-sm text-red-600">{errors.code}</p>
             )}
-            <p className="mt-1 text-xs text-gray-900">
+            <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Mã giảm giá sẽ tự động chuyển thành chữ hoa. Chỉ sử dụng chữ cái,
               số, dấu gạch ngang và gạch dưới.
             </p>
@@ -242,7 +242,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Mô tả
             </label>
@@ -261,7 +261,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
 
       {/* Discount Settings */}
       <div className="bg-gray-50 p-4 rounded-md">
-        <h3 className="text-md font-medium text-gray-900 mb-4">
+        <h3 className="text-md font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
           Cài đặt giảm giá
         </h3>
 
@@ -270,7 +270,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="type"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Loại giảm giá <span className="text-red-500">*</span>
             </label>
@@ -290,7 +290,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="value"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Giá trị giảm giá <span className="text-red-500">*</span>
             </label>
@@ -310,7 +310,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
                 placeholder={formData.type === "percentage" ? "10" : "50000"}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <span className="text-gray-900 sm:text-sm">
+                <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
                   {formData.type === "percentage" ? "%" : "đ"}
                 </span>
               </div>
@@ -324,7 +324,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="minOrderValue"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Giá trị đơn hàng tối thiểu <span className="text-red-500">*</span>
             </label>
@@ -345,7 +345,9 @@ const CouponForm: React.FC<CouponFormProps> = ({
                 placeholder="0"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <span className="text-gray-900 sm:text-sm">đ</span>
+                <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                  đ
+                </span>
               </div>
             </div>
             {errors.minOrderValue && (
@@ -353,7 +355,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
                 {errors.minOrderValue}
               </p>
             )}
-            <p className="mt-1 text-xs text-gray-900">
+            <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Đặt giá trị 0 nếu không có giới hạn tối thiểu
             </p>
           </div>
@@ -363,7 +365,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
             <div>
               <label
                 htmlFor="maxDiscount"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Giảm giá tối đa
               </label>
@@ -384,7 +386,9 @@ const CouponForm: React.FC<CouponFormProps> = ({
                   placeholder="100000"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <span className="text-gray-900 sm:text-sm">đ</span>
+                  <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                    đ
+                  </span>
                 </div>
               </div>
               {errors.maxDiscount && (
@@ -392,7 +396,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
                   {errors.maxDiscount}
                 </p>
               )}
-              <p className="mt-1 text-xs text-gray-900">
+              <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                 Bỏ trống nếu không giới hạn số tiền giảm tối đa
               </p>
             </div>
@@ -402,7 +406,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
 
       {/* Time Settings */}
       <div className="bg-gray-50 p-4 rounded-md">
-        <h3 className="text-md font-medium text-gray-900 mb-4">
+        <h3 className="text-md font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
           Cài đặt thời gian
         </h3>
 
@@ -411,7 +415,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="startDate"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Ngày bắt đầu <span className="text-red-500">*</span>
             </label>
@@ -435,7 +439,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="endDate"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Ngày kết thúc <span className="text-red-500">*</span>
             </label>
@@ -460,7 +464,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
 
       {/* Usage Limits */}
       <div className="bg-gray-50 p-4 rounded-md">
-        <h3 className="text-md font-medium text-gray-900 mb-4">
+        <h3 className="text-md font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
           Giới hạn sử dụng
         </h3>
 
@@ -469,7 +473,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="usageLimit"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Tổng số lần sử dụng
             </label>
@@ -488,7 +492,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
             {errors.usageLimit && (
               <p className="mt-1 text-sm text-red-600">{errors.usageLimit}</p>
             )}
-            <p className="mt-1 text-xs text-gray-900">
+            <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Bỏ trống nếu không giới hạn số lần sử dụng
             </p>
           </div>
@@ -497,7 +501,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
           <div>
             <label
               htmlFor="userLimit"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Số lần mỗi người dùng có thể sử dụng
             </label>
@@ -516,7 +520,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
             {errors.userLimit && (
               <p className="mt-1 text-sm text-red-600">{errors.userLimit}</p>
             )}
-            <p className="mt-1 text-xs text-gray-900">
+            <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Bỏ trống nếu không giới hạn
             </p>
           </div>
@@ -525,7 +529,9 @@ const CouponForm: React.FC<CouponFormProps> = ({
 
       {/* Status */}
       <div className="bg-gray-50 p-4 rounded-md">
-        <h3 className="text-md font-medium text-gray-900 mb-4">Trạng thái</h3>
+        <h3 className="text-md font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
+          Trạng thái
+        </h3>
 
         <div className="flex items-center">
           <input
@@ -536,11 +542,14 @@ const CouponForm: React.FC<CouponFormProps> = ({
             onChange={handleChange}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
           />
-          <label htmlFor="active" className="ml-2 block text-sm text-gray-900">
+          <label
+            htmlFor="active"
+            className="ml-2 block text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
+          >
             Kích hoạt mã giảm giá
           </label>
         </div>
-        <p className="mt-1 text-xs text-gray-900">
+        <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           Bỏ chọn nếu bạn muốn tạo mã giảm giá nhưng chưa cho phép sử dụng
         </p>
       </div>

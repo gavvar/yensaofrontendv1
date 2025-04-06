@@ -27,6 +27,7 @@ import {
   FiRefreshCw,
 } from "react-icons/fi";
 import Link from "next/link";
+import Image from "next/image";
 //file nay dung de hien thi chi tiet don hang admin
 interface OrderDetailAdminProps {
   order: Order;
@@ -122,12 +123,12 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
           <div>
             <div className="flex items-center gap-2">
-              <FiPackage className="text-gray-900" />
-              <h2 className="text-lg font-bold text-gray-800">
+              <FiPackage className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+              <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100800">
                 Đơn hàng #{order.orderNumber}
               </h2>
             </div>
-            <p className="text-sm text-gray-900 mt-1">
+            <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1">
               Ngày đặt: {formatDateTime(order.orderDate, "long")}
             </p>
             {order.deleted && (
@@ -143,7 +144,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               {onPrintOrder && (
                 <button
                   onClick={onPrintOrder}
-                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50"
                 >
                   <FiPrinter className="mr-1.5 -ml-0.5 h-4 w-4" />
                   In
@@ -153,7 +154,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               {onDownloadInvoice && (
                 <button
                   onClick={onDownloadInvoice}
-                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50"
                 >
                   <FiDownload className="mr-1.5 -ml-0.5 h-4 w-4" />
                   Xuất PDF
@@ -162,7 +163,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
               <Link
                 href={`/admin/orders/edit/${order.id}`}
-                className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50"
               >
                 <FiEdit2 className="mr-1.5 -ml-0.5 h-4 w-4" />
                 Sửa
@@ -198,7 +199,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
             onClick={() => setOpenStatusForm(!openStatusForm)}
           >
             <OrderStatusBadge status={order.orderStatus} />
-            <button className="ml-1 text-gray-900 hover:text-amber-600">
+            <button className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-amber-600">
               <FiEdit2 className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -208,7 +209,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
             onClick={() => setOpenPaymentStatusForm(!openPaymentStatusForm)}
           >
             <PaymentStatusBadge status={order.paymentStatus} />
-            <button className="ml-1 text-gray-900 hover:text-amber-600">
+            <button className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-amber-600">
               <FiEdit2 className="h-3.5 w-3.5" />
             </button>
           </div>
@@ -258,14 +259,14 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
         {/* Customer info */}
         <div className="p-4 sm:p-6 border-b md:border-r border-gray-200">
-          <h3 className="text-base font-semibold text-gray-800 mb-3">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-3">
             Thông tin khách hàng
           </h3>
           <div className="space-y-3">
             <div className="flex items-start">
-              <FiUser className="mt-0.5 mr-2 text-gray-900" />
+              <FiUser className="mt-0.5 mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
               <div>
-                <p className="font-medium text-gray-800">
+                <p className="font-medium text-gray-900 dark:text-gray-100800">
                   {order.customerName}
                 </p>
                 {order.customerId && (
@@ -281,10 +282,10 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
             {order.customerEmail && (
               <div className="flex items-center">
-                <FiMail className="mr-2 text-gray-900" />
+                <FiMail className="mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 <a
                   href={`mailto:${order.customerEmail}`}
-                  className="text-gray-800 hover:text-amber-600"
+                  className="text-gray-900 dark:text-gray-100800 hover:text-amber-600"
                 >
                   {order.customerEmail}
                 </a>
@@ -292,10 +293,10 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
             )}
 
             <div className="flex items-center">
-              <FiPhone className="mr-2 text-gray-900" />
+              <FiPhone className="mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
               <a
                 href={`tel:${order.customerPhone}`}
-                className="text-gray-800 hover:text-amber-600"
+                className="text-gray-900 dark:text-gray-100800 hover:text-amber-600"
               >
                 {order.customerPhone}
               </a>
@@ -305,32 +306,38 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
         {/* Shipping info */}
         <div className="p-4 sm:p-6 border-b border-gray-200">
-          <h3 className="text-base font-semibold text-gray-800 mb-3">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-3">
             Địa chỉ giao hàng
           </h3>
           <div className="flex items-start">
-            <FiMapPin className="mt-0.5 mr-2 text-gray-900" />
+            <FiMapPin className="mt-0.5 mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
             <div>
-              <p className="text-gray-800">{order.customerAddress}</p>
+              <p className="text-gray-900 dark:text-gray-100800">
+                {order.customerAddress}
+              </p>
             </div>
           </div>
         </div>
 
         {/* Payment info */}
         <div className="p-4 sm:p-6 border-b md:border-r border-gray-200">
-          <h3 className="text-base font-semibold text-gray-800 mb-3">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-3">
             Thông tin thanh toán
           </h3>
           <div className="space-y-3">
             <div className="flex items-start">
-              <div className="w-28 text-sm text-gray-900">Phương thức:</div>
-              <div className="text-gray-800 font-medium">
+              <div className="w-28 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                Phương thức:
+              </div>
+              <div className="text-gray-900 dark:text-gray-100800 font-medium">
                 {formatPaymentMethod(order.paymentMethod)}
               </div>
             </div>
 
             <div className="flex items-start">
-              <div className="w-28 text-sm text-gray-900">Trạng thái:</div>
+              <div className="w-28 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                Trạng thái:
+              </div>
               <div>
                 <PaymentStatusBadge status={order.paymentStatus} />
               </div>
@@ -338,15 +345,21 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
             {order.paymentId && (
               <div className="flex items-start">
-                <div className="w-28 text-sm text-gray-900">Mã giao dịch:</div>
-                <div className="text-gray-800">{order.paymentId}</div>
+                <div className="w-28 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Mã giao dịch:
+                </div>
+                <div className="text-gray-900 dark:text-gray-100800">
+                  {order.paymentId}
+                </div>
               </div>
             )}
 
             {order.paidAt && (
               <div className="flex items-start">
-                <div className="w-28 text-sm text-gray-900">Thời gian:</div>
-                <div className="text-gray-800">
+                <div className="w-28 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Thời gian:
+                </div>
+                <div className="text-gray-900 dark:text-gray-100800">
                   {formatDateTime(order.paidAt, "long")}
                 </div>
               </div>
@@ -356,7 +369,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
         {/* Order notes */}
         <div className="p-4 sm:p-6 border-b border-gray-200">
-          <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-3 flex items-center">
             <FiMessageSquare className="mr-2" />
             Ghi chú đơn hàng
           </h3>
@@ -386,14 +399,16 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                     {onDeleteNote && (
                       <button
                         onClick={() => handleDeleteNote(note.id)}
-                        className="text-gray-900 hover:text-red-600"
+                        className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-red-600"
                       >
                         <FiTrash2 className="h-4 w-4" />
                       </button>
                     )}
                   </div>
-                  <p className="mt-2 text-sm text-gray-700">{note.content}</p>
-                  <div className="mt-1 text-xs text-gray-900">
+                  <p className="mt-2 text-sm text-gray-900 dark:text-gray-100700">
+                    {note.content}
+                  </p>
+                  <div className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {note.authorName && <span>{note.authorName} - </span>}
                     {formatDateTime(note.createdAt, "long")}
                   </div>
@@ -401,7 +416,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               ))}
             </div>
           ) : (
-            <p className="text-gray-900 text-sm mb-4">
+            <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 text-sm mb-4">
               Chưa có ghi chú cho đơn hàng này
             </p>
           )}
@@ -434,7 +449,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                 />
                 <label
                   htmlFor="privateNote"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-gray-900 dark:text-gray-100700"
                 >
                   Ghi chú nội bộ (khách hàng không nhìn thấy)
                 </label>
@@ -453,32 +468,34 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
 
       {/* Products Section */}
       <div className="p-4 sm:p-6 border-b border-gray-200">
-        <h3 className="text-base font-semibold text-gray-800 mb-3">Sản phẩm</h3>
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100800 mb-3">
+          Sản phẩm
+        </h3>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                  className="px-4 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
                 >
                   Sản phẩm
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider"
+                  className="px-4 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
                 >
                   Đơn giá
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider"
+                  className="px-4 py-3 text-center text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
                 >
                   Số lượng
                 </th>
                 <th
                   scope="col"
-                  className="px-4 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
+                  className="px-4 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
                 >
                   Thành tiền
                 </th>
@@ -491,7 +508,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                     <div className="flex items-center">
                       {item.product?.image && (
                         <div className="flex-shrink-0 h-10 w-10 mr-3">
-                          <img
+                          <Image
                             className="h-10 w-10 rounded-md object-cover"
                             src={item.product.image}
                             alt={item.productName}
@@ -499,29 +516,29 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                         </div>
                       )}
                       <div>
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                           {item.productName}
                         </div>
                         {item.variantName && (
-                          <div className="text-xs text-gray-900">
+                          <div className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             Phân loại: {item.variantName}
                           </div>
                         )}
                         {item.sku && (
-                          <div className="text-xs text-gray-900">
+                          <div className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             SKU: {item.sku}
                           </div>
                         )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-4 text-sm text-center text-gray-900">
+                  <td className="px-4 py-4 text-sm text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatAmount(item.price, order.currency)}
                   </td>
-                  <td className="px-4 py-4 text-sm text-center text-gray-900">
+                  <td className="px-4 py-4 text-sm text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {item.quantity}
                   </td>
-                  <td className="px-4 py-4 text-sm text-right text-gray-900 font-medium">
+                  <td className="px-4 py-4 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-medium">
                     {formatAmount(item.price * item.quantity, order.currency)}
                   </td>
                 </tr>
@@ -532,11 +549,11 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               <tr>
                 <td
                   colSpan={3}
-                  className="px-4 py-2 text-sm text-right text-gray-900"
+                  className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                 >
                   Tạm tính:
                 </td>
-                <td className="px-4 py-2 text-sm text-right text-gray-900 font-medium">
+                <td className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-medium">
                   {formatAmount(order.subtotal || 0, order.currency)}
                 </td>
               </tr>
@@ -545,11 +562,11 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               <tr>
                 <td
                   colSpan={3}
-                  className="px-4 py-2 text-sm text-right text-gray-900"
+                  className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                 >
                   Phí vận chuyển:
                 </td>
-                <td className="px-4 py-2 text-sm text-right text-gray-900 font-medium">
+                <td className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-medium">
                   {formatAmount(order.shippingFee, order.currency)}
                 </td>
               </tr>
@@ -559,7 +576,7 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-4 py-2 text-sm text-right text-gray-900"
+                    className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                   >
                     Giảm giá {order.couponCode && `(${order.couponCode})`}:
                   </td>
@@ -574,11 +591,11 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
                 <tr>
                   <td
                     colSpan={3}
-                    className="px-4 py-2 text-sm text-right text-gray-900"
+                    className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                   >
                     Thuế:
                   </td>
-                  <td className="px-4 py-2 text-sm text-right text-gray-900 font-medium">
+                  <td className="px-4 py-2 text-sm text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-medium">
                     {formatAmount(order.tax, order.currency)}
                   </td>
                 </tr>
@@ -588,11 +605,11 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
               <tr className="border-t border-gray-200">
                 <td
                   colSpan={3}
-                  className="px-4 py-3 text-base text-right text-gray-800 font-bold"
+                  className="px-4 py-3 text-base text-right text-gray-900 dark:text-gray-100800 font-bold"
                 >
                   Tổng cộng:
                 </td>
-                <td className="px-4 py-3 text-base text-right text-gray-900 font-bold">
+                <td className="px-4 py-3 text-base text-right text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-bold">
                   {formatAmount(order.totalAmount, order.currency)}
                 </td>
               </tr>
@@ -605,10 +622,14 @@ const OrderDetailAdmin: React.FC<OrderDetailAdminProps> = ({
       {order.note && (
         <div className="p-4 sm:p-6">
           <div className="flex items-start">
-            <FiFileText className="mt-1 mr-2 text-gray-900" />
+            <FiFileText className="mt-1 mr-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
             <div>
-              <p className="font-medium text-gray-800">Ghi chú từ khách hàng</p>
-              <p className="mt-1 text-sm text-gray-900">{order.note}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100800">
+                Ghi chú từ khách hàng
+              </p>
+              <p className="mt-1 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                {order.note}
+              </p>
             </div>
           </div>
         </div>

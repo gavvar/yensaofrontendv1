@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getFullImageUrl } from "@/utils/image";
-
+import Image from "next/image";
 export default function ImageUrlChecker() {
   const [urlToCheck, setUrlToCheck] = useState(
     "/uploads/products/thumbnail-1743033340594-226299347.jpg"
@@ -73,7 +73,7 @@ export default function ImageUrlChecker() {
                 <strong>Image Preview:</strong>
               </p>
               <div className="border p-2 mt-1">
-                <img
+                <Image
                   src={checkResult.url}
                   alt="URL Preview"
                   className="max-w-full h-auto max-h-32 object-contain"

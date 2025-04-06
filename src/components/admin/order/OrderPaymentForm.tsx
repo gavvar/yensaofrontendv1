@@ -128,7 +128,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
     <form onSubmit={handleSubmit} className={`${className}`}>
       <div className="space-y-4">
         <div>
-          <h3 className="text-base font-medium text-gray-900 mb-3 flex items-center">
+          <h3 className="text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-3 flex items-center">
             <FiDollarSign className="mr-2" />
             Cập nhật thông tin thanh toán
           </h3>
@@ -144,7 +144,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
         <div>
           <label
             htmlFor="paymentStatus"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Trạng thái thanh toán
           </label>
@@ -168,7 +168,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
           <div>
             <label
               htmlFor="paymentMethod"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Phương thức thanh toán
             </label>
@@ -193,14 +193,14 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
           <div>
             <label
               htmlFor="transactionId"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Mã giao dịch
             </label>
             <div className="flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FiCreditCard className="h-5 w-5 text-gray-900" />
+                  <FiCreditCard className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 <input
                   type="text"
@@ -221,13 +221,15 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
           <div>
             <label
               htmlFor="amount"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Số tiền {paymentStatus === "refunded" ? "hoàn trả" : "thanh toán"}
             </label>
             <div className="relative mt-1 rounded-md shadow-sm">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <span className="text-gray-900 sm:text-sm">₫</span>
+                <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                  ₫
+                </span>
               </div>
               <input
                 type="number"
@@ -239,10 +241,12 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
                 placeholder="0"
               />
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-gray-900 sm:text-sm">{currency}</span>
+                <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                  {currency}
+                </span>
               </div>
             </div>
-            <p className="mt-1 text-xs text-gray-900">
+            <p className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Tổng đơn hàng: {formatAmount(orderTotal, currency)}
             </p>
           </div>
@@ -253,14 +257,14 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
           <div>
             <label
               htmlFor="paymentDate"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Ngày {paymentStatus === "refunded" ? "hoàn tiền" : "thanh toán"}
             </label>
             <div className="flex rounded-md shadow-sm">
               <div className="relative flex flex-grow items-stretch focus-within:z-10">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FiCalendar className="h-5 w-5 text-gray-900" />
+                  <FiCalendar className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 <input
                   type="date"
@@ -279,7 +283,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
         <div>
           <label
             htmlFor="note"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Ghi chú (tùy chọn)
           </label>
@@ -300,7 +304,7 @@ const OrderPaymentForm: React.FC<OrderPaymentFormProps> = ({
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
           >
             <FiX className="mr-2 -ml-1 h-4 w-4" />
             Hủy

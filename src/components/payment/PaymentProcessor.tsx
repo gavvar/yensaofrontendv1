@@ -76,7 +76,9 @@ export default function PaymentProcessor() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold">Đang xác thực thanh toán...</h2>
-          <p className="text-gray-900 mt-2">Vui lòng không đóng trang này</p>
+          <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-2">
+            Vui lòng không đóng trang này
+          </p>
         </div>
       ) : status === "success" ? (
         <div className="text-center">
@@ -174,7 +176,7 @@ export default function PaymentProcessor() {
             </button>
             <button
               onClick={() => router.push("/")}
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition"
+              className="bg-gray-200 text-gray-900 dark:text-gray-100800 px-4 py-2 rounded hover:bg-gray-300 transition"
             >
               Quay lại trang chủ
             </button>

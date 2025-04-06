@@ -69,7 +69,7 @@ export const useCouponForm = ({
     if (formData.endDate) {
       setEndDateObj(new Date(formData.endDate));
     }
-  }, []);
+  }, [formData.startDate, formData.endDate]);
 
   // Update form validation status when formData or errors change
   useEffect(() => {

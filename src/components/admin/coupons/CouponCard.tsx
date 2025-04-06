@@ -79,7 +79,9 @@ const CouponCard: React.FC<CouponCardProps> = ({
       <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
         <div className="flex items-center">
           <FiTag className="text-indigo-500 mr-2" />
-          <h3 className="font-medium text-gray-900">{coupon.code}</h3>
+          <h3 className="font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            {coupon.code}
+          </h3>
         </div>
         <div
           className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -96,20 +98,24 @@ const CouponCard: React.FC<CouponCardProps> = ({
       <div className="p-4">
         {/* Description */}
         {coupon.description && (
-          <p className="text-sm text-gray-900 mb-4">{coupon.description}</p>
+          <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
+            {coupon.description}
+          </p>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Discount Details */}
           <div className="space-y-2">
             <div className="flex items-start">
-              <FiPercent className="text-gray-900 mt-1 mr-2" />
+              <FiPercent className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1 mr-2" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Giảm giá:</p>
-                <p className="text-base font-semibold text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Giảm giá:
+                </p>
+                <p className="text-base font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   {formatCouponValue()}
                   {coupon.type === "percentage" && coupon.maxDiscount && (
-                    <span className="ml-1 text-sm font-normal text-gray-900">
+                    <span className="ml-1 text-sm font-normal text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                       (tối đa {formatCurrency(coupon.maxDiscount)})
                     </span>
                   )}
@@ -118,16 +124,18 @@ const CouponCard: React.FC<CouponCardProps> = ({
             </div>
 
             <div className="flex items-start">
-              <FiInfo className="text-gray-900 mt-1 mr-2" />
+              <FiInfo className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1 mr-2" />
               <div>
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   Đơn hàng tối thiểu:
                 </p>
-                <p className="text-base font-semibold text-gray-900">
+                <p className="text-base font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   {coupon.minOrderValue > 0 ? (
                     formatCurrency(coupon.minOrderValue)
                   ) : (
-                    <span className="text-gray-900">Không giới hạn</span>
+                    <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                      Không giới hạn
+                    </span>
                   )}
                 </p>
               </div>
@@ -137,16 +145,18 @@ const CouponCard: React.FC<CouponCardProps> = ({
           {/* Time Details */}
           <div className="space-y-2">
             <div className="flex items-start">
-              <FiCalendar className="text-gray-900 mt-1 mr-2" />
+              <FiCalendar className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1 mr-2" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Thời gian:</p>
-                <p className="text-sm text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Thời gian:
+                </p>
+                <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   Từ:{" "}
                   <span className="font-medium">
                     {formatDate(coupon.startDate)}
                   </span>
                 </p>
-                <p className="text-sm text-gray-900">
+                <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   Đến:{" "}
                   <span className="font-medium">
                     {formatDate(coupon.endDate)}
@@ -161,14 +171,16 @@ const CouponCard: React.FC<CouponCardProps> = ({
             </div>
 
             <div className="flex items-start">
-              <FiUsers className="text-gray-900 mt-1 mr-2" />
+              <FiUsers className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1 mr-2" />
               <div>
-                <p className="text-sm font-medium text-gray-900">Sử dụng:</p>
-                <p className="text-base font-semibold text-gray-900">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Sử dụng:
+                </p>
+                <p className="text-base font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   {getUsageStatus()}
                 </p>
                 {coupon.userLimit && (
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     Mỗi người dùng tối đa {coupon.userLimit} lần
                   </p>
                 )}

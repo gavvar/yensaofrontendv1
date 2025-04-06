@@ -36,7 +36,7 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100">
       <div className="p-6 border-b border-gray-100">
-        <h2 className="text-lg font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
           Xuất báo cáo doanh thu
         </h2>
       </div>
@@ -44,13 +44,15 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <p className="text-sm text-gray-900 mb-4">
+            <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-4">
               Chọn khoảng thời gian để xuất báo cáo doanh thu chi tiết
             </p>
 
             <div className="space-y-4 mb-6">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label className="text-sm text-gray-700 w-20">Từ ngày:</label>
+                <label className="text-sm text-gray-900 dark:text-gray-100700 w-20">
+                  Từ ngày:
+                </label>
                 <DatePicker
                   selected={startDate}
                   onChange={onStartDateChange}
@@ -61,7 +63,9 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label className="text-sm text-gray-700 w-20">Đến ngày:</label>
+                <label className="text-sm text-gray-900 dark:text-gray-100700 w-20">
+                  Đến ngày:
+                </label>
                 <DatePicker
                   selected={endDate}
                   onChange={onEndDateChange}
@@ -73,7 +77,9 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <label className="text-sm text-gray-700 w-20">Định dạng:</label>
+                <label className="text-sm text-gray-900 dark:text-gray-100700 w-20">
+                  Định dạng:
+                </label>
                 <select className="px-3 py-2 border border-gray-300 rounded-md text-sm w-full">
                   <option value="excel">Excel (.xlsx)</option>
                   <option value="csv">CSV (.csv)</option>
@@ -97,7 +103,9 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
 
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-900">Khoảng thời gian:</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Khoảng thời gian:
+                </span>
                 <span className="text-sm font-medium">
                   {format(startDate, "dd/MM/yyyy")} -{" "}
                   {format(endDate, "dd/MM/yyyy")}
@@ -105,21 +113,25 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-900">Tổng số đơn hàng:</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Tổng số đơn hàng:
+                </span>
                 <span className="text-sm font-medium">
                   {dashboardStats?.totalOrders || "..."}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-900">Tổng doanh thu:</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                  Tổng doanh thu:
+                </span>
                 <span className="text-sm font-medium">
                   {formatCurrency(dashboardStats?.revenue || 0)}
                 </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-sm text-gray-900">
+                <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                   Đơn giá trung bình:
                 </span>
                 <span className="text-sm font-medium">
@@ -133,7 +145,7 @@ const ExportReportForm: React.FC<ExportReportFormProps> = ({
               </div>
             </div>
 
-            <div className="mt-4 text-xs text-gray-900">
+            <div className="mt-4 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               * Báo cáo sẽ bao gồm chi tiết về đơn hàng, sản phẩm, doanh thu
               theo ngày và thông tin thanh toán.
             </div>

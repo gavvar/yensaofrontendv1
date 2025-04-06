@@ -11,7 +11,9 @@ interface EmptyStateProps {
 const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
-  icon = <FiInfo className="h-12 w-12 text-gray-900" />,
+  icon = (
+    <FiInfo className="h-12 w-12 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+  ),
   action,
 }) => {
   return (
@@ -21,9 +23,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           {icon}
         </div>
       </div>
-      <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
+      <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-2">
+        {title}
+      </h3>
       {description && (
-        <p className="text-sm text-gray-900 max-w-md mx-auto mb-6">
+        <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 max-w-md mx-auto mb-6">
           {description}
         </p>
       )}

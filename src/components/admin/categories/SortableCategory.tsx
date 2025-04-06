@@ -26,7 +26,7 @@ export function SortableCategory({ category }: SortableCategoryProps) {
       {...listeners}
     >
       <div className="flex items-center space-x-4">
-        <div className="text-gray-900">
+        <div className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -57,7 +57,9 @@ export function SortableCategory({ category }: SortableCategoryProps) {
 
         <div>
           <h3 className="font-medium">{category.name}</h3>
-          <p className="text-sm text-gray-900">/{category.slug}</p>
+          <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            /{category.slug}
+          </p>
         </div>
       </div>
 

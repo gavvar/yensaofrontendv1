@@ -39,7 +39,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     return (
       <div className={`bg-white rounded-lg shadow-sm p-6 ${className}`}>
         <h2 className="text-lg font-semibold mb-4">Tổng kết đơn hàng</h2>
-        <p className="text-gray-900 text-center py-4">
+        <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 text-center py-4">
           Không có sản phẩm nào được chọn để thanh toán
         </p>
       </div>
@@ -53,7 +53,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       {/* Danh sách sản phẩm được chọn để thanh toán */}
       {showDetails && (
         <div className="mb-6">
-          <h3 className="font-medium text-sm text-gray-900 mb-3">
+          <h3 className="font-medium text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-3">
             Sản phẩm ({selectedItems.length})
           </h3>
 
@@ -80,7 +80,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                     {item.product.name}
                   </h4>
 
-                  <div className="mt-1 flex justify-between text-sm text-gray-900">
+                  <div className="mt-1 flex justify-between text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     <div>SL: {item.quantity}</div>
                     <div className="font-medium">
                       {formatCurrency(item.product.price * item.quantity)}
@@ -88,7 +88,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   </div>
 
                   {item.notes && (
-                    <div className="mt-1 text-xs text-gray-900 italic line-clamp-1">
+                    <div className="mt-1 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 italic line-clamp-1">
                       Ghi chú: {item.notes}
                     </div>
                   )}
@@ -102,7 +102,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       {/* Thông tin người nhận */}
       {checkout.shippingInfo.customerName && showDetails && (
         <div className="mb-6 pt-4 border-t border-gray-100">
-          <h3 className="font-medium text-sm text-gray-900 mb-2">
+          <h3 className="font-medium text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-2">
             Thông tin người nhận
           </h3>
 
@@ -121,7 +121,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             </p>
 
             {checkout.shippingInfo.note && (
-              <p className="mt-2 text-xs text-gray-900 italic">
+              <p className="mt-2 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 italic">
                 <span className="font-medium">Ghi chú:</span>{" "}
                 {checkout.shippingInfo.note}
               </p>
@@ -133,7 +133,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       {/* Phương thức thanh toán */}
       {checkout.selectedPaymentMethod && showDetails && (
         <div className="mb-6 pt-4 border-t border-gray-100">
-          <h3 className="font-medium text-sm text-gray-900 mb-2">
+          <h3 className="font-medium text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-2">
             Phương thức thanh toán
           </h3>
 
@@ -158,12 +158,16 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         }`}
       >
         <div className="flex justify-between">
-          <span className="text-gray-900">Tạm tính:</span>
+          <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            Tạm tính:
+          </span>
           <span>{formatCurrency(subtotal)}</span>
         </div>
 
         <div className="flex justify-between">
-          <span className="text-gray-900">Phí vận chuyển:</span>
+          <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            Phí vận chuyển:
+          </span>
           <span>
             {checkout.shippingFee > 0
               ? formatCurrency(checkout.shippingFee)
@@ -173,7 +177,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         {checkout.discount > 0 && (
           <div className="flex justify-between">
-            <span className="text-gray-900">Giảm giá:</span>
+            <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+              Giảm giá:
+            </span>
             <span className="text-green-600">
               -{formatCurrency(checkout.discount)}
             </span>
@@ -182,7 +188,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 
         {checkout.tax > 0 && (
           <div className="flex justify-between">
-            <span className="text-gray-900">Thuế:</span>
+            <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+              Thuế:
+            </span>
             <span>{formatCurrency(checkout.tax)}</span>
           </div>
         )}
@@ -197,7 +205,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       </div>
 
       {/* Thông báo */}
-      <p className="mt-4 text-xs text-gray-900">
+      <p className="mt-4 text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
         Bằng cách đặt hàng, bạn đồng ý với các điều khoản và điều kiện của chúng
         tôi.
       </p>

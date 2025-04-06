@@ -76,43 +76,43 @@ const CouponList: React.FC<CouponListProps> = ({
             <tr>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Mã giảm giá
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Giá trị
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Đơn tối thiểu
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Thời gian
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Đã dùng
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Trạng thái
               </th>
               <th
                 scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-gray-900 uppercase tracking-wider"
+                className="px-6 py-3 text-right text-xs font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 uppercase tracking-wider"
               >
                 Thao tác
               </th>
@@ -122,12 +122,12 @@ const CouponList: React.FC<CouponListProps> = ({
             {coupons.map((coupon) => (
               <tr key={coupon.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {coupon.code}
                   </div>
                   {coupon.description && (
                     <div
-                      className="text-xs text-gray-900 truncate max-w-xs"
+                      className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 truncate max-w-xs"
                       title={coupon.description}
                     >
                       {coupon.description}
@@ -135,36 +135,36 @@ const CouponList: React.FC<CouponListProps> = ({
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900 font-medium">
+                  <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 font-medium">
                     {formatCouponValue(coupon)}
                   </div>
                   {formatMaxDiscount(coupon) && (
-                    <div className="text-xs text-gray-900">
+                    <div className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                       {formatMaxDiscount(coupon)}
                     </div>
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">
+                  <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {coupon.minOrderValue > 0 ? (
                       formatCurrency(coupon.minOrderValue)
                     ) : (
-                      <span className="text-gray-900 text-xs">
+                      <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 text-xs">
                         Không giới hạn
                       </span>
                     )}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-xs text-gray-900">
+                  <div className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     Từ: {formatDate(coupon.startDate)}
                   </div>
-                  <div className="text-xs text-gray-900">
+                  <div className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     Đến: {formatDate(coupon.endDate)}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">
+                  <div className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {coupon.usageCount} / {coupon.usageLimit || "∞"}
                   </div>
                 </td>

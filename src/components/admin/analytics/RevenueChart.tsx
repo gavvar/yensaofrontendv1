@@ -93,8 +93,10 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-lg font-semibold text-gray-800">Doanh thu</h2>
-          <p className="text-sm text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100800">
+            Doanh thu
+          </h2>
+          <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
             Biểu đồ doanh thu theo thời gian
           </p>
         </div>
@@ -115,7 +117,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
               <option value="month">Theo tháng</option>
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <FiCalendar className="h-4 w-4 text-gray-900" />
+              <FiCalendar className="h-4 w-4 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
             </div>
           </div>
         </div>
@@ -156,7 +158,7 @@ const RevenueChart: React.FC<RevenueChartProps> = ({
           </ResponsiveContainer>
         </div>
       ) : (
-        <div className="h-64 flex items-center justify-center text-gray-900">
+        <div className="h-64 flex items-center justify-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           Không có dữ liệu doanh thu trong thời gian này
         </div>
       )}

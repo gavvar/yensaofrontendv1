@@ -319,7 +319,7 @@ https://github.com/honzachalupa/dev-stack/blob/aee9b2c961e9e88592a86e7082db63d1c
 ="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
               <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                 <div className="flex items-start justify-between">
-                  <h2 className="text-lg font-medium text-gray-900" id="
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" id="
 ```
 
 ## License: unknown
@@ -330,7 +330,7 @@ https://github.com/NhanHeio/petshop.react/blob/005d5b934fecdf563e1abf34260f0670b
 ="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
               <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                 <div className="flex items-start justify-between">
-                  <h2 className="text-lg font-medium text-gray-900" id="
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" id="
 ```
 
 ## License: unknown
@@ -341,7 +341,7 @@ https://github.com/honzachalupa/dev-stack/blob/aee9b2c961e9e88592a86e7082db63d1c
 ="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
               <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                 <div className="flex items-start justify-between">
-                  <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" id="slide-over-title">
 ```
 
 ## License: unknown
@@ -352,7 +352,7 @@ https://github.com/NhanHeio/petshop.react/blob/005d5b934fecdf563e1abf34260f0670b
 ="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
               <div className="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                 <div className="flex items-start justify-between">
-                  <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" id="slide-over-title">
 ```
 
 ## License: unknown
@@ -392,7 +392,7 @@ https://github.com/honzachalupa/dev-stack/blob/aee9b2c961e9e88592a86e7082db63d1c
 <div className="ml-3 flex h-7 items-center">
                     <button
                       type="button"
-                      className="-m-2 p-2 text-gray-900 hover:text-gray-900"
+                      className="-m-2 p-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
 ```
 
 ## License: unknown
@@ -403,7 +403,7 @@ https://github.com/honzachalupa/dev-stack/blob/aee9b2c961e9e88592a86e7082db63d1c
 <div className="ml-3 flex h-7 items-center">
                     <button
                       type="button"
-                      className="-m-2 p-2 text-gray-900 hover:text-gray-900"
+                      className="-m-2 p-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                       onClick={onClose}
 
 ```
@@ -416,7 +416,7 @@ https://github.com/honzachalupa/dev-stack/blob/aee9b2c961e9e88592a86e7082db63d1c
 <div className="ml-3 flex h-7 items-center">
                     <button
                       type="button"
-                      className="-m-2 p-2 text-gray-900 hover:text-gray-900"
+                      className="-m-2 p-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
                       onClick={onClose}
                     >
                       <span className="sr
@@ -587,7 +587,7 @@ div>
 
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                                     <h3>
 
 ```
@@ -601,7 +601,7 @@ div>
 
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                                     <h3>
 
 ```
@@ -615,7 +615,7 @@ div>
 
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                                     <h3>
                                       <Link href={`/product/${item
 ```
@@ -629,7 +629,7 @@ div>
 
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
-                                  <div className="flex justify-between text-base font-medium text-gray-900">
+                                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                                     <h3>
                                       <Link href={`/product/${item
 ```
@@ -677,7 +677,7 @@ https://github.com/fvaldes33/marcless.com/blob/0c923e53c49d4a622763a84e89251719c
 ```
 > 0 && (
                 <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
-                  <div className="flex justify-between text-base font-medium text-gray-900
+                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100
 ```
 
 ## License: unknown
@@ -687,6 +687,6 @@ https://github.com/fvaldes33/marcless.com/blob/0c923e53c49d4a622763a84e89251719c
 ```
 > 0 && (
                 <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
-                  <div className="flex justify-between text-base font-medium text-gray-900">
+                  <div className="flex justify-between text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     <p
 ```

@@ -9,7 +9,9 @@ export default function SectionTitle({
     <div className="text-center mb-8">
       <h2 className="text-3xl font-bold mb-3">{title}</h2>
       {subtitle && (
-        <p className="text-gray-900 max-w-2xl mx-auto">{subtitle}</p>
+        <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 max-w-2xl mx-auto">
+          {subtitle}
+        </p>
       )}
     </div>
   );

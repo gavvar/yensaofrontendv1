@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 // import Image from "next/image";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios"; // Thêm import này
+import Image from "next/image";
 import { FiSave, FiX, FiArrowLeft } from "react-icons/fi";
 import categoryService, {
   Category,
@@ -199,11 +200,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         <button
           type="button"
           onClick={() => router.back()}
-          className="mr-4 text-gray-900 hover:text-gray-900"
+          className="mr-4 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100"
         >
           <FiArrowLeft size={20} />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100800">
           {isEditing ? "Chỉnh sửa danh mục" : "Tạo danh mục mới"}
         </h1>
       </div>
@@ -216,7 +217,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Tên danh mục <span className="text-red-500">*</span>
               </label>
@@ -240,7 +241,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="description"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Mô tả
               </label>
@@ -258,7 +259,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="parentId"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Danh mục cha
               </label>
@@ -283,7 +284,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
               <div>
                 <label
                   htmlFor="isActive"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                 >
                   Trạng thái
                 </label>
@@ -300,7 +301,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                   />
                   <label
                     htmlFor="isActive"
-                    className="ml-2 block text-sm text-gray-700"
+                    className="ml-2 block text-sm text-gray-900 dark:text-gray-100700"
                   >
                     Hoạt động
                   </label>
@@ -310,7 +311,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
               <div>
                 <label
                   htmlFor="sortOrder"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                 >
                   Thứ tự sắp xếp
                 </label>
@@ -340,7 +341,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="imageUrl"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Đường dẫn hình ảnh
               </label>
@@ -358,7 +359,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
               {imagePreview && (
                 <div className="mt-2 relative border border-gray-200 rounded-md p-2">
                   <div className="aspect-w-16 aspect-h-9 rounded-md overflow-hidden bg-gray-100">
-                    <img
+                    <Image
                       src={imagePreview}
                       alt="Preview"
                       className="object-cover w-full h-full"
@@ -383,7 +384,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="metaTitle"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Tiêu đề SEO
               </label>
@@ -405,7 +406,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             <div>
               <label
                 htmlFor="metaDescription"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Mô tả SEO
               </label>
@@ -426,7 +427,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           <button
             type="button"
             onClick={() => router.push("/admin/categories")}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
           >
             Hủy
           </button>

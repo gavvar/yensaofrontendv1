@@ -82,7 +82,7 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
     <form onSubmit={handleSubmit} className={`${className}`}>
       <div className="space-y-4">
         {title && (
-          <h3 className="text-base font-medium text-gray-900 flex items-center">
+          <h3 className="text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 flex items-center">
             <FiMessageSquare className="mr-2" />
             {title}
           </h3>
@@ -126,10 +126,13 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
             />
           </div>
           <div className="ml-3 text-sm">
-            <label htmlFor="isPrivate" className="font-medium text-gray-700">
+            <label
+              htmlFor="isPrivate"
+              className="font-medium text-gray-900 dark:text-gray-100700"
+            >
               Ghi chú nội bộ
             </label>
-            <p className="text-gray-900">
+            <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Ghi chú này chỉ hiển thị cho nhân viên, khách hàng không nhìn thấy
             </p>
           </div>
@@ -152,11 +155,11 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
             <div className="ml-3 text-sm">
               <label
                 htmlFor="notifyCustomer"
-                className="font-medium text-gray-700"
+                className="font-medium text-gray-900 dark:text-gray-100700"
               >
                 Gửi thông báo cho khách hàng
               </label>
-              <p className="text-gray-900">
+              <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                 Khách hàng sẽ nhận được email thông báo về ghi chú này
               </p>
             </div>
@@ -181,7 +184,7 @@ const OrderNoteForm: React.FC<OrderNoteFormProps> = ({
               type="button"
               onClick={onCancel}
               disabled={isLoading}
-              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
             >
               <FiX className="mr-2 -ml-1 h-4 w-4" />
               Hủy

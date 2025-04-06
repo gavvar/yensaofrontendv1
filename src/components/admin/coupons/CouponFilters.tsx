@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FiSearch, FiCalendar, FiX } from "react-icons/fi";
@@ -66,8 +66,8 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
     }));
   };
 
-  // Apply filters
-  const applyFilters = () => {
+  // Thêm applyFilters vào useCallback
+  const applyFilters = useCallback(() => {
     const params: CouponListParams = {
       search: filters.search || undefined,
       type: (filters.type as CouponType) || undefined,
@@ -77,35 +77,12 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
     };
 
     onFilterChange(params);
-  };
+  }, [filters, onFilterChange]);
 
-  // Reset all filters
-  const resetFilters = () => {
-    setFilters({
-      search: "",
-      type: "",
-      active: undefined,
-      fromDate: null,
-      toDate: null,
-    });
-
-    onFilterChange({});
-  };
-
-  // Apply filters when form is submitted
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    applyFilters();
-  };
-
-  // Auto-apply filters when they change (except search field)
+  // Sửa useEffect
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      applyFilters();
-    }, 500);
-
-    return () => clearTimeout(timerId);
-  }, [filters.active, filters.type, filters.fromDate, filters.toDate]);
+    applyFilters();
+  }, [applyFilters]);
 
   return (
     <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
@@ -115,13 +92,13 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
           <div>
             <label
               htmlFor="search"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Tìm kiếm
             </label>
             <div className="mt-1 relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="text-gray-900" />
+                <FiSearch className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
               </div>
               <input
                 type="text"
@@ -139,7 +116,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
           <div>
             <label
               htmlFor="type"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Loại giảm giá
             </label>
@@ -158,7 +135,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1">
               Trạng thái
             </label>
             <div className="mt-1 grid grid-cols-3 gap-2">
@@ -174,7 +151,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
                 />
                 <label
                   htmlFor="status-all"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-gray-900 dark:text-gray-100700"
                 >
                   Tất cả
                 </label>
@@ -191,7 +168,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
                 />
                 <label
                   htmlFor="status-active"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-gray-900 dark:text-gray-100700"
                 >
                   Kích hoạt
                 </label>
@@ -208,7 +185,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
                 />
                 <label
                   htmlFor="status-inactive"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-gray-900 dark:text-gray-100700"
                 >
                   Vô hiệu
                 </label>
@@ -218,13 +195,13 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
 
           {/* Date Range */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1">
               Thời gian hiệu lực
             </label>
             <div className="grid grid-cols-1 gap-2">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="text-gray-900" />
+                  <FiCalendar className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 <DatePicker
                   selected={filters.fromDate}
@@ -236,7 +213,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="text-gray-900" />
+                  <FiCalendar className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 {/* Đây là thay đổi quan trọng */}
                 <DatePicker
@@ -257,7 +234,7 @@ const CouponFilters: React.FC<CouponFiltersProps> = ({
           <button
             type="button"
             onClick={resetFilters}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <FiX className="mr-2 h-4 w-4" />
             Xóa bộ lọc

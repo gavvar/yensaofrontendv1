@@ -27,6 +27,8 @@ import {
   ArcElement,
 } from "chart.js";
 import { Line, Bar, Doughnut } from "react-chartjs-2";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 // Đăng ký Chart.js components
 ChartJS.register(
@@ -67,6 +69,9 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
     fromDate: "",
     toDate: "",
   });
+
+  const params = useParams();
+  const locale = typeof params?.locale === "string" ? params.locale : "vi";
 
   // Chuẩn bị dữ liệu cho biểu đồ
   const prepareChartData = () => {
@@ -224,7 +229,9 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
       >
         <div className="flex flex-col items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-amber-600 mb-4"></div>
-          <p className="text-gray-900">Đang tải dữ liệu dashboard...</p>
+          <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            Đang tải dữ liệu dashboard...
+          </p>
         </div>
       </div>
     );
@@ -252,7 +259,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
   if (!data) {
     return (
       <div className={`bg-white rounded-lg shadow-sm p-6 ${className}`}>
-        <div className="text-center text-gray-900">
+        <div className="text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
           <p>Không có dữ liệu thống kê cho khoảng thời gian này</p>
         </div>
       </div>
@@ -268,7 +275,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
       {/* Period selector */}
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-          <h3 className="text-lg font-medium text-gray-800 flex items-center">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100800 flex items-center">
             <FiCalendar className="mr-2" />
             Khoảng thời gian
           </h3>
@@ -281,13 +288,13 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                 checked={compareWithPrevious}
                 onChange={toggleCompare}
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-gray-900 dark:text-gray-100700">
                 So sánh với kỳ trước
               </span>
             </label>
             <button
               onClick={() => handlePeriodChange(currentPeriod)}
-              className="inline-flex items-center p-1.5 text-gray-900 hover:text-amber-600 rounded-full"
+              className="inline-flex items-center p-1.5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-amber-600 rounded-full"
               title="Làm mới dữ liệu"
             >
               <FiRefreshCw className="h-4 w-4" />
@@ -303,7 +310,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                 className={`px-3 py-2 text-sm rounded-md transition-colors ${
                   currentPeriod === period
                     ? "bg-amber-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    : "bg-gray-100 text-gray-900 dark:text-gray-100700 hover:bg-gray-200"
                 }`}
                 onClick={() => handlePeriodChange(period as DashboardPeriod)}
               >
@@ -321,7 +328,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             className={`px-3 py-2 text-sm rounded-md transition-colors ${
               currentPeriod === "custom"
                 ? "bg-amber-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                : "bg-gray-100 text-gray-900 dark:text-gray-100700 hover:bg-gray-200"
             }`}
             onClick={() => handlePeriodChange("custom")}
           >
@@ -338,7 +345,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             <div>
               <label
                 htmlFor="fromDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Từ ngày
               </label>
@@ -356,7 +363,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             <div>
               <label
                 htmlFor="toDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Đến ngày
               </label>
@@ -393,11 +400,11 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-900 truncate">
+                <dt className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 truncate">
                   Tổng đơn hàng
                 </dt>
                 <dd>
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatNumber(data.orderCounts.total)}
                   </div>
                 </dd>
@@ -414,11 +421,11 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-900 truncate">
+                <dt className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 truncate">
                   Doanh thu
                 </dt>
                 <dd>
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatAmount(data.totalRevenue)}
                   </div>
                 </dd>
@@ -435,11 +442,11 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-900 truncate">
+                <dt className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 truncate">
                   Đơn hàng chờ xử lý
                 </dt>
                 <dd>
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatNumber(
                       data.orderCounts.pending + data.orderCounts.processing
                     )}
@@ -458,11 +465,11 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-900 truncate">
+                <dt className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 truncate">
                   Đơn hàng đã giao
                 </dt>
                 <dd>
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                     {formatNumber(data.orderCounts.delivered)}
                   </div>
                 </dd>
@@ -476,7 +483,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {/* Order Trends */}
         <div className="bg-white rounded-lg shadow-sm p-4 lg:col-span-2">
-          <h3 className="text-lg font-medium text-gray-800 mb-4">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100800 mb-4">
             Xu hướng đơn hàng
           </h3>
           <div className="h-80">
@@ -549,7 +556,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
 
         {/* Order Status Distribution */}
         <div className="bg-white rounded-lg shadow-sm p-4">
-          <h3 className="text-lg font-medium text-gray-800 mb-4">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100800 mb-4">
             Phân bố trạng thái
           </h3>
           <div className="h-80 flex items-center justify-center">
@@ -585,7 +592,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Products */}
         <div className="bg-white rounded-lg shadow-sm p-4">
-          <h3 className="text-lg font-medium text-gray-800 mb-4 flex items-center">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100800 mb-4 flex items-center">
             <FiTrendingUp className="mr-2" />
             Sản phẩm bán chạy
           </h3>
@@ -615,7 +622,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
               />
             </div>
           ) : (
-            <div className="flex items-center justify-center h-80 text-gray-900">
+            <div className="flex items-center justify-center h-80 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Không có dữ liệu sản phẩm
             </div>
           )}
@@ -623,7 +630,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
 
         {/* Recent Orders */}
         <div className="bg-white rounded-lg shadow-sm p-4">
-          <h3 className="text-lg font-medium text-gray-800 mb-4 flex items-center">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100800 mb-4 flex items-center">
             <FiPackage className="mr-2" />
             Đơn hàng gần đây
           </h3>
@@ -641,18 +648,18 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                           <p className="text-sm font-medium text-amber-600">
                             #{order.orderNumber}
                           </p>
-                          <p className="text-sm text-gray-900">
+                          <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             {order.customerName}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-medium text-gray-900">
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             {formatAmount(
                               order.totalAmount,
                               order.currency || "VND"
                             )}
                           </p>
-                          <p className="text-xs text-gray-900">
+                          <p className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                             {formatDate(order.orderDate)}
                           </p>
                         </div>
@@ -660,7 +667,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                       <div className="mt-1 flex justify-between items-center">
                         <div>
                           {order.orderStatus === "pending" && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                               <FiClock className="mr-1 h-3 w-3" /> Chờ xác nhận
                             </span>
                           )}
@@ -685,12 +692,12 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                             </span>
                           )}
                         </div>
-                        <a
-                          href={`/admin/orders/${order.id}`}
+                        <Link
+                          href={`/${locale}/admin/orders/${order.id}`}
                           className="text-xs text-amber-600 hover:text-amber-800"
                         >
                           Xem chi tiết
-                        </a>
+                        </Link>
                       </div>
                     </li>
                   )
@@ -698,8 +705,8 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
               </ul>
 
               <div className="mt-4 text-center">
-                <a
-                  href="/admin/orders"
+                <Link
+                  href={`/${locale}/admin/orders`}
                   className="inline-flex items-center text-sm font-medium text-amber-600 hover:text-amber-800"
                 >
                   Xem tất cả đơn hàng
@@ -716,11 +723,11 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
                       clipRule="evenodd"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-80 text-gray-900">
+            <div className="flex items-center justify-center h-80 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
               Không có đơn hàng gần đây
             </div>
           )}

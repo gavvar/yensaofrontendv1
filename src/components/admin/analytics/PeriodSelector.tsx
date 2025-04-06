@@ -18,7 +18,7 @@ const PeriodSelector: React.FC<PeriodSelectorProps> = ({
         className={`px-4 py-2 rounded-md text-sm font-medium ${
           period === "week"
             ? "bg-amber-600 text-white"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            : "bg-white text-gray-900 dark:text-gray-100700 border border-gray-300 hover:bg-gray-50"
         }`}
       >
         Tuần
@@ -28,7 +28,7 @@ const PeriodSelector: React.FC<PeriodSelectorProps> = ({
         className={`px-4 py-2 rounded-md text-sm font-medium ${
           period === "month"
             ? "bg-amber-600 text-white"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            : "bg-white text-gray-900 dark:text-gray-100700 border border-gray-300 hover:bg-gray-50"
         }`}
       >
         Tháng
@@ -38,7 +38,7 @@ const PeriodSelector: React.FC<PeriodSelectorProps> = ({
         className={`px-4 py-2 rounded-md text-sm font-medium ${
           period === "quarter"
             ? "bg-amber-600 text-white"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            : "bg-white text-gray-900 dark:text-gray-100700 border border-gray-300 hover:bg-gray-50"
         }`}
       >
         Quý
@@ -48,7 +48,7 @@ const PeriodSelector: React.FC<PeriodSelectorProps> = ({
         className={`px-4 py-2 rounded-md text-sm font-medium ${
           period === "year"
             ? "bg-amber-600 text-white"
-            : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            : "bg-white text-gray-900 dark:text-gray-100700 border border-gray-300 hover:bg-gray-50"
         }`}
       >
         Năm

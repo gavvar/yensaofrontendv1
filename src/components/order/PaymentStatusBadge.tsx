@@ -20,7 +20,7 @@ const getPaymentStatusColor = (status: PaymentStatus): string => {
     case "refunded":
       return "bg-blue-100 text-blue-800";
     default:
-      return "bg-gray-100 text-gray-800";
+      return "bg-gray-100 text-gray-900 dark:text-gray-100800";
   }
 };
 

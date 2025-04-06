@@ -24,13 +24,13 @@ const DeleteCouponModal: React.FC<DeleteCouponModalProps> = ({
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full overflow-hidden">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-          <h3 className="text-lg font-medium text-gray-900 flex items-center">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 flex items-center">
             <FiAlertTriangle className="text-red-500 mr-2" />
             Xác nhận xóa
           </h3>
           <button
             onClick={onCancel}
-            className="text-gray-900 hover:text-gray-900 focus:outline-none"
+            className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 focus:outline-none"
             disabled={isDeleting}
           >
             <FiX className="h-5 w-5" />
@@ -40,13 +40,15 @@ const DeleteCouponModal: React.FC<DeleteCouponModalProps> = ({
         {/* Body */}
         <div className="px-6 py-4">
           <div className="mb-4">
-            <p className="text-gray-700 mb-2">
+            <p className="text-gray-900 dark:text-gray-100700 mb-2">
               Bạn có chắc chắn muốn xóa mã giảm giá sau không?
             </p>
             <div className="bg-gray-50 rounded-md p-3 mt-2 border border-gray-200">
-              <p className="font-medium text-gray-900">{coupon.code}</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+                {coupon.code}
+              </p>
               {coupon.description && (
-                <p className="text-sm text-gray-900 mt-1">
+                <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1">
                   {coupon.description}
                 </p>
               )}
@@ -66,7 +68,7 @@ const DeleteCouponModal: React.FC<DeleteCouponModalProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             disabled={isDeleting}
           >
             Hủy bỏ

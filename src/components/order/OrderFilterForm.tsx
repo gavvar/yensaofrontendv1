@@ -86,7 +86,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
           <div className="flex-1">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="h-5 w-5 text-gray-900" />
+                <FiSearch className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
               </div>
               <input
                 type="text"
@@ -129,7 +129,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
             {/* Advanced filter toggle */}
             <button
               type="button"
-              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             >
               <FiFilter className="mr-2 h-4 w-4" />
@@ -145,7 +145,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
               >
                 <FiX className="mr-1 h-4 w-4" />
                 Xóa bộ lọc
@@ -162,7 +162,7 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
               <div>
                 <label
                   htmlFor="payment-status"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                 >
                   Trạng thái thanh toán
                 </label>
@@ -190,13 +190,13 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <div>
                   <label
                     htmlFor="from-date"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                   >
                     Từ ngày
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-900" />
+                      <FiCalendar className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                     </div>
                     <input
                       type="date"
@@ -211,13 +211,13 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
                 <div>
                   <label
                     htmlFor="to-date"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                   >
                     Đến ngày
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiCalendar className="h-5 w-5 text-gray-900" />
+                      <FiCalendar className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                     </div>
                     <input
                       type="date"
@@ -238,15 +238,17 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
       {(orderNumber || orderStatus || paymentStatus || fromDate || toDate) && (
         <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
           <div className="flex flex-wrap gap-2">
-            <span className="text-sm text-gray-900">Bộ lọc đang áp dụng:</span>
+            <span className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+              Bộ lọc đang áp dụng:
+            </span>
 
             {orderNumber && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                 Mã đơn: {orderNumber}
                 <button
                   type="button"
                   onClick={() => setOrderNumber("")}
-                  className="ml-1 text-gray-900 hover:text-gray-700"
+                  className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -254,13 +256,13 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
             )}
 
             {orderStatus && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                 Trạng thái:{" "}
                 {ORDER_STATUSES.find((s) => s.value === orderStatus)?.label}
                 <button
                   type="button"
                   onClick={() => setOrderStatus("")}
-                  className="ml-1 text-gray-900 hover:text-gray-700"
+                  className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -268,13 +270,13 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
             )}
 
             {paymentStatus && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                 Thanh toán:{" "}
                 {PAYMENT_STATUSES.find((s) => s.value === paymentStatus)?.label}
                 <button
                   type="button"
                   onClick={() => setPaymentStatus("")}
-                  className="ml-1 text-gray-900 hover:text-gray-700"
+                  className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -282,12 +284,12 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
             )}
 
             {fromDate && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                 Từ ngày: {fromDate}
                 <button
                   type="button"
                   onClick={() => setFromDate("")}
-                  className="ml-1 text-gray-900 hover:text-gray-700"
+                  className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>
@@ -295,12 +297,12 @@ const OrderFilterForm: React.FC<OrderFilterFormProps> = ({
             )}
 
             {toDate && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-900 dark:text-gray-100800">
                 Đến ngày: {toDate}
                 <button
                   type="button"
                   onClick={() => setToDate("")}
-                  className="ml-1 text-gray-900 hover:text-gray-700"
+                  className="ml-1 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100700"
                 >
                   <FiX className="h-3 w-3" />
                 </button>

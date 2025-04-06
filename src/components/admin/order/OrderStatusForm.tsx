@@ -167,7 +167,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
 
   return (
     <div className={`bg-white rounded-lg p-4 ${className}`}>
-      <h3 className="text-base font-medium text-gray-900">
+      <h3 className="text-base font-medium text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
         Cập nhật{" "}
         {type === "order" ? "trạng thái đơn hàng" : "trạng thái thanh toán"}
       </h3>
@@ -180,17 +180,17 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
 
       <form onSubmit={handleSubmit} className="mt-3">
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1">
             Trạng thái hiện tại
           </label>
           <div className="flex items-center">
-            <div className="px-3 py-2 bg-gray-100 text-gray-800 text-sm rounded-md">
+            <div className="px-3 py-2 bg-gray-100 text-gray-900 dark:text-gray-100800 text-sm rounded-md">
               {statuses.find((s) => s.value === currentStatus)?.label ||
                 currentStatus}
             </div>
             {selectedStatus !== currentStatus && (
               <>
-                <FiArrowRight className="mx-2 text-gray-900" />
+                <FiArrowRight className="mx-2 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 <div className="px-3 py-2 bg-amber-100 text-amber-800 text-sm rounded-md">
                   {statuses.find((s) => s.value === selectedStatus)?.label ||
                     selectedStatus}
@@ -203,7 +203,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
         <div className="mb-4">
           <label
             htmlFor="status"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
           >
             Chọn trạng thái mới
           </label>
@@ -220,7 +220,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
               </option>
             ))}
           </select>
-          <p className="mt-1 text-sm text-gray-900">
+          <p className="mt-1 text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
             {getStatusDescription(selectedStatus)}
           </p>
         </div>
@@ -229,7 +229,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
           <div className="mb-4">
             <label
               htmlFor="note"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Ghi chú (tùy chọn)
             </label>
@@ -256,7 +256,7 @@ const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+            className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
             disabled={updating}
           >
             <FiX className="mr-2 -ml-1 h-4 w-4" />

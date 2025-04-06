@@ -125,7 +125,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
     >
       {/* Header */}
       <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
-        <h3 className="text-base font-medium text-gray-800 flex items-center">
+        <h3 className="text-base font-medium text-gray-900 dark:text-gray-100800 flex items-center">
           <FiFilter className="mr-2" /> Bộ lọc đơn hàng
         </h3>
         <div className="flex space-x-2">
@@ -133,7 +133,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             type="button"
             onClick={resetFilters}
             disabled={loading || !hasActiveFilters()}
-            className="inline-flex items-center py-1.5 px-3 text-xs font-medium rounded-md text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+            className="inline-flex items-center py-1.5 px-3 text-xs font-medium rounded-md text-gray-900 dark:text-gray-100700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50"
           >
             <FiX className="mr-1" /> Xóa bộ lọc
           </button>
@@ -147,13 +147,13 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
           <div>
             <label
               htmlFor="searchTerm"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Tìm đơn hàng
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="h-5 w-5 text-gray-900" />
+                <FiSearch className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
               </div>
               <input
                 type="text"
@@ -172,7 +172,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
           <div>
             <label
               htmlFor="orderStatus"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Trạng thái đơn hàng
             </label>
@@ -197,7 +197,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
           <div>
             <label
               htmlFor="dateRangeType"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
             >
               Thời gian
             </label>
@@ -227,13 +227,13 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             <div>
               <label
                 htmlFor="fromDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Từ ngày
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="h-5 w-5 text-gray-900" />
+                  <FiCalendar className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 <input
                   type="date"
@@ -250,13 +250,13 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             <div>
               <label
                 htmlFor="toDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
               >
                 Đến ngày
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiCalendar className="h-5 w-5 text-gray-900" />
+                  <FiCalendar className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                 </div>
                 <input
                   type="date"
@@ -279,7 +279,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             <button
               type="button"
               onClick={() => toggleSection("payment")}
-              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-900 dark:text-gray-100700 hover:bg-gray-50"
             >
               <span className="flex items-center">
                 <FiDollarSign className="mr-2" /> Thanh toán
@@ -294,7 +294,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="paymentStatus"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Trạng thái thanh toán
                     </label>
@@ -322,7 +322,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="paymentMethod"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Phương thức thanh toán
                     </label>
@@ -352,13 +352,15 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="minAmount"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Giá trị đơn từ
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-900 sm:text-sm">₫</span>
+                        <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                          ₫
+                        </span>
                       </div>
                       <input
                         type="number"
@@ -380,13 +382,15 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="maxAmount"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Đến
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span className="text-gray-900 sm:text-sm">₫</span>
+                        <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 sm:text-sm">
+                          ₫
+                        </span>
                       </div>
                       <input
                         type="number"
@@ -413,7 +417,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             <button
               type="button"
               onClick={() => toggleSection("customer")}
-              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-900 dark:text-gray-100700 hover:bg-gray-50"
             >
               <span className="flex items-center">
                 <FiUser className="mr-2" /> Khách hàng & Địa chỉ
@@ -428,7 +432,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="customerName"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Tên khách hàng
                     </label>
@@ -451,13 +455,13 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="customerPhone"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Số điện thoại
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <FiPhone className="h-5 w-5 text-gray-900" />
+                        <FiPhone className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                       </div>
                       <input
                         type="text"
@@ -480,7 +484,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                 <div>
                   <label
                     htmlFor="customerEmail"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                   >
                     Email khách hàng
                   </label>
@@ -503,13 +507,13 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                 <div>
                   <label
                     htmlFor="customerAddress"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                   >
                     Địa chỉ
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FiMapPin className="h-5 w-5 text-gray-900" />
+                      <FiMapPin className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
                     </div>
                     <input
                       type="text"
@@ -535,7 +539,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
             <button
               type="button"
               onClick={() => toggleSection("amount")}
-              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-700 hover:bg-gray-50"
+              className="flex justify-between items-center w-full px-4 py-3 text-left text-sm font-medium text-gray-900 dark:text-gray-100700 hover:bg-gray-50"
             >
               <span className="flex items-center">
                 <FiBarChart2 className="mr-2" /> Sắp xếp & Hiển thị
@@ -550,7 +554,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="sortBy"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Sắp xếp theo
                     </label>
@@ -577,7 +581,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                   <div>
                     <label
                       htmlFor="sortOrder"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                     >
                       Thứ tự
                     </label>
@@ -602,7 +606,7 @@ const OrderFilterPanel: React.FC<OrderFilterPanelProps> = ({
                 <div>
                   <label
                     htmlFor="limit"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
                   >
                     Số đơn hàng mỗi trang
                   </label>

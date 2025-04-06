@@ -123,7 +123,9 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
 
           <div className="flex-1">
             <h3 className="font-medium">{displayName}</h3>
-            <p className="text-sm text-gray-900">{displayDescription}</p>
+            <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+              {displayDescription}
+            </p>
           </div>
 
           <div className="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center">
@@ -160,7 +162,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
         {onBack && (
           <button
             onClick={onBack}
-            className="text-gray-900 hover:text-amber-600 flex items-center"
+            className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-amber-600 flex items-center"
           >
             <FiArrowLeft className="mr-2" />
             Quay lại
@@ -180,7 +182,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
         <>
           <div className="space-y-3 my-6">
             {paymentMethods.length === 0 ? (
-              <div className="p-4 border border-gray-200 rounded-md text-center text-gray-900">
+              <div className="p-4 border border-gray-200 rounded-md text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
                 Không có phương thức thanh toán nào khả dụng
               </div>
             ) : (
