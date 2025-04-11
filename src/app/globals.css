@@ -5,10 +5,10 @@
 /* Thiết lập cơ bản */
 :root {
   --background: 255, 255, 255;
-  --foreground: 17, 24, 39;
+  --foreground: 17, 24, 39; /* Tăng độ tương phản */
   --card: 255, 255, 255;
   --card-foreground: 17, 24, 39;
-  --primary: 217, 119, 6;
+  --primary: 217, 119, 6; /* Đậm hơn */
   --primary-foreground: 255, 255, 255;
   --secondary: 249, 250, 251;
   --secondary-foreground: 17, 24, 39;
@@ -21,7 +21,7 @@
 
 .dark {
   --background: 17, 24, 39;
-  --foreground: 249, 250, 251;
+  --foreground: 249, 250, 251; /* Tăng độ tương phản */
   --card: 31, 41, 55;
   --card-foreground: 249, 250, 251;
   --primary: 245, 158, 11;
@@ -37,10 +37,6 @@
 
 @layer base {
   body {
-    /* Xóa dòng này gây lỗi */
-    /* @apply bg-background text-foreground; */
-    
-    /* Thay bằng cách trực tiếp */
     color: rgb(var(--foreground));
     background-color: rgb(var(--background));
   }
@@ -81,5 +77,23 @@
 @layer utilities {
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Đảm bảo tỷ lệ khung hình cho các container hình ảnh */
+  .aspect-4-3 {
+    aspect-ratio: 4/3;
+  }
+
+  /* Tạo hiệu ứng hover tốt hơn cho hình ảnh */
+  .product-image-container {
+    overflow: hidden;
+  }
+
+  .product-image-container img {
+    transition: transform 0.5s ease;
+  }
+
+  .product-card-container:hover .product-image-container img {
+    transform: scale(1.05);
   }
 }

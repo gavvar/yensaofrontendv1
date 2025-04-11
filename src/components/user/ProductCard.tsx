@@ -15,16 +15,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const thumbnailImage =
     product.images?.find((img) => img.isFeatured) || product.images?.[0];
 
-  // // Tính phần trăm giảm giá nếu có
-  // const discountPercentage =
-  //   product.discountPrice && product.price
-  //     ? Math.round(
-  //         ((Number(product.price) - Number(product.discountPrice)) /
-  //           Number(product.price)) *
-  //           100
-  //       )
-  //     : 0;
-
   return (
     <div className="product-card-container relative bg-white shadow-sm hover:shadow-md rounded-lg overflow-hidden transition-all duration-300 group border border-gray-100">
       {/* Badge giảm giá */}
@@ -38,14 +28,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
       )}
 
-      {/* Link bao quanh hình ảnh */}
-      <Link href={`/product/${product.slug}`} className="block relative h-64">
-        {thumbnailImage ? (
-          <div className="relative w-full h-full">
+      {/* Link bao quanh hình ảnh với aspect ratio cố định */}
+      <Link href={`/product/${product.slug}`} className="block">
+        <div className="aspect-[4/3] relative overflow-hidden">
+          {thumbnailImage ? (
             <Image
               src={getFullImageUrl(thumbnailImage.url)}
-              alt={product.name}
+              alt={`${product.name} - ${
+                product.description || "Sản phẩm yến sào chất lượng cao"
+              }`}
               fill
+              loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
               onError={(e) => {
@@ -54,32 +47,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 target.src = "/images/product-placeholder.png";
               }}
             />
-          </div>
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-            <span className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
-              Không có ảnh
-            </span>
-          </div>
-        )}
+          ) : (
+            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+              <span className="text-gray-400">Không có ảnh</span>
+            </div>
+          )}
+        </div>
       </Link>
 
       <div className="p-4">
-        {/* Tên danh mục */}
+        {/* Loại bỏ heading cho category, sử dụng span thay thế */}
         {product.category && (
           <Link
             href={`/categories/${product.category.slug}`}
             className="text-xs text-amber-600 hover:text-amber-700 mb-1 inline-block"
           >
-            {product.category.name}
+            <span>{product.category.name}</span>
           </Link>
         )}
 
-        {/* Tên sản phẩm */}
+        {/* Đảm bảo sử dụng h2 cho tên sản phẩm */}
         <Link href={`/product/${product.slug}`}>
-          <h3 className="font-medium text-gray-900 dark:text-gray-100800 mb-2 hover:text-amber-600 transition-colors line-clamp-2 h-12">
+          <h2 className="text-lg font-semibold line-clamp-2 hover:text-amber-600 transition-colors">
             {product.name}
-          </h3>
+          </h2>
         </Link>
 
         {/* Giá */}

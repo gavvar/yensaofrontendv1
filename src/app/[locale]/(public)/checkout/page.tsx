@@ -83,11 +83,29 @@ export default function CheckoutPage() {
 
     const success = await placeOrder();
     if (success) {
-      // If order was placed successfully, handle payment
-      await completePayment();
+      // Lưu thông tin đơn hàng vào localStorage để dùng sau khi thanh toán
+      localStorage.setItem(
+        "currentOrderId",
+        checkout.orderId?.toString() || ""
+      );
+      localStorage.setItem("currentOrderNumber", checkout.orderNumber || "");
+      localStorage.setItem("currentOrderAmount", checkout.total.toString());
+      localStorage.setItem(
+        "currentPaymentMethod",
+        checkout.selectedPaymentMethod
+      );
 
-      // Điều hướng đến trang success với các tham số
-      if (checkout.orderId && checkout.orderNumber) {
+      // Xử lý thanh toán
+      const paymentMethods = ["momo", "zalopay", "vnpay"];
+      const isOnlinePayment = paymentMethods.includes(
+        checkout.selectedPaymentMethod.toLowerCase()
+      );
+
+      if (isOnlinePayment) {
+        // Sẽ được xử lý bởi completePayment và chuyển hướng đến cổng thanh toán
+        await completePayment();
+      } else {
+        // Đối với COD và Banking, chuyển hướng thẳng đến trang thành công
         router.push(
           `/checkout/success?orderId=${checkout.orderId}&orderNumber=${checkout.orderNumber}`
         );

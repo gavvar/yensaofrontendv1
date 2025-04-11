@@ -39,7 +39,35 @@
     "myOrders": "My Orders",
     "favorites": "Favorites",
     "customer": "Customer",
-    "logoutSuccess": "Logged out successfully!"
+    "logoutSuccess": "Logged out successfully!",
+    "fullName": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "alreadyHaveAccount": "Or log in if you already have an account",
+    "dontHaveAccount": "Or create a new account",
+    "registerAccount": "Register Account",
+    "loginProcessing": "Processing...",
+    "registerSuccess": "Registration successful! Redirecting to home page...",
+    "loginSuccess": "Login successful!",
+    "sessionExpired": "Your session has expired, please log in again",
+    "resetPasswordSuccess": "Password has been reset successfully. Please log in with your new password.",
+    "validation": {
+      "nameRequired": "Full name must be at least 2 characters",
+      "emailInvalid": "Invalid email address",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "passwordUppercase": "Password must contain at least 1 uppercase letter",
+      "passwordNumber": "Password must contain at least 1 number",
+      "passwordMismatch": "Passwords do not match"
+    },
+    "forgotPasswordInstructions": "Please enter your email address and we will send you instructions to reset your password.",
+    "resetPassword": "Reset Password",
+    "backToLogin": "Back to login",
+    "passwordResetEmailSent": "Password reset link has been sent to your email.",
+    "somethingWentWrong": "Something went wrong. Please try again.",
+    "processing": "Processing..."
   },
   "home": {
     "heroTitle": "YẾN SÀO THỦ ĐỨC",
@@ -143,5 +171,17 @@
     "subscribe": "Subscribe",
     "newsletterSuccess": "Successfully subscribed to the newsletter!",
     "copyright": "All rights reserved."
+  },
+  "checkout": {
+    "paymentMethod": "Payment Method",
+    "payForOrder": "Pay for your order",
+    "back": "Back",
+    "continue": "Continue",
+    "confirmPayment": "Confirm Payment",
+    "processing": "Processing...",
+    "pleaseSelectPaymentMethod": "Please select a payment method",
+    "noPaymentMethods": "No payment methods available",
+    "failedToLoadPaymentMethods": "Failed to load payment methods",
+    "noPaymentMethodsAvailable": "No payment methods available"
   }
 }

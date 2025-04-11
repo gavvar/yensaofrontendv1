@@ -578,46 +578,86 @@ export const CheckoutProvider: React.FC<{ children: ReactNode }> = ({
 
   // Complete payment (for online payment methods)
   const completePayment = useCallback(async (): Promise<boolean> => {
-    if (!checkout.orderId) {
-      toast.error("Không tìm thấy thông tin đơn hàng");
-      return false;
-    }
-
-    try {
-      setCheckout((prev) => ({ ...prev, processingPayment: true }));
-
-      // Nếu là COD, không cần xử lý thanh toán
-      if (checkout.selectedPaymentMethod === "COD") {
-        setCheckout((prev) => ({
-          ...prev,
-          processingPayment: false,
-          step: "complete",
-        }));
-        return true;
-      }
-
-      // Xử lý các phương thức thanh toán online...
-      // ... (code xử lý thanh toán online)
-
-      return true;
-    } catch (error: unknown) {
-      console.error("Error completing payment:", error);
-
-      const errorMessage = extractErrorMessage(
-        error,
-        "Đã xảy ra lỗi khi xử lý thanh toán. Vui lòng thử lại."
-      );
-
+    if (
+      !checkout.orderId ||
+      !checkout.orderNumber ||
+      !checkout.selectedPaymentMethod
+    ) {
       setCheckout((prev) => ({
         ...prev,
-        processingPayment: false,
-        error: errorMessage,
+        error: "Thiếu thông tin đơn hàng hoặc phương thức thanh toán",
       }));
-
-      toast.error(errorMessage);
       return false;
     }
-  }, [checkout.orderId, checkout.selectedPaymentMethod]);
+
+    setCheckout((prev) => ({ ...prev, processingPayment: true }));
+
+    try {
+      // Chuẩn hóa mã phương thức thanh toán
+      const paymentMethod = checkout.selectedPaymentMethod.toLowerCase();
+
+      // Xử lý cho các phương thức thanh toán online
+      if (["momo", "zalopay", "vnpay"].includes(paymentMethod)) {
+        // Lưu thông tin đơn hàng vào localStorage để tái sử dụng sau khi quay lại
+        localStorage.setItem("currentOrderId", checkout.orderId.toString());
+        localStorage.setItem("currentOrderNumber", checkout.orderNumber);
+        localStorage.setItem(
+          "currentOrderAmount",
+          (checkout.shippingFee + checkout.discount + checkout.tax).toString()
+        );
+        localStorage.setItem("currentPaymentMethod", paymentMethod);
+
+        // Khởi tạo thanh toán
+        const response = await paymentService.createPayment({
+          orderId: checkout.orderId,
+          paymentMethod: paymentMethod,
+          clientUrl: window.location.origin,
+          orderNumber: checkout.orderNumber,
+          amount: checkout.shippingFee + checkout.discount + checkout.tax,
+        });
+
+        if (response.success && response.data?.paymentUrl) {
+          // Chuyển hướng người dùng đến cổng thanh toán
+          window.location.href = response.data.paymentUrl;
+          return true;
+        } else {
+          throw new Error(
+            response.message || "Không thể tạo yêu cầu thanh toán"
+          );
+        }
+      }
+      // Đối với thanh toán COD hoặc banking (không cần redirect)
+      else {
+        // Đánh dấu đơn hàng đã hoàn tất và chuyển đến trang xác nhận
+        setCheckout((prev) => ({
+          ...prev,
+          step: "complete",
+        }));
+
+        return true;
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      setCheckout((prev) => ({
+        ...prev,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Có lỗi xảy ra khi xử lý thanh toán",
+      }));
+      return false;
+    } finally {
+      setCheckout((prev) => ({ ...prev, processingPayment: false }));
+    }
+  }, [
+    checkout.orderId,
+    checkout.orderNumber,
+    checkout.selectedPaymentMethod,
+    checkout.total,
+    checkout.discount,
+    checkout.shippingFee,
+    checkout.tax,
+  ]);
 
   // Reset checkout state
   const resetCheckout = useCallback(() => {

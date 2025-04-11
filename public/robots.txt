@@ -1,0 +1,10 @@
+# robots.txt
+User-agent: *
+Allow: /
+
+# Các đường dẫn hạn chế
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml //trien khai production thi them sau

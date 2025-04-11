@@ -94,15 +94,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem("user");
 
-    // Tìm locale trong URL hiện tại
+    // Các đường dẫn không chứa locale nữa
     if (typeof window !== "undefined") {
-      const pathParts = window.location.pathname.split("/");
-      const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
-      const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
-
       // Chỉ redirect khi ở trang admin
-      if (window.location.pathname.includes(`/${locale}/admin`)) {
-        router.push(`/${locale}/login?session=expired`);
+      if (window.location.pathname.startsWith("/admin")) {
+        router.push(`/vi/login?session=expired&redirect=/admin`);
       }
     }
   }, [router]);
@@ -193,11 +189,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         try {
           const isAuthenticated = await checkAuth();
           if (!isAuthenticated) {
-            router.push("/login");
+            router.push("/vi/login?redirect=/admin");
           }
         } catch (error) {
           console.error("Admin auth check failed:", error);
-          router.push("/login");
+          router.push("/vi/login?redirect=/admin");
         }
       }
 
@@ -333,34 +329,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Xóa dữ liệu người dùng khỏi localStorage
       localStorage.removeItem("user");
 
-      // Reset user state
+      // Cập nhật state
       setUser(null);
 
-      // Tìm locale trong URL hiện tại
-      if (typeof window !== "undefined") {
-        const pathParts = window.location.pathname.split("/");
-        const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
-        const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
-
-        // Redirect đến trang đăng nhập với locale
-        router.push(`/${locale}/login`);
-      }
+      // Lưu ý: KHÔNG thực hiện chuyển hướng ở đây
+      // Để component gọi logout() tự xử lý chuyển hướng
     } catch (error) {
       console.error("Logout error:", error);
-
-      // Ngay cả khi API thất bại, vẫn xóa dữ liệu local để đảm bảo logout
+      // Xóa dữ liệu ngay cả khi có lỗi
       localStorage.removeItem("user");
       setUser(null);
-
-      if (typeof window !== "undefined") {
-        const pathParts = window.location.pathname.split("/");
-        const localeMatch = pathParts.length > 1 ? pathParts[1] : "vi";
-        const locale = ["vi", "en"].includes(localeMatch) ? localeMatch : "vi";
-
-        router.push(`/${locale}/login`);
-      }
     }
-  }, [router]);
+  }, []);
 
   // Tính toán isAuthenticated dựa vào user
   const isAuthenticated = user !== null;

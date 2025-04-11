@@ -1,7 +1,8 @@
 import apiClient from "@/utils/axiosConfig";
 import { API_ENDPOINTS } from "@/services/api/endpoints";
-import orderService from "@/services/orderService";
+
 import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 import {
   PaymentMethod,
   PaymentMethodCode,
@@ -110,30 +111,32 @@ const paymentService = {
     amount?: number;
   }): Promise<ProcessPaymentResponse> => {
     try {
-      // Lấy thông tin đơn hàng từ API (nếu cần)
-      const orderDetails =
-        !paymentData.orderNumber || !paymentData.amount
-          ? await orderService.getOrderById(paymentData.orderId)
-          : null;
+      // Normalize payment method to lowercase
+      const normalizedMethod = paymentData.paymentMethod.toLowerCase();
 
-      // Biến đổi thành payload API cần
+      console.log("Creating payment with data:", {
+        ...paymentData,
+        paymentMethod: normalizedMethod,
+      });
+
+      // Đảm bảo orderNumber và amount không bị undefined
       const apiPayload: ProcessPaymentRequest = {
         orderId: paymentData.orderId,
-        method: paymentData.paymentMethod.toLowerCase() as PaymentMethodCode,
+        method: normalizedMethod as PaymentMethodCode,
         clientUrl: paymentData.clientUrl,
         returnUrl: `${paymentData.clientUrl}/checkout/complete?orderId=${paymentData.orderId}`,
-        orderNumber:
-          paymentData.orderNumber ||
-          (orderDetails ? orderDetails.orderNumber : undefined),
-        amount:
-          paymentData.amount ||
-          (orderDetails ? orderDetails.totalAmount : undefined),
+        orderNumber: paymentData.orderNumber || "",
+        amount: paymentData.amount || 0,
       };
 
       const response = await apiClient.post(
         API_ENDPOINTS.PAYMENT.CREATE,
         apiPayload
       );
+
+      console.log("Payment API response:", response.data);
+
+      // Return full response for better debugging
       return response.data;
     } catch (error) {
       console.error("Error creating payment:", error);
@@ -308,6 +311,218 @@ const paymentService = {
           discountType: "fixed",
           discountValue: 0,
         },
+      };
+    }
+  },
+
+  /**
+   * Chuyển hướng đến cổng thanh toán
+   */
+  redirectToPaymentGateway: async (paymentData: {
+    orderId: number;
+    orderNumber: string;
+    paymentMethod: PaymentMethodCode | string;
+    amount: number;
+  }): Promise<boolean> => {
+    try {
+      // Log thông tin thanh toán
+      console.log("Processing payment:", paymentData);
+
+      // Xác định xem phương thức thanh toán có cần chuyển hướng không
+      const isRedirectPayment = ["momo", "zalopay", "vnpay"].includes(
+        paymentData.paymentMethod.toLowerCase()
+      );
+
+      // Nếu không cần chuyển hướng (ví dụ: COD, chuyển khoản ngân hàng)
+      if (!isRedirectPayment) {
+        return true; // Trả về true để tiếp tục xử lý
+      }
+
+      // Tạo yêu cầu thanh toán với API
+      const response = await paymentService.createPayment({
+        orderId: paymentData.orderId,
+        paymentMethod: paymentData.paymentMethod as PaymentMethodCode,
+        clientUrl: typeof window !== "undefined" ? window.location.origin : "",
+        orderNumber: paymentData.orderNumber,
+        amount: paymentData.amount,
+      });
+
+      if (response.success && response.data?.paymentUrl) {
+        // Lưu thông tin thanh toán vào localStorage để kiểm tra sau
+        if (typeof window !== "undefined") {
+          localStorage.setItem(
+            "pendingOrderId",
+            paymentData.orderId.toString()
+          );
+          localStorage.setItem("pendingOrderNumber", paymentData.orderNumber);
+          localStorage.setItem(
+            "pendingPaymentMethod",
+            paymentData.paymentMethod
+          );
+          localStorage.setItem(
+            "pendingPaymentAmount",
+            paymentData.amount.toString()
+          );
+          localStorage.setItem("pendingPaymentTime", new Date().toISOString());
+        }
+
+        // Chuyển hướng người dùng đến trang thanh toán
+        window.location.href = response.data.paymentUrl;
+        return true;
+      } else {
+        // Xử lý thông báo lỗi
+        toast.error(response.message || "Không thể khởi tạo thanh toán");
+        return false;
+      }
+    } catch (error) {
+      console.error("Payment redirect error:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Lỗi khi xử lý thanh toán"
+      );
+      return false;
+    }
+  },
+
+  /**
+   * Xử lý kết quả thanh toán sau khi quay lại từ cổng thanh toán
+   */
+  handlePaymentReturn: async (params: {
+    orderId?: string | number;
+    orderNumber?: string;
+    paymentId?: string;
+    transactionId?: string;
+    resultCode?: string;
+    message?: string;
+  }): Promise<{
+    success: boolean;
+    orderId: number | null;
+    orderNumber: string | null;
+    status: "success" | "pending" | "error";
+    message: string;
+  }> => {
+    try {
+      // Lấy orderId từ params hoặc localStorage
+      const orderId = params.orderId
+        ? Number(params.orderId)
+        : localStorage.getItem("pendingOrderId")
+        ? Number(localStorage.getItem("pendingOrderId"))
+        : null;
+
+      // Lấy orderNumber từ params hoặc localStorage
+      const orderNumber =
+        params.orderNumber ||
+        localStorage.getItem("pendingOrderNumber") ||
+        null;
+
+      if (!orderId) {
+        throw new Error("Không tìm thấy thông tin đơn hàng");
+      }
+
+      // Xác minh thanh toán với backend
+      const verifyResult = await paymentService.verifyPayment({
+        orderId,
+        ...(params.paymentId && { paymentId: params.paymentId }),
+        ...(params.transactionId && { transactionId: params.transactionId }),
+      });
+
+      // Xóa thông tin thanh toán đang chờ từ localStorage
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("pendingOrderId");
+        localStorage.removeItem("pendingOrderNumber");
+        localStorage.removeItem("pendingPaymentMethod");
+        localStorage.removeItem("pendingPaymentAmount");
+        localStorage.removeItem("pendingPaymentTime");
+      }
+
+      // Xử lý kết quả xác minh
+      if (verifyResult.success) {
+        const paymentStatus = verifyResult.data?.paymentStatus || "pending";
+
+        return {
+          success: paymentStatus === "paid",
+          orderId: orderId,
+          orderNumber: orderNumber,
+          status:
+            paymentStatus === "paid"
+              ? "success"
+              : paymentStatus === "pending"
+              ? "pending"
+              : "error",
+          message:
+            verifyResult.data?.message ||
+            (paymentStatus === "paid"
+              ? "Thanh toán thành công"
+              : "Đang chờ xác nhận thanh toán"),
+        };
+      } else {
+        return {
+          success: false,
+          orderId: orderId,
+          orderNumber: orderNumber,
+          status: "error",
+          message: verifyResult.message || "Không thể xác minh thanh toán",
+        };
+      }
+    } catch (error) {
+      console.error("Payment return handling error:", error);
+      return {
+        success: false,
+        orderId: null,
+        orderNumber: null,
+        status: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Lỗi khi xử lý kết quả thanh toán",
+      };
+    }
+  },
+
+  /**
+   * Kiểm tra tiến độ thanh toán
+   */
+  checkPaymentProgress: async (
+    orderId: number
+  ): Promise<{
+    success: boolean;
+    status: "paid" | "pending" | "cancelled" | "error";
+    message: string;
+  }> => {
+    try {
+      const response = await paymentService.processPaymentStatus(orderId);
+
+      if (response.success) {
+        const paymentStatus =
+          response.data?.paymentStatus || response.data?.status || "pending";
+
+        return {
+          success: true,
+          status:
+            paymentStatus === "paid" || paymentStatus === "success"
+              ? "paid"
+              : paymentStatus === "pending"
+              ? "pending"
+              : paymentStatus === "cancelled"
+              ? "cancelled"
+              : "error",
+          message: response.data?.message || "Kiểm tra thành công",
+        };
+      } else {
+        return {
+          success: false,
+          status: "error",
+          message: response.message || "Không thể kiểm tra tiến độ thanh toán",
+        };
+      }
+    } catch (error) {
+      console.error("Payment progress check error:", error);
+      return {
+        success: false,
+        status: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Lỗi khi kiểm tra tiến độ thanh toán",
       };
     }
   },

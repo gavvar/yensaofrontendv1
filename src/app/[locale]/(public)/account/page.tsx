@@ -19,27 +19,9 @@ export default function AccountPage() {
     phone: "",
   });
 
-  // Fetch user data when component mounts
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-      return;
-    }
-
-    // Set initial profile values from user context
-    setUpdatedProfile({
-      fullName: user.fullName || "",
-      email: user.email || "",
-      phone: "",
-    });
-
-    fetchUserData();
-  }, [user, router, fetchUserData]);
-
   const fetchUserData = useCallback(async () => {
     setLoading(true);
     try {
-      // Fetch profile details
       const profileResponse = await apiClient.get(API_ENDPOINTS.USER.PROFILE);
       if (profileResponse.data?.success) {
         const profileData = profileResponse.data.data;
@@ -56,6 +38,21 @@ export default function AccountPage() {
       setLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    setUpdatedProfile({
+      fullName: user.fullName || "",
+      email: user.email || "",
+      phone: "",
+    });
+
+    fetchUserData();
+  }, [user, router, fetchUserData]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +76,6 @@ export default function AccountPage() {
     }
   };
 
-  // If user not logged in, show loading
   if (!user) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -90,14 +86,14 @@ export default function AccountPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100800 mb-6">
+      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
         Tài khoản của tôi
       </h1>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100800">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
               Thông tin cá nhân
             </h2>
             <button
@@ -126,7 +122,7 @@ export default function AccountPage() {
                 <div>
                   <label
                     htmlFor="fullName"
-                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1"
                   >
                     Họ và tên
                   </label>
@@ -149,7 +145,7 @@ export default function AccountPage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1"
                   >
                     Email
                   </label>
@@ -167,7 +163,7 @@ export default function AccountPage() {
                     className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-amber-500 focus:border-amber-500 bg-gray-50"
                     disabled
                   />
-                  <p className="text-xs text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-1">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                     Email không thể thay đổi
                   </p>
                 </div>
@@ -175,7 +171,7 @@ export default function AccountPage() {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                    className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1"
                   >
                     Số điện thoại
                   </label>
@@ -236,31 +232,19 @@ export default function AccountPage() {
           ) : (
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="border-b border-gray-100 pb-4">
-                    <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-1">
-                      Họ và tên
-                    </p>
-                    <p className="font-medium">{updatedProfile.fullName}</p>
-                  </div>
+                <div className="border-b border-gray-100 pb-4">
+                  <p className="text-sm text-gray-700 mb-1">Họ và tên</p>
+                  <p className="font-medium">{updatedProfile.fullName}</p>
+                </div>
+                <div className="border-b border-gray-100 pb-4">
+                  <p className="text-sm text-gray-700 mb-1">Email</p>
+                  <p className="font-medium">{updatedProfile.email}</p>
                 </div>
                 <div>
-                  <div className="border-b border-gray-100 pb-4">
-                    <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-1">
-                      Email
-                    </p>
-                    <p className="font-medium">{updatedProfile.email}</p>
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mb-1">
-                      Số điện thoại
-                    </p>
-                    <p className="font-medium">
-                      {updatedProfile.phone || "Chưa cập nhật"}
-                    </p>
-                  </div>
+                  <p className="text-sm text-gray-700 mb-1">Số điện thoại</p>
+                  <p className="font-medium">
+                    {updatedProfile.phone || "Chưa cập nhật"}
+                  </p>
                 </div>
               </div>
             </div>

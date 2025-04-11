@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import Link from "next/link";
 import {
@@ -16,34 +16,33 @@ import {
   FiX,
   FiChevronDown,
   FiList,
-  FiTag, // Thêm icon cho Coupon
+  FiTag,
 } from "react-icons/fi";
 
-export default function AdminLayout({
+export default function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const { user, loading, logout } = useAuth();
   const router = useRouter();
-  const params = useParams();
-  const locale = typeof params?.locale === "string" ? params.locale : "vi";
 
+  // Xóa bỏ params và locale
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Protect admin route với locale
+  // Protect admin route không dùng locale
   useEffect(() => {
     if (!loading) {
       if (!user) {
         console.log("No user found, redirecting to login");
-        router.push(`/${locale}/login?redirect=/${locale}/admin`);
+        router.push(`/vi/login?redirect=/admin`); // Không sử dụng locale
       } else if (user.role !== "admin") {
         console.log("User is not admin, redirecting to home");
-        router.push(`/${locale}`);
+        router.push(`/vi`); // Không sử dụng locale
       }
     }
-  }, [user, loading, router, locale]);
+  }, [user, loading, router]);
 
   // Show loading state
   if (loading) {
@@ -59,8 +58,8 @@ export default function AdminLayout({
     return null;
   }
 
-  // Hàm tạo đường dẫn admin với locale
-  const adminPath = (path: string) => `/${locale}/admin${path}`;
+  // Hàm tạo đường dẫn admin không dùng locale
+  const adminPath = (path: string) => `/admin${path}`;
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -75,7 +74,7 @@ export default function AdminLayout({
           <span className="text-xl font-semibold">Admin Panel</span>
         </div>
 
-        {/* Menu Items - Cập nhật với locale */}
+        {/* Menu Items - Không sử dụng locale */}
         <nav className="mt-6 px-4">
           <Link
             href={adminPath("")}
@@ -203,16 +202,32 @@ export default function AdminLayout({
                     Cài đặt
                   </Link>
                   <Link
-                    href={`/${locale}`}
+                    href="/vi"
                     className="block px-4 py-2 text-sm text-gray-900 hover:bg-amber-50 hover:text-amber-600"
                   >
                     Về trang người dùng
                   </Link>
                   <div className="border-t my-1"></div>
                   <button
-                    onClick={() => {
+                    onClick={(e) => {
+                      // Ngăn event bubbling
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      // Đóng dropdown menu
+                      setIsUserMenuOpen(false);
+
+                      // Thực hiện đăng xuất phía client trước
+                      localStorage.removeItem("user");
+
+                      // Sử dụng setTimeout để đảm bảo chuyển hướng xảy ra sau khi React đã cập nhật UI
+                      setTimeout(() => {
+                        // Sử dụng window.location.replace để thay thế hoàn toàn trang hiện tại trong lịch sử
+                        window.location.replace("/vi/login?redirect=/admin");
+                      }, 10);
+
+                      // Sau đó gọi logout API - ngay cả khi API call chưa hoàn thành, người dùng vẫn được chuyển hướng
                       logout();
-                      router.push(`/${locale}/login`);
                     }}
                     className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   >

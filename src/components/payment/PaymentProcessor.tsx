@@ -2,6 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import {
+  FiCheckCircle,
+  FiClock,
+  FiAlertCircle,
+  FiArrowLeft,
+} from "react-icons/fi";
 import paymentService from "@/services/paymentService";
 import { toast } from "react-toastify";
 
@@ -9,180 +16,184 @@ export default function PaymentProcessor() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState<"success" | "pending" | "error" | null>(
-    null
-  );
+  const [paymentResult, setPaymentResult] = useState<{
+    success: boolean;
+    orderId: number | null;
+    orderNumber: string | null;
+    status: "success" | "pending" | "error";
+    message: string;
+  } | null>(null);
 
   useEffect(() => {
-    const verifyPayment = async () => {
+    const processPaymentReturn = async () => {
       try {
         setLoading(true);
 
-        // Lấy thông tin từ URL
-        const orderId = searchParams.get("orderId");
-        const paymentId = searchParams.get("paymentId");
-        const paymentMethod = searchParams.get("method");
-        const transactionId = searchParams.get("transactionId");
-
-        if (!orderId || !paymentId || !paymentMethod) {
-          throw new Error("Thiếu thông tin thanh toán");
+        // Lấy các tham số từ URL
+        const params: Record<string, string> = {};
+        for (const [key, value] of searchParams.entries()) {
+          params[key] = value;
         }
 
-        // Gọi API verify payment với endpoint mới
-        const result = await paymentService.verifyPayment({
-          orderId: parseInt(orderId),
-          paymentId,
-          paymentMethod,
-          // Chỉ gửi transactionId nếu không phải null
-          ...(transactionId && { transactionId }),
+        console.log("Processing payment return with params:", params);
+
+        // Xử lý kết quả thanh toán
+        const result = await paymentService.handlePaymentReturn({
+          orderId: params.orderId,
+          orderNumber: params.orderNumber,
+          paymentId:
+            params.paymentId || params.vnp_TransactionNo || params.transId,
+          transactionId:
+            params.transactionId || params.vnp_TransactionNo || params.transId,
+          resultCode:
+            params.resultCode || params.vnp_ResponseCode || params.errorCode,
+          message: params.message || params.vnp_Message,
         });
 
+        setPaymentResult(result);
+
+        // Hiển thị thông báo dựa trên kết quả
         if (result.success) {
-          setStatus("success");
-          toast.success("Thanh toán thành công!");
-          // Chờ một chút rồi chuyển hướng về trang xác nhận đơn hàng
-          setTimeout(() => {
-            router.push(`/order-confirmation/${orderId}`);
-          }, 2000);
-        } else if (result.paymentStatus === "pending") {
-          setStatus("pending");
-          toast.info("Thanh toán đang được xử lý");
+          toast.success(result.message || "Thanh toán thành công!");
+        } else if (result.status === "pending") {
+          toast.info(result.message || "Đang chờ xác nhận thanh toán");
         } else {
-          setStatus("error");
-          toast.error(result.message || "Lỗi thanh toán");
+          toast.error(result.message || "Thanh toán thất bại");
         }
       } catch (error) {
-        console.error("Lỗi xác minh thanh toán:", error);
-        setStatus("error");
-
-        // Xử lý thông báo lỗi một cách an toàn
-        let errorMessage = "Không thể xác minh thanh toán";
-        if (error instanceof Error) {
-          errorMessage = error.message;
-        }
-
-        toast.error(errorMessage);
+        console.error("Error processing payment return:", error);
+        setPaymentResult({
+          success: false,
+          orderId: null,
+          orderNumber: null,
+          status: "error",
+          message:
+            error instanceof Error ? error.message : "Lỗi không xác định",
+        });
+        toast.error("Có lỗi xảy ra khi xử lý kết quả thanh toán");
       } finally {
         setLoading(false);
       }
     };
 
-    verifyPayment();
-  }, [router, searchParams]);
+    processPaymentReturn();
+  }, [searchParams]);
+
+  // Hàm để tạo URL xem chi tiết đơn hàng
+  const getOrderDetailUrl = (orderId: number | null) => {
+    if (!orderId) return "/account/orders";
+    return `/account/orders/${orderId}`;
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] p-4">
-      {loading ? (
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold">Đang xác thực thanh toán...</h2>
-          <p className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 mt-2">
-            Vui lòng không đóng trang này
-          </p>
-        </div>
-      ) : status === "success" ? (
-        <div className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-green-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+    <div className="container mx-auto px-4 py-16 max-w-lg">
+      <div className="bg-white rounded-lg shadow-md p-8 text-center">
+        {loading ? (
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-16 h-16 border-4 border-t-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <h2 className="text-xl font-semibold mb-2">
+              Đang xử lý thanh toán
+            </h2>
+            <p className="text-gray-600">Vui lòng đợi trong giây lát...</p>
           </div>
-          <h2 className="text-2xl font-bold text-green-600">
-            Thanh toán thành công!
-          </h2>
-          <p className="mt-2">
-            Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đang được xử lý.
-          </p>
-          <button
-            onClick={() => router.push("/user/orders")}
-            className="mt-6 bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
-          >
-            Xem đơn hàng
-          </button>
-        </div>
-      ) : status === "pending" ? (
-        <div className="text-center">
-          <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-amber-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+        ) : paymentResult?.status === "success" ? (
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+              <FiCheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Thanh toán thành công!
+            </h2>
+            <p className="text-gray-600 mb-1">Cảm ơn bạn đã mua hàng.</p>
+            {paymentResult.orderNumber && (
+              <p className="text-gray-600 mb-4">
+                Mã đơn hàng:{" "}
+                <span className="font-semibold">
+                  {paymentResult.orderNumber}
+                </span>
+              </p>
+            )}
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
+              <Link
+                href={getOrderDetailUrl(paymentResult.orderId)}
+                className="bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 transition-colors"
+              >
+                Xem chi tiết đơn hàng
+              </Link>
+              <Link
+                href="/"
+                className="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Về trang chủ
+              </Link>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-amber-600">
-            Thanh toán đang xử lý
-          </h2>
-          <p className="mt-2">
-            Thanh toán của bạn đang được xử lý. Chúng tôi sẽ thông báo khi hoàn
-            tất.
-          </p>
-          <button
-            onClick={() => router.push("/")}
-            className="mt-6 bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
-          >
-            Quay lại trang chủ
-          </button>
-        </div>
-      ) : (
-        <div className="text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 text-red-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+        ) : paymentResult?.status === "pending" ? (
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mb-6">
+              <FiClock className="w-10 h-10 text-amber-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Đang xử lý thanh toán
+            </h2>
+            <p className="text-gray-600 mb-1">
+              Thanh toán của bạn đang được xử lý.
+            </p>
+            {paymentResult.orderNumber && (
+              <p className="text-gray-600 mb-4">
+                Mã đơn hàng:{" "}
+                <span className="font-semibold">
+                  {paymentResult.orderNumber}
+                </span>
+              </p>
+            )}
+            <p className="text-gray-500 italic mb-4">
+              Chúng tôi sẽ thông báo khi xác nhận được thanh toán của bạn.
+            </p>
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
+              <Link
+                href={getOrderDetailUrl(paymentResult.orderId)}
+                className="bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 transition-colors"
+              >
+                Kiểm tra trạng thái
+              </Link>
+              <Link
+                href="/"
+                className="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Về trang chủ
+              </Link>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-red-600">
-            Thanh toán thất bại
-          </h2>
-          <p className="mt-2">
-            Rất tiếc, thanh toán của bạn không thành công. Vui lòng thử lại.
-          </p>
-          <div className="mt-6 space-x-4">
-            <button
-              onClick={() => router.push("/checkout")}
-              className="bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700 transition"
-            >
-              Thử lại
-            </button>
-            <button
-              onClick={() => router.push("/")}
-              className="bg-gray-200 text-gray-900 dark:text-gray-100800 px-4 py-2 rounded hover:bg-gray-300 transition"
-            >
-              Quay lại trang chủ
-            </button>
+        ) : (
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-6">
+              <FiAlertCircle className="w-10 h-10 text-red-500" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Thanh toán thất bại
+            </h2>
+            <p className="text-gray-600 mb-4">
+              {paymentResult?.message ||
+                "Có lỗi xảy ra trong quá trình thanh toán"}
+            </p>
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
+              <button
+                onClick={() => router.back()}
+                className="bg-amber-600 text-white px-6 py-2 rounded-md hover:bg-amber-700 transition-colors flex items-center justify-center"
+              >
+                <FiArrowLeft className="mr-2" /> Quay lại
+              </button>
+              <Link
+                href="/"
+                className="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Về trang chủ
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

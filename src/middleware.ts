@@ -15,54 +15,47 @@ const intlMiddleware = createMiddleware({
   localePrefix: "as-needed",
 });
 
-// Middleware tổng hợp
+// Middleware xử lý các chuyển hướng thanh toán và kiểm tra session
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Ngăn chặn vòng lặp redirect bằng cách kiểm tra xem URL đã có locale chưa
-  const pathnameHasLocale = locales.some(
-    (locale) => path.startsWith(`/${locale}/`) || path === `/${locale}`
-  );
+  // Xử lý chuyển hướng cho callback thanh toán
+  if (path.startsWith("/callback/")) {
+    // Lấy provider từ URL
+    const provider = path.split("/")[2];
 
-  // Nếu URL đã có locale và là URL root của locale, không cần redirect nữa
-  if (pathnameHasLocale) {
-    // Kiểm tra đường dẫn admin và xác thực
-    const isAdminPath = path.includes("/admin");
+    // Tạo URL cho callback page trong app router
+    const url = new URL(
+      `/${request.nextUrl.locale}/(public)/checkout/callback/${provider}`,
+      request.url
+    );
+    url.search = request.nextUrl.search;
+
+    return NextResponse.rewrite(url);
+  }
+
+  // BỎ QUA TOÀN BỘ XỬ LÝ CHO ĐƯỜNG DẪN ADMIN
+  if (path.startsWith("/admin")) {
+    // Kiểm tra xác thực cho admin (tùy chọn)
     const isAuthenticated = request.cookies.has("accessToken");
-
-    // Kiểm tra đường dẫn công khai
-    const publicPaths = ["/login", "/register", "/forgot-password"];
-    const isPublicPath = publicPaths.some(
-      (prefix) => path.endsWith(prefix) || path.includes(`${prefix}/`)
-    );
-
-    console.log(
-      `Middleware check: Path=${path}, Public=${isPublicPath}, IsAuthenticated=${isAuthenticated}`
-    );
-
-    // Logic chuyển hướng khác (admin, login, etc.)
-    if (isAdminPath && !isAuthenticated) {
-      const locale = path.split("/")[1];
-      const loginUrl = `/${locale}/login`;
-      console.log("Not authenticated, redirecting from admin to login");
-      return NextResponse.redirect(new URL(loginUrl, request.url));
+    if (!isAuthenticated) {
+      // Chuyển hướng đến trang đăng nhập với locale mặc định
+      return NextResponse.redirect(
+        new URL(`/vi/login?redirect=${path}`, request.url)
+      );
     }
-
-    if (isPublicPath && isAuthenticated) {
-      const locale = path.split("/")[1];
-      const homeUrl = `/${locale}`;
-      return NextResponse.redirect(new URL(homeUrl, request.url));
-    }
-
-    // Nếu không cần chuyển hướng, trả về kết quả next()
     return NextResponse.next();
   }
 
-  // Xử lý đa ngôn ngữ cho các URL chưa có locale
+  // Xử lý đa ngôn ngữ cho các URL khác
   return intlMiddleware(request);
 }
 
+// Chỉ áp dụng middleware cho các route liên quan đến thanh toán
 export const config = {
-  // Chặn tất cả các đường dẫn ngoại trừ các đường dẫn cho static assets
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: [
+    "/callback/:path*",
+    "/checkout/:path*",
+    "/((?!api|_next|.*\\..*).*)",
+  ],
 };

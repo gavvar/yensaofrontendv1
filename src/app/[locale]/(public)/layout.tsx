@@ -2,6 +2,19 @@
 import Navbar from "@/components/user/Navbar";
 import Footer from "@/components/user/Footer";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+export const metadata: Metadata = {
+  title: {
+    default: "Yến Sào Thủ Đức - Sản phẩm yến sào chất lượng cao",
+    template: "%s | Yến Sào Thủ Đức",
+  },
+};
+
 export default function PublicLayout({
   children,
 }: {

@@ -7,10 +7,15 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/authContext";
 import { toast } from "react-toastify";
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const { register, error, clearError } = useAuth();
   const router = useRouter();
+
+  // Khai báo hooks để dùng translations
+  const t = useTranslations("user");
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,27 +38,27 @@ export default function RegisterPage() {
 
     // Validate name
     if (fullName.trim().length < 2) {
-      errors.fullName = "Họ tên phải có ít nhất 2 ký tự";
+      errors.fullName = t("validation.nameRequired");
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      errors.email = "Email không hợp lệ";
+      errors.email = t("validation.emailInvalid");
     }
 
     // Validate password strength
     if (password.length < 6) {
-      errors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+      errors.password = t("validation.passwordMinLength");
     } else if (!/[A-Z]/.test(password)) {
-      errors.password = "Mật khẩu phải có ít nhất 1 chữ in hoa";
+      errors.password = t("validation.passwordUppercase");
     } else if (!/[0-9]/.test(password)) {
-      errors.password = "Mật khẩu phải có ít nhất 1 chữ số";
+      errors.password = t("validation.passwordNumber");
     }
 
     // Validate password match
     if (password !== confirmPassword) {
-      errors.confirmPassword = "Mật khẩu xác nhận không khớp";
+      errors.confirmPassword = t("validation.passwordMismatch");
     }
 
     setValidationErrors(errors);
@@ -72,7 +77,7 @@ export default function RegisterPage() {
 
     try {
       await register(fullName, email, password);
-      toast.success("Đăng ký thành công! Chuyển hướng đến trang chủ...");
+      toast.success(t("registerSuccess"));
 
       // Delay redirect slightly to show the success message
       setTimeout(() => {
@@ -87,26 +92,26 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md">
         <div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
-            Đăng ký tài khoản
+          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+            {t("registerAccount")}
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
-            Hoặc{" "}
+          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
+            {t("alreadyHaveAccount")}{" "}
             <Link
               href="/login"
               className="font-medium text-amber-600 hover:text-amber-500 transition-colors"
             >
-              đăng nhập nếu đã có tài khoản
+              {t("login")}
             </Link>
           </p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
-            <div className="p-3 bg-red-50 text-red-600 rounded-md text-sm border border-red-200">
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-md text-sm border border-red-200 dark:border-red-800">
               {error}
             </div>
           )}
@@ -115,13 +120,13 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >
-                Họ và tên
+                {t("fullName")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiUser className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+                  <FiUser className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   id="fullName"
@@ -130,16 +135,18 @@ export default function RegisterPage() {
                   required
                   className={`appearance-none block w-full pl-10 pr-3 py-2 border ${
                     validationErrors.fullName
-                      ? "border-red-300"
-                      : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
-                  placeholder="Họ và tên"
+                      ? "border-red-300 dark:border-red-700"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                    dark:bg-gray-700 dark:text-white focus:outline-none 
+                    focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                  placeholder={t("fullName")}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
               {validationErrors.fullName && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                   {validationErrors.fullName}
                 </p>
               )}
@@ -148,13 +155,13 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="email-address"
-                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >
-                Email
+                {t("email")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+                  <FiMail className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   id="email-address"
@@ -164,16 +171,18 @@ export default function RegisterPage() {
                   required
                   className={`appearance-none block w-full pl-10 pr-3 py-2 border ${
                     validationErrors.email
-                      ? "border-red-300"
-                      : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
-                  placeholder="Email"
+                      ? "border-red-300 dark:border-red-700"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                    dark:bg-gray-700 dark:text-white focus:outline-none 
+                    focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                  placeholder={t("email")}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               {validationErrors.email && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                   {validationErrors.email}
                 </p>
               )}
@@ -182,13 +191,13 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >
-                Mật khẩu
+                {t("password")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+                  <FiLock className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   id="password"
@@ -197,10 +206,12 @@ export default function RegisterPage() {
                   required
                   className={`appearance-none block w-full pl-10 pr-10 py-2 border ${
                     validationErrors.password
-                      ? "border-red-300"
-                      : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
-                  placeholder="Mật khẩu"
+                      ? "border-red-300 dark:border-red-700"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                    dark:bg-gray-700 dark:text-white focus:outline-none 
+                    focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                  placeholder={t("password")}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -208,7 +219,10 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 focus:outline-none"
+                    className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? (
                       <FiEyeOff className="h-5 w-5" />
@@ -219,7 +233,7 @@ export default function RegisterPage() {
                 </div>
               </div>
               {validationErrors.password && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                   {validationErrors.password}
                 </p>
               )}
@@ -228,13 +242,13 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-900 dark:text-gray-100700 mb-1"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
               >
-                Xác nhận mật khẩu
+                {t("confirmPassword")}
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100" />
+                  <FiLock className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                 </div>
                 <input
                   id="confirmPassword"
@@ -243,10 +257,12 @@ export default function RegisterPage() {
                   required
                   className={`appearance-none block w-full pl-10 pr-10 py-2 border ${
                     validationErrors.confirmPassword
-                      ? "border-red-300"
-                      : "border-gray-300"
-                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
-                  placeholder="Xác nhận mật khẩu"
+                      ? "border-red-300 dark:border-red-700"
+                      : "border-gray-300 dark:border-gray-600"
+                  } rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                    dark:bg-gray-700 dark:text-white focus:outline-none 
+                    focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
+                  placeholder={t("confirmPassword")}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
@@ -254,7 +270,10 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 focus:outline-none"
+                    className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
+                    aria-label={
+                      showConfirmPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showConfirmPassword ? (
                       <FiEyeOff className="h-5 w-5" />
@@ -265,7 +284,7 @@ export default function RegisterPage() {
                 </div>
               </div>
               {validationErrors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                   {validationErrors.confirmPassword}
                 </p>
               )}
@@ -300,10 +319,10 @@ export default function RegisterPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Đang xử lý...
+                  {t("loginProcessing")}
                 </>
               ) : (
-                "Đăng ký"
+                t("register")
               )}
             </button>
           </div>

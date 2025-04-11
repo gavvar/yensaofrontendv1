@@ -28,6 +28,7 @@ import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Locale } from "@/i18n";
+import AuthModal from "@/components/auth/AuthModal";
 
 /**
  * Navigation component for the application.
@@ -47,6 +48,8 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authType, setAuthType] = useState<"login" | "register">("login");
 
   // Refs
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -105,7 +108,7 @@ export default function Navbar() {
   // Redirect admin users
   useEffect(() => {
     if (user?.role === "admin") {
-      router.push(getLocalizedUrl("/admin"));
+      router.push("/admin");
     }
   }, [user, router, getLocalizedUrl]);
 
@@ -120,9 +123,13 @@ export default function Navbar() {
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof window !== "undefined") {
+      window.addEventListener("mousedown", handleClickOutside);
+    }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, []);
 
@@ -130,7 +137,8 @@ export default function Navbar() {
   const handleLogout = () => {
     logout();
     toast.success(tUser("logoutSuccess"));
-    router.push(getLocalizedUrl("/login"));
+    setShowAuthModal(false); // Đóng AuthModal nếu đang mở
+    router.push(getLocalizedUrl("/"));
     setIsMenuOpen(false);
   };
 
@@ -138,7 +146,7 @@ export default function Navbar() {
     e.preventDefault();
     if (searchQuery.trim()) {
       router.push(
-        getLocalizedUrl(`/products?search=${encodeURIComponent(searchQuery)}`)
+        getLocalizedUrl(`/product?search=${encodeURIComponent(searchQuery)}`)
       );
       setIsSearchOpen(false);
       setSearchQuery("");
@@ -192,8 +200,9 @@ export default function Navbar() {
                 </button>
                 <div className="absolute left-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   <Link
-                    href={getLocalizedUrl("/products")}
+                    href={getLocalizedUrl("/product")}
                     className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-700 hover:text-amber-600 dark:hover:text-amber-400"
+                    aria-label="Xem tất cả sản phẩm yến sào"
                   >
                     {tNav("allProducts")}
                   </Link>
@@ -318,7 +327,7 @@ export default function Navbar() {
 
                       <button
                         onClick={handleLogout}
-                        className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                        className="flex items-center w-full text-left px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                       >
                         <FiLogOut className="mr-3" size={16} />
                         {tUser("logout")}
@@ -327,13 +336,36 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <Link
-                  href={getLocalizedUrl("/login")}
-                  className="flex items-center px-4 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white transition-colors"
-                >
-                  <FiUser className="mr-2" size={16} />
-                  {tUser("login")}
-                </Link>
+                <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log("Opening login modal");
+                      setAuthType("login");
+                      setShowAuthModal(true);
+                    }}
+                    className="flex items-center px-4 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+                  >
+                    <FiUser className="mr-2" size={16} />
+                    {tUser("login")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log("Opening register modal");
+                      setAuthType("register");
+                      setShowAuthModal(true);
+                    }}
+                    className="flex items-center px-4 py-2 rounded-md bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+                  >
+                    <FiUser className="mr-2" size={16} />
+                    {tUser("register")}
+                  </button>
+                </div>
               )}
             </div>
 
@@ -424,7 +456,7 @@ export default function Navbar() {
                   {tNav("home")}
                 </Link>
                 <Link
-                  href={getLocalizedUrl("/products")}
+                  href={getLocalizedUrl("/product")}
                   className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -511,22 +543,38 @@ export default function Navbar() {
                     </>
                   ) : (
                     <>
-                      <Link
-                        href={getLocalizedUrl("/login")}
-                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
-                        onClick={() => setIsMenuOpen(false)}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log("Opening login modal from mobile menu");
+                          setAuthType("login");
+                          setShowAuthModal(true);
+                          setIsMenuOpen(false); // Đóng mobile menu
+                        }}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md w-full text-left"
                       >
                         <FiUser size={18} className="mr-3 text-amber-500" />
                         {tUser("login")}
-                      </Link>
-                      <Link
-                        href={getLocalizedUrl("/register")}
-                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md"
-                        onClick={() => setIsMenuOpen(false)}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log(
+                            "Opening register modal from mobile menu"
+                          );
+                          setAuthType("register");
+                          setShowAuthModal(true);
+                          setIsMenuOpen(false); // Đóng mobile menu
+                        }}
+                        className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-amber-50 dark:hover:bg-gray-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-md w-full text-left"
                       >
                         <FiUser size={18} className="mr-3 text-amber-500" />
                         {tUser("register")}
-                      </Link>
+                      </button>
                     </>
                   )}
                 </div>
@@ -541,6 +589,13 @@ export default function Navbar() {
 
       {/* MiniCart */}
       <MiniCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* AuthModal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialView={authType}
+      />
     </>
   );
 }

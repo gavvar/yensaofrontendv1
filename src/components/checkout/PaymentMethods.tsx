@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
+"use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FiArrowLeft, FiCreditCard, FiDollarSign } from "react-icons/fi";
 import { useCheckout } from "@/contexts/CheckoutContext";
 import paymentService from "@/services/paymentService";
 import { PaymentMethod, PaymentMethodCode } from "@/types/payment";
 import LoadingButton from "@/components/common/LoadingButton";
+import { useTranslations } from "next-intl";
 
 interface PaymentMethodsProps {
   onBack?: () => void;
   onSubmit?: () => void;
   className?: string;
   orderId?: number;
+  onSelectMethod?: (method: string) => void;
 }
 
 /**
@@ -22,7 +25,11 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   onSubmit,
   className = "",
   orderId,
+  onSelectMethod,
 }) => {
+  // Sử dụng translation hooks
+  const t = useTranslations("checkout");
+
   const { checkout, setSelectedPaymentMethod } = useCheckout();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +49,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
 
         // Kiểm tra dữ liệu
         if (!methods || methods.length === 0) {
-          throw new Error("Không có phương thức thanh toán nào khả dụng");
+          throw new Error(t("noPaymentMethods"));
         }
 
         // Không lọc isActive nữa vì đã xử lý trong API
@@ -54,13 +61,18 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
             methods[0].id) as PaymentMethodCode;
           console.log("Setting default payment method:", defaultMethodCode);
           setSelectedPaymentMethod(defaultMethodCode);
+
+          // Gọi callback nếu có
+          if (onSelectMethod) {
+            onSelectMethod(defaultMethodCode);
+          }
         }
       } catch (error) {
         console.error("Error fetching payment methods:", error);
         setError(
           error instanceof Error
             ? error.message
-            : "Không thể tải phương thức thanh toán"
+            : t("failedToLoadPaymentMethods")
         );
       } finally {
         setLoading(false);
@@ -68,12 +80,24 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
     };
 
     fetchPaymentMethods();
-  }, [checkout.selectedPaymentMethod, setSelectedPaymentMethod]);
+  }, [
+    checkout.selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    t,
+    onSelectMethod,
+  ]);
 
   // Handler khi chọn phương thức thanh toán
   const handleSelectPaymentMethod = (methodCode: PaymentMethodCode) => {
     console.log("Selected payment method:", methodCode);
-    setSelectedPaymentMethod(methodCode);
+    // Normalize payment method code to lowercase
+    const normalizedMethodCode = methodCode.toLowerCase();
+    setSelectedPaymentMethod(normalizedMethodCode);
+
+    // Gọi callback nếu có
+    if (onSelectMethod) {
+      onSelectMethod(normalizedMethodCode);
+    }
   };
 
   // Render một phương thức thanh toán
@@ -84,16 +108,16 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
 
     // Đảm bảo tất cả thuộc tính có giá trị mặc định khi không tồn tại
     const displayName =
-      method.name || `Phương thức ${methodCode.toUpperCase()}`;
-    const displayDescription = method.description || "Thanh toán đơn hàng";
+      method.name || `${t("paymentMethod")} ${methodCode.toUpperCase()}`;
+    const displayDescription = method.description || t("payForOrder");
 
     return (
       <div
         key={methodCode}
         className={`border rounded-lg p-4 cursor-pointer transition-all ${
           isSelected
-            ? "border-amber-500 bg-amber-50"
-            : "border-gray-200 hover:border-amber-300"
+            ? "border-amber-500 bg-amber-50 dark:bg-amber-900/20"
+            : "border-gray-200 hover:border-amber-300 dark:border-gray-700 dark:hover:border-amber-600"
         }`}
         onClick={() => handleSelectPaymentMethod(methodCode)}
       >
@@ -122,13 +146,13 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
           </div>
 
           <div className="flex-1">
-            <h3 className="font-medium">{displayName}</h3>
-            <p className="text-sm text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
+            <h3 className="font-medium dark:text-white">{displayName}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               {displayDescription}
             </p>
           </div>
 
-          <div className="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center">
+          <div className="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 flex-shrink-0 flex items-center justify-center">
             {isSelected && (
               <div className="w-3 h-3 bg-amber-500 rounded-full" />
             )}
@@ -141,7 +165,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   // Handler cho nút Continue/Submit
   const handleSubmit = async () => {
     if (!checkout.selectedPaymentMethod) {
-      setError("Vui lòng chọn phương thức thanh toán");
+      setError(t("pleaseSelectPaymentMethod"));
       return;
     }
 
@@ -156,16 +180,21 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
 
   // Trong phần render
   return (
-    <div className={`bg-white rounded-lg shadow-sm p-6 ${className}`}>
+    <div
+      className={`bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 ${className}`}
+    >
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Phương thức thanh toán</h2>
+        <h2 className="text-xl font-semibold dark:text-white">
+          {t("paymentMethod")}
+        </h2>
         {onBack && (
           <button
             onClick={onBack}
-            className="text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100 hover:text-amber-600 flex items-center"
+            className="text-gray-600 dark:text-gray-300 hover:text-amber-600 dark:hover:text-amber-500 flex items-center"
+            aria-label={t("back")}
           >
             <FiArrowLeft className="mr-2" />
-            Quay lại
+            {t("back")}
           </button>
         )}
       </div>
@@ -175,15 +204,15 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-amber-500"></div>
         </div>
       ) : error ? (
-        <div className="bg-red-50 text-red-600 p-4 rounded-md mb-4">
+        <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-md mb-4">
           {error}
         </div>
       ) : (
         <>
           <div className="space-y-3 my-6">
             {paymentMethods.length === 0 ? (
-              <div className="p-4 border border-gray-200 rounded-md text-center text-gray-900 dark:text-gray-100900 dark:text-gray-900 dark:text-gray-100100">
-                Không có phương thức thanh toán nào khả dụng
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-md text-center text-gray-600 dark:text-gray-300">
+                {t("noPaymentMethodsAvailable")}
               </div>
             ) : (
               // Render tất cả phương thức từ API mà không lọc
@@ -195,16 +224,16 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
             <div className="mt-6">
               <LoadingButton
                 type="button"
-                className="w-full py-3 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors"
+                className="w-full py-3 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors disabled:bg-gray-400 dark:disabled:bg-gray-600"
                 loading={processingPayment}
                 disabled={processingPayment || !checkout.selectedPaymentMethod}
                 onClick={handleSubmit}
               >
                 {processingPayment
-                  ? "Đang xử lý..."
+                  ? t("processing")
                   : onSubmit
-                  ? "Tiếp tục"
-                  : "Xác nhận thanh toán"}
+                  ? t("continue")
+                  : t("confirmPayment")}
               </LoadingButton>
             </div>
           )}

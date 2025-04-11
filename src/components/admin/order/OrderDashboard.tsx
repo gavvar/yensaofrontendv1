@@ -14,29 +14,49 @@ import {
   FiCalendar,
   FiTrendingUp,
 } from "react-icons/fi";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+
+// Import động các component chart
+const LineChart = dynamic(
+  () => import("react-chartjs-2").then((mod) => mod.Line),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-64 bg-gray-100 animate-pulse rounded-lg"></div>
+    ),
+  }
+);
+
+const DoughnutChart = dynamic(
+  () => import("react-chartjs-2").then((mod) => mod.Doughnut),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-64 bg-gray-100 animate-pulse rounded-lg"></div>
+    ),
+  }
+);
+
+// Chỉ đăng ký các Chart.js components cần thiết
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  BarElement,
   Title,
   Tooltip,
   Legend,
   ArcElement,
 } from "chart.js";
-import { Line, Bar, Doughnut } from "react-chartjs-2";
-import Link from "next/link";
-import { useParams } from "next/navigation";
 
-// Đăng ký Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -487,7 +507,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             Xu hướng đơn hàng
           </h3>
           <div className="h-80">
-            <Line
+            <LineChart
               data={chartData}
               options={{
                 responsive: true,
@@ -560,7 +580,7 @@ const OrderDashboard: React.FC<OrderDashboardProps> = ({
             Phân bố trạng thái
           </h3>
           <div className="h-80 flex items-center justify-center">
-            <Doughnut
+            <DoughnutChart
               data={statusChartData}
               options={{
                 responsive: true,

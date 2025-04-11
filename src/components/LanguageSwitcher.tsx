@@ -38,9 +38,13 @@ export default function LanguageSwitcher() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof window !== "undefined") {
+      window.addEventListener("mousedown", handleClickOutside);
+    }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("mousedown", handleClickOutside);
+      }
     };
   }, []);
 

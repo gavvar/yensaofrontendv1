@@ -39,7 +39,38 @@
     "myOrders": "Đơn hàng của tôi",
     "favorites": "Sản phẩm yêu thích",
     "customer": "Khách hàng",
-    "logoutSuccess": "Đăng xuất thành công!"
+    "logoutSuccess": "Đăng xuất thành công!",
+
+    "fullName": "Họ và tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "forgotPassword": "Quên mật khẩu?",
+    "alreadyHaveAccount": "Hoặc đăng nhập nếu đã có tài khoản",
+    "dontHaveAccount": "Hoặc tạo tài khoản mới",
+    "registerAccount": "Đăng ký tài khoản",
+    "loginProcessing": "Đang xử lý...",
+    "registerSuccess": "Đăng ký thành công! Chuyển hướng đến trang chủ...",
+    "loginSuccess": "Đăng nhập thành công!",
+    "sessionExpired": "Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại",
+    "resetPasswordSuccess": "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập với mật khẩu mới.",
+    "passwordResetEmailSent": "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn.",
+    "somethingWentWrong": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "processing": "Đang xử lý...",
+
+    "validation": {
+      "nameRequired": "Họ tên phải có ít nhất 2 ký tự",
+      "emailInvalid": "Email không hợp lệ",
+      "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+      "passwordUppercase": "Mật khẩu phải có ít nhất 1 chữ in hoa",
+      "passwordNumber": "Mật khẩu phải có ít nhất 1 chữ số",
+      "passwordMismatch": "Mật khẩu xác nhận không khớp"
+    },
+
+    "forgotPasswordInstructions": "Vui lòng nhập địa chỉ email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn đặt lại mật khẩu.",
+    "resetPassword": "Đặt lại mật khẩu",
+    "backToLogin": "Quay lại đăng nhập"
   },
   "home": {
     "heroTitle": "Yến Sào Thủ Đức",
@@ -129,6 +160,18 @@
     "total": "Tổng tiền",
     "viewCart": "Xem giỏ hàng",
     "checkout": "Thanh toán"
+  },
+  "checkout": {
+    "paymentMethod": "Phương thức thanh toán",
+    "payForOrder": "Thanh toán đơn hàng",
+    "back": "Quay lại",
+    "continue": "Tiếp tục",
+    "confirmPayment": "Xác nhận thanh toán",
+    "processing": "Đang xử lý...",
+    "pleaseSelectPaymentMethod": "Vui lòng chọn phương thức thanh toán",
+    "noPaymentMethods": "Không có phương thức thanh toán nào khả dụng",
+    "failedToLoadPaymentMethods": "Không thể tải phương thức thanh toán",
+    "noPaymentMethodsAvailable": "Không có phương thức thanh toán nào khả dụng"
   },
   "footer": {
     "companyDescription": "Chuyên cung cấp các sản phẩm yến sào tự nhiên, nguyên chất, đảm bảo chất lượng.",

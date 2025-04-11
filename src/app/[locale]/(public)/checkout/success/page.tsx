@@ -13,7 +13,9 @@ import {
 import { useCheckout } from "@/contexts/CheckoutContext";
 import { formatCurrency } from "@/utils/format";
 import orderService from "@/services/orderService";
+// import paymentService from "@/services/paymentService";
 import { Order, OrderItem } from "@/types/order";
+// import { toast } from "react-toastify";
 
 // Thêm helper function với xử lý undefined/null
 const calculateSubtotal = (items: OrderItem[]): number => {

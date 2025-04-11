@@ -593,17 +593,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // 4. Đảm bảo getCartCount hoạt động chính xác
-  const getCartCount = () => {
-    console.log("Getting cart count, cart:", cart);
-    if (!cart?.items?.length) {
-      console.log("Cart is empty, returning 0");
+  const getCartCount = useCallback(() => {
+    if (!cart || !cart.items || cart.items.length === 0) {
       return 0;
     }
 
-    const count = cart.items.reduce((total, item) => total + item.quantity, 0);
-    console.log("Calculated cart count:", count);
-    return count;
-  };
+    return cart.items.reduce((total, item) => total + item.quantity, 0);
+  }, [cart]);
 
   // Implementasi getSelectedItems
   const getSelectedItems = () => {

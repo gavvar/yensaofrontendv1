@@ -209,6 +209,21 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         Bằng cách đặt hàng, bạn đồng ý với các điều khoản và điều kiện của chúng
         tôi.
       </p>
+
+      {/* Debugging logs */}
+      <div className="hidden">
+        {console.log(
+          "Phương thức thanh toán được chọn:",
+          checkout.selectedPaymentMethod
+        )}
+
+        {/* Kiểm tra xem có phân biệt phương thức thanh toán không */}
+        {checkout.selectedPaymentMethod === "momo" &&
+          console.log("Đây là thanh toán MoMo!")}
+
+        {/* Kiểm tra vị trí nơi bạn gọi router.push() để chuyển đến trang xác nhận */}
+        {console.log("Đang chuyển hướng đến:", "/checkout/confirm")}
+      </div>
     </div>
   );
 };

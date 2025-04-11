@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/authContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { Providers } from "@/contexts/ThemeProvider";
 import { locales, Locale } from "@/i18n";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Import css for toastify
 import "react-toastify/dist/ReactToastify.css";
@@ -49,7 +50,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       <Providers>
         <AuthProvider>
           <CartProvider>
-            {children}
+            <ErrorBoundary>{children}</ErrorBoundary>
             <ToastContainer position="top-right" autoClose={3000} />
           </CartProvider>
         </AuthProvider>
